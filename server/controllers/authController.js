@@ -8,7 +8,7 @@ export async function syncUser(req, res, next) {
 
     // Firebase may issue a new UID when an administrator deletes and the owner
     // recreates a Google account. A verified email can safely reclaim its
-    // existing application data instead of creating a duplicate user.
+    // existing profile and application data instead of creating a duplicate user.
     if (!user) {
       const existingEmail = await User.findOne({ email: normalizedEmail })
       if (existingEmail && !emailVerified) throw Object.assign(new Error('Verify this email before restoring the existing account'), { statusCode: 409 })
