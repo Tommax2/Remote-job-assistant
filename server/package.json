@@ -1,0 +1,29 @@
+{
+  "name": "remote-job-assistant-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "cors": "latest",
+    "dotenv": "latest",
+    "express": "latest",
+    "express-rate-limit": "^8.6.2",
+    "firebase-admin": "latest",
+    "helmet": "^8.3.0",
+    "mammoth": "^1.12.1",
+    "mongoose": "latest",
+    "multer": "^2.2.0",
+    "pdf-parse": "^2.4.5",
+    "pdfkit": "^0.20.1",
+    "remote-job-assistant": "file:.."
+  },
+  "devDependencies": {
+    "nodemon": "latest"
+  }
+}
