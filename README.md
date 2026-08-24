@@ -53,13 +53,11 @@ npm run build
 
 ### 2. Backend on Railway
 
-Create a Railway project, add a service from this GitHub repository, and configure:
+Create a Railway project and add a service from this GitHub repository. Leave the service root at the repository root (`/`).
 
-- Root directory: `/server`
-- Config file path: `/server/railway.json`
 - Generate a public domain under Settings → Networking
 
-The included `server/railway.json` uses Railpack, starts the API with `npm start`, and checks `/api/health`. Railway supplies the `PORT` variable automatically.
+The included root `railway.json` installs only the server production dependencies, starts the API with `npm start --prefix server`, and checks `/api/health`. Railway supplies the `PORT` variable automatically. Do not set Railway's build command to `npm run build`; that command builds the separate Vercel frontend.
 
 In the Railway service Variables tab, add every variable from `server/.env.example`. Production-specific values are:
 
