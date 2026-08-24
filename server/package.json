@@ -20,8 +20,7 @@
     "mongoose": "latest",
     "multer": "^2.2.0",
     "pdf-parse": "^2.4.5",
-    "pdfkit": "^0.20.1",
-    "remote-job-assistant": "file:.."
+    "pdfkit": "^0.20.1"
   },
   "devDependencies": {
     "nodemon": "latest"

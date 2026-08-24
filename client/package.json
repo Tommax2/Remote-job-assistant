@@ -15,7 +15,6 @@
     "react": "latest",
     "react-dom": "latest",
     "react-router-dom": "latest",
-    "remote-job-assistant": "file:..",
     "vite": "latest"
   },
   "devDependencies": {
