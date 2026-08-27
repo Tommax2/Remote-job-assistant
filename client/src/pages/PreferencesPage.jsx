@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { api } from '../services/api'
@@ -10,6 +10,10 @@ const blank = {
 }
 const employmentOptions = [['FULL_TIME', 'Full-time'], ['PART_TIME', 'Part-time'], ['CONTRACT', 'Contract'], ['FREELANCE', 'Freelance'], ['INTERNSHIP', 'Internship']]
 const experienceOptions = [['ENTRY', 'Entry level'], ['JUNIOR', 'Junior'], ['MID_LEVEL', 'Mid-level'], ['SENIOR', 'Senior'], ['LEAD', 'Lead'], ['EXECUTIVE', 'Executive']]
+const titleSuggestions = ['Frontend Developer', 'Backend Developer', 'Full Stack Developer', 'Mobile Developer', 'Software Engineer', 'Data Analyst', 'Data Scientist', 'Data Engineer', 'Product Designer', 'UX Designer', 'Product Manager', 'Project Manager', 'Customer Support Specialist', 'Customer Success Manager', 'Virtual Assistant', 'Executive Assistant', 'Content Writer', 'Social Media Manager', 'Digital Marketer', 'Sales Representative', 'DevOps Engineer', 'QA Engineer', 'Business Analyst', 'Recruiter']
+const skillSuggestions = ['React', 'JavaScript', 'TypeScript', 'Node.js', 'Python', 'SQL', 'Excel', 'Power BI', 'Figma', 'UI/UX Design', 'Product Management', 'Project Management', 'Customer Support', 'Customer Success', 'Content Writing', 'SEO', 'Digital Marketing', 'Social Media', 'Data Analysis', 'Communication', 'Sales', 'Git', 'AWS', 'Docker']
+const regionSuggestions = ['Worldwide', 'Global', 'Africa', 'West Africa', 'Europe', 'United Kingdom', 'United States', 'Canada', 'Middle East', 'Anywhere']
+const countrySuggestions = ['Nigeria', 'Ghana', 'Kenya', 'South Africa', 'United Kingdom', 'United States', 'Canada', 'Germany', 'Netherlands', 'Portugal', 'Spain', 'United Arab Emirates']
 
 export default function PreferencesPage() {
   const { logout } = useAuth()
@@ -40,18 +44,18 @@ export default function PreferencesPage() {
     <header className="profile-header"><p className="eyebrow">JOB PREFERENCES</p><h1>Define your ideal next move.</h1><p>Set focused criteria so the job discovery and matching engine knows what is relevant—and what is not.</p></header>
     <form className="profile-form" onSubmit={save}>
       {notice && <p className="success-banner">{notice}</p>}{error && <p className="error">{error}</p>}
-      <PreferenceSection number="01" title="Roles and skills" help="Tell us which jobs to seek and which strengths should appear in them.">
-        <TagInput label="Preferred job titles" placeholder="e.g. Frontend Developer" values={preferences.jobTitles} onChange={(values) => setField('jobTitles', values)} />
-        <TagInput label="Preferred skills" placeholder="e.g. React" values={preferences.skills} onChange={(values) => setField('skills', values)} />
+      <PreferenceSection title="Roles and skills" help="Tell us which jobs to seek and which strengths should appear in them.">
+        <TagInput label="Preferred job titles" placeholder="Start typing a role" suggestions={titleSuggestions} values={preferences.jobTitles} onChange={(values) => setField('jobTitles', values)} />
+        <TagInput label="Preferred skills" placeholder="Start typing a skill" suggestions={skillSuggestions} values={preferences.skills} onChange={(values) => setField('skills', values)} />
       </PreferenceSection>
-      <PreferenceSection number="02" title="Remote and location" help="Remote does not always mean worldwide. These details prevent ineligible recommendations.">
+      <PreferenceSection title="Remote and location" help="Remote does not always mean worldwide. These details prevent ineligible recommendations.">
         <label className="switch-row"><span><b>Remote jobs only</b><small>Exclude office-based and hybrid roles.</small></span><input type="checkbox" checked={preferences.remoteOnly} onChange={(e) => setField('remoteOnly', e.target.checked)} /></label>
-        <TagInput label="Preferred job locations or regions" placeholder="e.g. Worldwide, Europe" values={preferences.preferredLocations} onChange={(values) => setField('preferredLocations', values)} />
-        <TagInput label="Countries you can legally work from" placeholder="e.g. Nigeria" values={preferences.workFromLocations} onChange={(values) => setField('workFromLocations', values)} />
+        <TagInput label="Preferred job locations or regions" placeholder="Start typing a region" suggestions={regionSuggestions} values={preferences.preferredLocations} onChange={(values) => setField('preferredLocations', values)} />
+        <TagInput label="Countries you can legally work from" placeholder="Start typing a country" suggestions={countrySuggestions} values={preferences.workFromLocations} onChange={(values) => setField('workFromLocations', values)} />
       </PreferenceSection>
-      <PreferenceSection number="03" title="Employment type" help="Select every arrangement you are willing to consider."><OptionGrid options={employmentOptions} selected={preferences.employmentTypes} onToggle={(value) => toggle('employmentTypes', value)} /></PreferenceSection>
-      <PreferenceSection number="04" title="Experience level" help="Choose the seniority levels that match your current search."><OptionGrid options={experienceOptions} selected={preferences.experienceLevels} onToggle={(value) => toggle('experienceLevels', value)} /></PreferenceSection>
-      <PreferenceSection number="05" title="Salary and match threshold" help="Set your minimum compensation and how selective recommendations should be.">
+      <PreferenceSection title="Employment type" help="Select every arrangement you are willing to consider."><OptionGrid options={employmentOptions} selected={preferences.employmentTypes} onToggle={(value) => toggle('employmentTypes', value)} /></PreferenceSection>
+      <PreferenceSection title="Experience level" help="Choose the seniority levels that match your current search."><OptionGrid options={experienceOptions} selected={preferences.experienceLevels} onToggle={(value) => toggle('experienceLevels', value)} /></PreferenceSection>
+      <PreferenceSection title="Salary and match threshold" help="Set your minimum compensation and how selective recommendations should be.">
         <div className="salary-grid"><label>Currency<select value={preferences.salaryCurrency} onChange={(e) => setField('salaryCurrency', e.target.value)}>{['USD', 'NGN', 'GBP', 'EUR'].map((currency) => <option key={currency}>{currency}</option>)}</select></label><label>Minimum annual salary<input type="number" min="0" step="1000" value={preferences.minimumSalary} onChange={(e) => setField('minimumSalary', e.target.value)} /></label></div>
         <label className="range-field"><span><b>Minimum match score</b><strong>{preferences.minimumMatchScore}%</strong></span><input type="range" min="0" max="100" step="5" value={preferences.minimumMatchScore} onChange={(e) => setField('minimumMatchScore', e.target.value)} /><small>Jobs scoring below this threshold will not appear as strong recommendations.</small></label>
       </PreferenceSection>
@@ -60,10 +64,16 @@ export default function PreferencesPage() {
   </main>
 }
 
-function PreferenceSection({ number, title, help, children }) { return <section className="profile-section"><div className="section-heading"><span>{number}</span><div><h2>{title}</h2><p>{help}</p></div></div><div className="section-body">{children}</div></section> }
-function TagInput({ label, placeholder, values, onChange }) {
+function PreferenceSection({ title, help, children }) { return <section className="profile-section preference-section"><div className="section-heading"><div><h2>{title}</h2><p>{help}</p></div></div><div className="section-body">{children}</div></section> }
+function TagInput({ label, placeholder, suggestions = [], values, onChange }) {
   const [input, setInput] = useState('')
-  function add() { const value = input.trim(); if (value && !values.some((item) => item.toLowerCase() === value.toLowerCase())) onChange([...values, value]); setInput('') }
-  return <div className="tag-field"><label>{label}</label><div className="tag-entry"><input value={input} placeholder={placeholder} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); add() } }} /><button type="button" onClick={add}>Add</button></div><div className="tags">{values.map((item) => <span key={item}>{item}<button type="button" aria-label={`Remove ${item}`} onClick={() => onChange(values.filter((value) => value !== item))}>×</button></span>)}</div></div>
+  const [open, setOpen] = useState(false)
+  const matches = useMemo(() => {
+    const query = input.trim().toLowerCase()
+    const firstWord = query.split(/\s+/)[0]
+    return suggestions.filter((suggestion) => !values.some((value) => value.toLowerCase() === suggestion.toLowerCase()) && (!query || suggestion.toLowerCase().split(/\s+/).some((word) => word.startsWith(firstWord)) || suggestion.toLowerCase().includes(query))).slice(0, 6)
+  }, [input, suggestions, values])
+  function add(value = input) { const clean = value.trim(); if (clean && !values.some((item) => item.toLowerCase() === clean.toLowerCase())) onChange([...values, clean]); setInput(''); setOpen(false) }
+  return <div className="tag-field preference-tag-field"><label>{label}</label><div className="tag-entry"><div className="preference-suggest-wrap"><input value={input} placeholder={placeholder} autoComplete="off" aria-autocomplete="list" aria-expanded={open && matches.length > 0} onFocus={() => setOpen(true)} onBlur={() => setTimeout(() => setOpen(false), 120)} onChange={(e) => { setInput(e.target.value); setOpen(true) }} onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); add() } }} />{open && matches.length > 0 && <div className="preference-suggestions" role="listbox"><small>{input ? 'Suggested matches' : 'Popular choices'}</small>{matches.map((suggestion) => <button type="button" role="option" aria-selected="false" key={suggestion} onMouseDown={(event) => event.preventDefault()} onClick={() => add(suggestion)}><span>+</span>{suggestion}</button>)}</div>}</div><button type="button" onClick={() => add()}>Add</button></div><div className="tags">{values.map((item) => <span key={item}>{item}<button type="button" aria-label={`Remove ${item}`} onClick={() => onChange(values.filter((value) => value !== item))}>×</button></span>)}</div></div>
 }
 function OptionGrid({ options, selected, onToggle }) { return <div className="option-grid">{options.map(([value, label]) => <label className={`option-card ${selected.includes(value) ? 'selected' : ''}`} key={value}><input type="checkbox" checked={selected.includes(value)} onChange={() => onToggle(value)} /><span>{label}</span></label>)}</div> }
