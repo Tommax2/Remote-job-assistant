@@ -1,4 +1,6 @@
+import crypto from 'node:crypto'
 import Job from '../models/Job.js'
+import JobSyncState from '../models/JobSyncState.js'
 import { extractApplicationEmail } from './jobEmailService.js'
 
 const REMOTIVE_URL = 'https://remotive.com/api/remote-jobs'
@@ -9,6 +11,8 @@ const ARBEITNOW_URL = 'https://www.arbeitnow.com/api/job-board-api'
 const JOBDATA_NIGERIA_URL = 'https://jobdataapi.com/api/jobs/?country_code=NG&has_remote=true'
 const typeMap = { full_time: 'FULL_TIME', part_time: 'PART_TIME', contract: 'CONTRACT', freelance: 'FREELANCE', internship: 'INTERNSHIP' }
 const nigeriaBased = (location = '') => /(^|\W)(nigeria|lagos|abuja|port harcourt|ibadan|enugu|kano|ogun|oyo|rivers)(\W|$)/i.test(location)
+const SYNC_COOLDOWN_MS = 5 * 60 * 1000
+const SYNC_LOCK_MS = 3 * 60 * 1000
 
 function plainText(html = '') {
   return html.replace(/<style[\s\S]*?<\/style>/gi, ' ').replace(/<script[\s\S]*?<\/script>/gi, ' ').replace(/<[^>]+>/g, ' ').replace(/&nbsp;/gi, ' ').replace(/&amp;/gi, '&').replace(/&lt;/gi, '<').replace(/&gt;/gi, '>').replace(/&#39;/gi, "'").replace(/&quot;/gi, '"').replace(/\s+/g, ' ').trim()
@@ -160,5 +164,43 @@ export async function syncAllJobSources() {
     fetched: sources.reduce((sum, source) => sum + (source.fetched || 0), 0),
     stored: sources.reduce((sum, source) => sum + (source.stored || 0), 0),
     updated: sources.reduce((sum, source) => sum + (source.updated || 0), 0),
+  }
+}
+
+async function acquireSyncLock() {
+  const now = new Date()
+  const lockToken = crypto.randomBytes(18).toString('base64url')
+  try {
+    const state = await JobSyncState.findOneAndUpdate(
+      {
+        _id: 'global',
+        $and: [
+          { $or: [{ lockedUntil: { $exists: false } }, { lockedUntil: { $lte: now } }] },
+          { $or: [{ lastCompletedAt: { $exists: false } }, { lastCompletedAt: { $lte: new Date(now.getTime() - SYNC_COOLDOWN_MS) } }] },
+        ],
+      },
+      { $set: { lockToken, lockedUntil: new Date(now.getTime() + SYNC_LOCK_MS), startedAt: now }, $unset: { lastError: 1 } },
+      { upsert: true, returnDocument: 'after' },
+    )
+    return { state, lockToken }
+  } catch (error) {
+    if (error?.code !== 11000) throw error
+    const state = await JobSyncState.findById('global').lean()
+    const availableAt = state?.lockedUntil > now ? state.lockedUntil : new Date(new Date(state?.lastCompletedAt || now).getTime() + SYNC_COOLDOWN_MS)
+    const retryAfter = Math.max(1, Math.ceil((availableAt.getTime() - now.getTime()) / 1000))
+    const message = state?.lockedUntil > now ? 'A job refresh is already running. Please wait for it to finish.' : 'Jobs were refreshed recently. Please wait a few minutes before refreshing again.'
+    throw Object.assign(new Error(message), { statusCode: 429, retryAfter })
+  }
+}
+
+export async function syncJobsSafely() {
+  const { lockToken } = await acquireSyncLock()
+  try {
+    const result = await syncAllJobSources()
+    await JobSyncState.updateOne({ _id: 'global', lockToken }, { $set: { lastCompletedAt: new Date(), lockedUntil: new Date() }, $unset: { lockToken: 1, lastError: 1 } })
+    return result
+  } catch (error) {
+    await JobSyncState.updateOne({ _id: 'global', lockToken }, { $set: { lockedUntil: new Date(), lastError: String(error.message || error).slice(0, 500) }, $unset: { lockToken: 1 } }).catch(() => {})
+    throw error
   }
 }

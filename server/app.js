@@ -43,6 +43,7 @@ export function createApp() {
   app.use((_req, res) => res.status(404).json({ message: 'Route not found' }))
   app.use((error, _req, res, _next) => {
     console.error(error)
+    if (error.retryAfter) res.set('Retry-After', String(error.retryAfter))
     if (error.name === 'ValidationError') return res.status(400).json({ message: Object.values(error.errors)[0].message })
     if (error.name === 'CastError') return res.status(400).json({ message: `Invalid value for ${error.path}` })
     if (error.name === 'MulterError' || error.message === 'Only PDF and DOCX files are supported') return res.status(400).json({ message: error.code === 'LIMIT_FILE_SIZE' ? 'CV must be 5 MB or smaller' : error.message })

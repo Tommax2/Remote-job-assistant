@@ -5,11 +5,11 @@ import User from '../models/User.js'
 import SavedJob from '../models/SavedJob.js'
 import IgnoredJob from '../models/IgnoredJob.js'
 import { extractApplicationEmail } from '../services/jobEmailService.js'
-import { syncAllJobSources } from '../services/jobService.js'
+import { syncJobsSafely } from '../services/jobService.js'
 import { analyzeJobMatch, createPreliminaryMatches } from '../services/matchingService.js'
 
 export async function syncJobs(_req, res, next) {
-  try { res.json(await syncAllJobSources()) } catch (error) { next(error) }
+  try { res.json(await syncJobsSafely()) } catch (error) { next(error) }
 }
 
 export async function listJobs(req, res, next) {
