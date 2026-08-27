@@ -7,7 +7,6 @@ import User from '../models/User.js'
 import { completeOAuthAttempt, createMimeMessage, recordOAuthCallback, sendGmailMessage, startOAuthAttempt } from '../services/gmailService.js'
 import { createResumePdfBuffer } from '../services/pdfService.js'
 import { recordApplicationEvent } from '../services/applicationEventService.js'
-import { decryptToken } from '../services/tokenEncryptionService.js'
 
 async function owner(req) { return User.findOne({ firebaseUid: req.firebaseUser.uid }).select('_id') }
 
@@ -34,21 +33,6 @@ export async function finalizeGmail(req, res, next) {
 export async function gmailStatus(req, res, next) { try { const user = await owner(req); const connection = user && await GmailConnection.findOne({ userId: user._id }).select('connectedAt tokenExpiry'); res.json({ connected: Boolean(connection), connectedAt: connection?.connectedAt, tokenExpiry: connection?.tokenExpiry }) } catch (error) { next(error) } }
 
 export async function disconnectGmail(req, res, next) { try { const user = await owner(req); if (user) await GmailConnection.deleteOne({ userId: user._id }); res.status(204).end() } catch (error) { next(error) } }
-
-export async function gmailDiagnostics(req, res, next) {
-  try {
-    const user = await owner(req); if (!user) return res.status(404).json({ message: 'User account not found' })
-    const connection = await GmailConnection.findOne({ userId: user._id })
-    const configuration = ['GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_SECRET', 'GOOGLE_REDIRECT_URI', 'GOOGLE_TOKEN_ENCRYPTION_KEY', 'GOOGLE_STATE_SECRET'].every((key) => Boolean(process.env[key]))
-    let tokenReadable = false; let refreshTokenAvailable = false
-    if (connection) { try { tokenReadable = Boolean(decryptToken(connection.encryptedAccessToken)); refreshTokenAvailable = Boolean(connection.encryptedRefreshToken && decryptToken(connection.encryptedRefreshToken)) } catch { tokenReadable = false } }
-    let googleReachable = false
-    try { const response = await fetch('https://oauth2.googleapis.com/.well-known/openid-configuration', { signal: AbortSignal.timeout(8000) }); googleReachable = response.ok } catch { googleReachable = false }
-    const requiredScope = Boolean(connection?.scope?.split(' ').includes('https://www.googleapis.com/auth/gmail.send'))
-    const checks = { configuration, connected: Boolean(connection), tokenReadable, refreshTokenAvailable, requiredScope, googleReachable }
-    res.json({ ready: Object.values(checks).every(Boolean), checks, tokenExpiry: connection?.tokenExpiry, connectedAt: connection?.connectedAt })
-  } catch (error) { next(error) }
-}
 
 export async function sendApplication(req, res, next) {
   let lockedApplication

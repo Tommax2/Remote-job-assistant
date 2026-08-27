@@ -332,20 +332,7 @@ a { color: #1d5a49; font-weight: 700; }
 .gmail-actions button:not(.outline-button) { box-shadow: 0 5px 14px #123c3218; }
 .gmail-actions .outline-button { border-color: #c7d2cc; background: #fff; }
 .gmail-actions button:disabled { opacity: .65; }
-.diagnostic-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem; }
-.diagnostic-grid > div { display: flex; align-items: center; gap: .7rem; padding: 1rem; border: 1px solid #e6e9e5; border-radius: 10px; background: #fafbf9; animation: diagnostic-pop .3s ease-out both; }
-.diagnostic-grid > div:nth-child(2) { animation-delay: .05s; }
-.diagnostic-grid > div:nth-child(3) { animation-delay: .1s; }
-.diagnostic-grid > div:nth-child(4) { animation-delay: .15s; }
-.diagnostic-grid > div:nth-child(5) { animation-delay: .2s; }
-.diagnostic-grid > div:nth-child(6) { animation-delay: .25s; }
-.diagnostic-grid span { width: 25px; height: 25px; display: grid; place-items: center; border-radius: 50%; font-weight: 800; }
-.diagnostic-grid .passed span { color: #216338; background: #dff2e4; }
-.diagnostic-grid .failed span { color: #943c2d; background: #f8e5e1; }
-.diagnostic-grid .passed { border-color: #d8e7dc; background: #f8fcf9; }
-.diagnostic-grid .failed { border-color: #eedbd7; background: #fffafa; }
-@keyframes diagnostic-pop { from { opacity: 0; transform: translateY(9px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
-@media (max-width: 700px) { .gmail-card { align-items: stretch; flex-direction: column; padding: 6rem 1.2rem 1.2rem; } .gmail-card::before { left: 1.2rem; top: 1.2rem; transform: none; animation: none; } .gmail-actions { flex-direction: column; } .diagnostic-grid { grid-template-columns: 1fr; } }
+@media (max-width: 700px) { .gmail-card { align-items: stretch; flex-direction: column; padding: 6rem 1.2rem 1.2rem; } .gmail-card::before { left: 1.2rem; top: 1.2rem; transform: none; animation: none; } .gmail-actions { flex-direction: column; } }
 .job-detail section h2 { margin-top: 0; }
 .job-description { white-space: pre-wrap; color: #46534d; line-height: 1.75; max-width: 850px; }
 .job-detail footer { color: #748079; padding: 1.5rem 0; font-size: .88rem; }
@@ -541,7 +528,6 @@ p, h1, h2, h3, a, strong, pre { overflow-wrap: anywhere; }
   .dashboard-hero { align-items: flex-start; flex-direction: column; }
   .dashboard-hero .primary-link { margin: 0; }
   .metric-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .diagnostic-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 
 @media (max-width: 700px) {
@@ -588,7 +574,6 @@ p, h1, h2, h3, a, strong, pre { overflow-wrap: anywhere; }
   .metric-card { min-height: 105px; padding: .9rem; }
   .tracker-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .review-summary { grid-template-columns: 1fr; }
-  .diagnostic-grid { grid-template-columns: 1fr; }
   .option-grid { grid-template-columns: 1fr; }
   .tag-entry { grid-template-columns: 1fr; }
   .tag-entry button { width: 100%; }
