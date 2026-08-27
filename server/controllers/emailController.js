@@ -4,23 +4,30 @@ import GmailConnection from '../models/GmailConnection.js'
 import Job from '../models/Job.js'
 import Resume from '../models/Resume.js'
 import User from '../models/User.js'
-import { createMimeMessage, exchangeCode, googleAuthorizationUrl, sendGmailMessage, verifyOAuthState } from '../services/gmailService.js'
+import { completeOAuthAttempt, createMimeMessage, recordOAuthCallback, sendGmailMessage, startOAuthAttempt } from '../services/gmailService.js'
 import { createResumePdfBuffer } from '../services/pdfService.js'
 import { recordApplicationEvent } from '../services/applicationEventService.js'
 import { decryptToken } from '../services/tokenEncryptionService.js'
 
 async function owner(req) { return User.findOne({ firebaseUid: req.firebaseUser.uid }).select('_id') }
 
-export async function connectGmail(req, res, next) { try { const user = await owner(req); if (!user) return res.status(404).json({ message: 'User account not found' }); res.json({ url: googleAuthorizationUrl(user._id) }) } catch (error) { next(error) } }
+export async function connectGmail(req, res, next) { try { const user = await owner(req); if (!user) return res.status(404).json({ message: 'User account not found' }); const attempt = await startOAuthAttempt(user._id); res.json({ url: attempt.url }) } catch (error) { next(error) } }
 
 export async function gmailCallback(req, res, next) {
   try {
     const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173'
     if (req.query.error) return res.redirect(`${clientUrl}/settings/email?gmail=denied`)
-    const state = verifyOAuthState(req.query.state); const user = await User.findById(state.userId).select('_id')
-    if (!user || !req.query.code) throw Object.assign(new Error('Invalid Google OAuth callback'), { statusCode: 400 })
-    await exchangeCode(user._id, req.query.code)
-    res.redirect(`${clientUrl}/settings/email?gmail=connected`)
+    const attempt = await recordOAuthCallback(req.query.state, req.query.code)
+    res.redirect(`${clientUrl}/settings/email?gmail=finalize&attempt=${encodeURIComponent(attempt._id)}`)
+  } catch (error) { next(error) }
+}
+
+export async function finalizeGmail(req, res, next) {
+  try {
+    const user = await owner(req)
+    if (!user) return res.status(404).json({ message: 'User account not found' })
+    await completeOAuthAttempt(req.body.attemptId, user._id)
+    res.json({ connected: true })
   } catch (error) { next(error) }
 }
 

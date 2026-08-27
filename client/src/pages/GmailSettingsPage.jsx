@@ -6,7 +6,17 @@ const checkLabels = { configuration: 'OAuth configuration', connected: 'Gmail au
 
 export default function GmailSettingsPage() {
   const [params] = useSearchParams(); const [status, setStatus] = useState(null); const [diagnostics, setDiagnostics] = useState(null); const [working, setWorking] = useState(false); const [checking, setChecking] = useState(false); const [error, setError] = useState('')
-  useEffect(() => { api('/email/google/status').then(setStatus).catch((err) => setError(err.message)) }, [])
+  useEffect(() => {
+    const attemptId = params.get('attempt')
+    if (params.get('gmail') === 'finalize' && attemptId) {
+      api('/email/google/finalize', { method: 'POST', body: JSON.stringify({ attemptId }) })
+        .then(() => { setStatus({ connected: true, connectedAt: new Date().toISOString() }); window.history.replaceState({}, '', '/settings/email?gmail=connected') })
+        .catch((err) => setError(err.message))
+        .finally(() => setWorking(false))
+      return
+    }
+    api('/email/google/status').then(setStatus).catch((err) => setError(err.message))
+  }, [params])
   async function connect() { setWorking(true); setError(''); try { const result = await api('/email/google/connect'); window.location.assign(result.url) } catch (err) { setError(err.message); setWorking(false) } }
   async function disconnect() { setWorking(true); setError(''); try { await api('/email/google/connection', { method: 'DELETE' }); setStatus({ connected: false }); setDiagnostics(null) } catch (err) { setError(err.message) } finally { setWorking(false) } }
   async function runDiagnostics() { setChecking(true); setError(''); try { setDiagnostics(await api('/email/google/diagnostics')) } catch (err) { setError(err.message) } finally { setChecking(false) } }

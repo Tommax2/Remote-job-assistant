@@ -1,5 +1,6 @@
 import crypto from 'node:crypto'
 import GmailConnection from '../models/GmailConnection.js'
+import GmailOAuthAttempt from '../models/GmailOAuthAttempt.js'
 import { decryptToken, encryptToken } from './tokenEncryptionService.js'
 
 const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth'
@@ -11,26 +12,46 @@ function oauthConfig() {
   return { clientId, clientSecret, redirectUri }
 }
 
-function stateSecret() { const secret = process.env.GOOGLE_STATE_SECRET || process.env.GOOGLE_TOKEN_ENCRYPTION_KEY; if (!secret) throw Object.assign(new Error('GOOGLE_STATE_SECRET is not configured'), { statusCode: 503 }); return secret }
-const sign = (value) => crypto.createHmac('sha256', stateSecret()).update(value).digest('base64url')
+const stateHash = (state) => crypto.createHash('sha256').update(String(state)).digest('base64url')
 
-export function createOAuthState(userId) {
-  const payload = Buffer.from(JSON.stringify({ userId: String(userId), expiresAt: Date.now() + 10 * 60 * 1000, nonce: crypto.randomBytes(12).toString('hex') })).toString('base64url')
-  return `${payload}.${sign(payload)}`
+export async function startOAuthAttempt(userId) {
+  const state = crypto.randomBytes(32).toString('base64url')
+  await GmailOAuthAttempt.deleteMany({ userId, status: 'AWAITING_CALLBACK' })
+  await GmailOAuthAttempt.create({ userId, stateHash: stateHash(state), expiresAt: new Date(Date.now() + 10 * 60 * 1000) })
+  return { state, url: googleAuthorizationUrl(state) }
 }
 
-export function verifyOAuthState(state) {
-  const [payload, signature] = String(state || '').split('.')
-  const expected = payload ? sign(payload) : ''
-  if (!payload || !signature || signature.length !== expected.length || !crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expected))) throw Object.assign(new Error('Invalid Google OAuth state'), { statusCode: 400 })
-  const parsed = JSON.parse(Buffer.from(payload, 'base64url').toString('utf8'))
-  if (parsed.expiresAt < Date.now()) throw Object.assign(new Error('Google OAuth state has expired'), { statusCode: 400 })
-  return parsed
+export async function recordOAuthCallback(state, code) {
+  if (!state || !code) throw Object.assign(new Error('Invalid Google OAuth callback'), { statusCode: 400 })
+  const attempt = await GmailOAuthAttempt.findOneAndUpdate(
+    { stateHash: stateHash(state), status: 'AWAITING_CALLBACK', expiresAt: { $gt: new Date() } },
+    { $set: { encryptedCode: encryptToken(code), status: 'CALLBACK_RECEIVED' } },
+    { returnDocument: 'after' },
+  )
+  if (!attempt) throw Object.assign(new Error('Google OAuth attempt is invalid, expired, or already used'), { statusCode: 400 })
+  return attempt
 }
 
-export function googleAuthorizationUrl(userId) {
+export async function completeOAuthAttempt(attemptId, userId) {
+  const attempt = await GmailOAuthAttempt.findOneAndUpdate(
+    { _id: attemptId, userId, status: 'CALLBACK_RECEIVED', expiresAt: { $gt: new Date() } },
+    { $set: { status: 'EXCHANGING' } },
+    { returnDocument: 'after' },
+  )
+  if (!attempt) throw Object.assign(new Error('Google OAuth attempt is invalid, expired, already used, or belongs to another account'), { statusCode: 400 })
+  try {
+    const connection = await exchangeCode(userId, decryptToken(attempt.encryptedCode))
+    await GmailOAuthAttempt.deleteOne({ _id: attempt._id })
+    return connection
+  } catch (error) {
+    await GmailOAuthAttempt.updateOne({ _id: attempt._id, status: 'EXCHANGING' }, { $set: { status: 'CALLBACK_RECEIVED' } }).catch(() => {})
+    throw error
+  }
+}
+
+export function googleAuthorizationUrl(state) {
   const { clientId, redirectUri } = oauthConfig()
-  return `${GOOGLE_AUTH_URL}?${new URLSearchParams({ client_id: clientId, redirect_uri: redirectUri, response_type: 'code', scope: 'https://www.googleapis.com/auth/gmail.send', access_type: 'offline', prompt: 'consent', include_granted_scopes: 'true', state: createOAuthState(userId) })}`
+  return `${GOOGLE_AUTH_URL}?${new URLSearchParams({ client_id: clientId, redirect_uri: redirectUri, response_type: 'code', scope: 'https://www.googleapis.com/auth/gmail.send', access_type: 'offline', prompt: 'consent', include_granted_scopes: 'true', state })}`
 }
 
 async function tokenRequest(params) {
