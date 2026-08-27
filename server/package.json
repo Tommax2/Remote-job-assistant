@@ -14,7 +14,7 @@
     "dotenv": "latest",
     "express": "latest",
     "express-rate-limit": "^8.6.2",
-    "firebase-admin": "latest",
+    "firebase-admin": "^14.3.0",
     "helmet": "^8.3.0",
     "mammoth": "^1.12.1",
     "mongoose": "latest",
@@ -25,5 +25,8 @@
   },
   "devDependencies": {
     "nodemon": "latest"
+  },
+  "overrides": {
+    "uuid": "11.1.1"
   }
 }
