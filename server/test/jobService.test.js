@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { normalizeArbeitnowJob, normalizeJobdataNigeriaJob, normalizeJobicyJob, normalizeJobsColliderJob, normalizeRemotiveJob, normalizeRemoteOkJob } from '../services/jobService.js'
+import { normalizeAdzunaJob, normalizeArbeitnowJob, normalizeJobdataNigeriaJob, normalizeJobicyJob, normalizeJobsColliderJob, normalizeRemotiveJob, normalizeRemoteOkJob } from '../services/jobService.js'
 
 test('normalizes a Remotive job into the internal shape', () => {
   const job = normalizeRemotiveJob({ id: 42, company_name: 'Example', company_logo: '', title: 'Developer', description: '<p>Build &amp; ship.</p>', candidate_required_location: 'Worldwide', salary: '$50k', job_type: 'full_time', category: 'Software Development', url: 'https://remotive.com/job/42', publication_date: '2026-08-20T10:00:00Z' })
@@ -44,4 +44,13 @@ test('normalizes jobdataAPI Nigeria remote jobs', () => {
   assert.equal(job.source, 'JOBDATA_NIGERIA')
   assert.equal(job.nigeriaBased, true)
   assert.equal(job.employmentType, 'FULL_TIME')
+})
+
+test('normalizes Adzuna remote jobs with USD salary', () => {
+  const job = normalizeAdzunaJob({ id: 'adz-24', title: 'Remote Data Analyst', description: 'Open to candidates worldwide.', redirect_url: 'https://www.adzuna.com/details/24', created: '2026-08-20T10:00:00Z', salary_min: 40000, salary_max: 55000, contract_time: 'full_time', company: { display_name: 'Acme' }, category: { label: 'IT Jobs' }, location: { display_name: 'Remote' } }, 'us')
+  assert.equal(job.source, 'ADZUNA')
+  assert.equal(job.company, 'Acme')
+  assert.equal(job.employmentType, 'FULL_TIME')
+  assert.match(job.salary, /USD/)
+  assert.equal(job.applicationUrl, 'https://www.adzuna.com/details/24')
 })

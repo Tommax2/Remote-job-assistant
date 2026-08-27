@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const jobSchema = new mongoose.Schema({
   externalId: { type: String, required: true, trim: true },
-  source: { type: String, required: true, enum: ['REMOTIVE', 'JOBICY', 'JOBSCOLLIDER', 'REMOTEOK', 'ARBEITNOW', 'JOBDATA_NIGERIA'], index: true },
+  source: { type: String, required: true, enum: ['REMOTIVE', 'JOBICY', 'JOBSCOLLIDER', 'REMOTEOK', 'ARBEITNOW', 'JOBDATA_NIGERIA', 'ADZUNA'], index: true },
   company: { type: String, required: true, trim: true, maxlength: 200 },
   companyLogo: { type: String, trim: true },
   title: { type: String, required: true, trim: true, maxlength: 240 },

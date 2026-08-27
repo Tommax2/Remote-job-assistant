@@ -28,6 +28,16 @@ Requirements: Node.js 20 or newer and a MongoDB database.
 3. Copy `server/.env.example` to `server/.env` and enter the server credentials.
 4. Run `npm run dev` from the repository root.
 
+Adzuna is an optional job source. Register for API credentials, then add these values to `server/.env`:
+
+```env
+ADZUNA_APP_ID=your_app_id
+ADZUNA_APP_KEY=your_app_key
+ADZUNA_COUNTRY=us
+```
+
+Adzuna does not currently expose a Nigerian (`ng`) API market. `ADZUNA_COUNTRY` therefore defaults to its supported US market (`us`) so Adzuna salary figures are returned in USD. RemoteReady keeps only remote listings explicitly open to Nigeria, worldwide, anywhere, global, or Africa-wide candidates. If the credentials are omitted, Adzuna is skipped and the other job sources continue normally; the dedicated jobdataAPI source continues to supply Nigeria-specific listings.
+
 Frontend: `http://localhost:5173`  
 API health check: `http://localhost:5000/api/health`
 

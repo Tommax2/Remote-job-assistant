@@ -43,9 +43,9 @@ export default function AuthPage({ mode }) {
         <p className="eyebrow">REMOTE JOB ASSISTANT</p>
         <h1>Turn your experience into your next opportunity.</h1>
         <p className="intro">One focused workspace to discover roles, tailor applications, and keep your search moving.</p>
-        <div className="feature"><span>01</span><p><b>Build your profile</b><br />Keep your experience ready for every application.</p></div>
-        <div className="feature"><span>02</span><p><b>Find better matches</b><br />Focus on remote roles that fit your strengths.</p></div>
-        <div className="feature"><span>03</span><p><b>Apply with confidence</b><br />Tailor, review, and track everything in one place.</p></div>
+        <div className="feature"><span aria-hidden="true">✦</span><p><b>Build your profile</b><br />Keep your experience ready for every application.</p></div>
+        <div className="feature"><span aria-hidden="true">⌕</span><p><b>Find better matches</b><br />Focus on remote roles that fit your strengths.</p></div>
+        <div className="feature"><span aria-hidden="true">✓</span><p><b>Apply with confidence</b><br />Tailor, review, and track everything in one place.</p></div>
       </section>
       <section className="form-panel">
         <div className="form-card">
