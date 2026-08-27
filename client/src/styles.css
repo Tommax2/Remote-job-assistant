@@ -253,9 +253,20 @@ a { color: #1d5a49; font-weight: 700; }
 .approval-check { display: flex; grid-auto-flow: column; align-items: center; max-width: 360px; font-weight: 500; }
 .approval-check input { width: 20px; height: 20px; accent-color: #d9f35b; }
 @media (max-width: 800px) { .review-columns { grid-template-columns: 1fr; } .review-summary { grid-template-columns: 1fr 1fr; } .approval-card { grid-template-columns: 1fr; } }
-.gmail-card { display: flex; flex-direction: row; align-items: center; justify-content: space-between; }
+.gmail-card { position: relative; display: flex; flex-direction: row; align-items: center; justify-content: space-between; min-height: 142px; overflow: hidden; padding: 1.6rem 1.7rem 1.6rem 6.2rem; border-color: #dce2dd; background: #fff; box-shadow: 0 10px 30px #123c320d; animation: gmail-card-in .38s ease-out both; }
+.gmail-card::before { content: '✉'; position: absolute; left: 1.7rem; top: 50%; z-index: 1; display: grid; place-items: center; width: 52px; height: 52px; border: 1px solid #ecd1ce; border-radius: 14px; color: #c43e32; background: #fff7f6; box-shadow: 0 5px 14px #8a2e2512; font-size: 1.3rem; transform: translateY(-50%); }
+.gmail-card::after { content: ''; position: absolute; inset: 0 auto 0 0; width: 4px; background: #c43e32; pointer-events: none; }
+.gmail-card:has(.outline-button)::after { background: #2f8b50; }
+.gmail-card:has(.outline-button)::before { color: #287846; border-color: #cfe3d5; background: #f3faf5; }
+.gmail-card > div { position: relative; z-index: 1; }
+.gmail-card > div:first-of-type::before { content: ''; position: absolute; left: 0; top: .55rem; width: 8px; height: 8px; border-radius: 50%; background: #d39b26; box-shadow: 0 0 0 5px #d39b2618; animation: status-pulse-warn 1.8s ease-out infinite; }
+.gmail-card:has(.outline-button) > div:first-of-type::before { background: #35a85a; box-shadow: 0 0 0 5px #35a85a18; animation-name: status-pulse; }
 .gmail-card h2, .gmail-card p { margin: 0; }
+.gmail-card h2 { padding-left: 1.15rem; }
 .gmail-card p { margin-top: .4rem; color: #68756f; }
+@keyframes gmail-card-in { from { opacity: 0; transform: translateY(18px) scale(.985); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes status-pulse { 0% { box-shadow: 0 0 0 0 #35a85a50; } 70%, 100% { box-shadow: 0 0 0 9px #35a85a00; } }
+@keyframes status-pulse-warn { 0% { box-shadow: 0 0 0 0 #d39b2650; } 70%, 100% { box-shadow: 0 0 0 9px #d39b2600; } }
 .send-link { padding: .9rem 1.2rem; border-radius: 10px; background: #d9f35b; color: #123c32; text-decoration: none; text-align: center; }
 .batch-bar { position: sticky; bottom: 1rem; z-index: 3; display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin: 1rem 0; padding: 1rem 1.2rem; color: white; background: #123c32ee; border-radius: 13px; box-shadow: 0 8px 28px #123c3230; backdrop-filter: blur(8px); }
 .batch-bar div { display: flex; gap: .7rem; align-items: center; }
@@ -317,12 +328,24 @@ a { color: #1d5a49; font-weight: 700; }
 @media (max-width: 1000px) { .metric-grid { grid-template-columns: repeat(4, 1fr); } }
 @media (max-width: 750px) { .dashboard-hero, .dashboard-setup { align-items: flex-start; flex-direction: column; } .dashboard-columns { grid-template-columns: 1fr; } .metric-grid { grid-template-columns: repeat(2, 1fr); } }
 .gmail-actions { display: flex; gap: .7rem; }
+.gmail-actions button { position: relative; }
+.gmail-actions button:not(.outline-button) { box-shadow: 0 5px 14px #123c3218; }
+.gmail-actions .outline-button { border-color: #c7d2cc; background: #fff; }
+.gmail-actions button:disabled { opacity: .65; }
 .diagnostic-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: .7rem; }
-.diagnostic-grid > div { display: flex; align-items: center; gap: .7rem; padding: 1rem; border-radius: 10px; background: #f5f6f2; }
+.diagnostic-grid > div { display: flex; align-items: center; gap: .7rem; padding: 1rem; border: 1px solid #e6e9e5; border-radius: 10px; background: #fafbf9; animation: diagnostic-pop .3s ease-out both; }
+.diagnostic-grid > div:nth-child(2) { animation-delay: .05s; }
+.diagnostic-grid > div:nth-child(3) { animation-delay: .1s; }
+.diagnostic-grid > div:nth-child(4) { animation-delay: .15s; }
+.diagnostic-grid > div:nth-child(5) { animation-delay: .2s; }
+.diagnostic-grid > div:nth-child(6) { animation-delay: .25s; }
 .diagnostic-grid span { width: 25px; height: 25px; display: grid; place-items: center; border-radius: 50%; font-weight: 800; }
 .diagnostic-grid .passed span { color: #216338; background: #dff2e4; }
 .diagnostic-grid .failed span { color: #943c2d; background: #f8e5e1; }
-@media (max-width: 700px) { .gmail-card { align-items: stretch; flex-direction: column; } .gmail-actions { flex-direction: column; } .diagnostic-grid { grid-template-columns: 1fr; } }
+.diagnostic-grid .passed { border-color: #d8e7dc; background: #f8fcf9; }
+.diagnostic-grid .failed { border-color: #eedbd7; background: #fffafa; }
+@keyframes diagnostic-pop { from { opacity: 0; transform: translateY(9px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (max-width: 700px) { .gmail-card { align-items: stretch; flex-direction: column; padding: 6rem 1.2rem 1.2rem; } .gmail-card::before { left: 1.2rem; top: 1.2rem; transform: none; animation: none; } .gmail-actions { flex-direction: column; } .diagnostic-grid { grid-template-columns: 1fr; } }
 .job-detail section h2 { margin-top: 0; }
 .job-description { white-space: pre-wrap; color: #46534d; line-height: 1.75; max-width: 850px; }
 .job-detail footer { color: #748079; padding: 1.5rem 0; font-size: .88rem; }
