@@ -21,9 +21,9 @@ h1, h2 { font-family: Manrope, sans-serif; letter-spacing: -.035em; margin: .5re
 .form-card h2 { font-size: 2.25rem; }
 .muted, .switch { color: #68756f; }
 form { display: grid; gap: 1.1rem; margin: 2.2rem 0 1.5rem; }
-.google-button { width: 100%; margin-top: 1.8rem; background: #fff; color: #26352f; border: 1px solid #d5d8d1; }
+.google-button { width: 100%; margin-top: 1.8rem; display: flex; align-items: center; justify-content: center; gap: .7rem; background: #fff; color: #26352f; border: 1px solid #d5d8d1; }
 .google-button:hover { background: #f2f2ed; }
-.google-g { display: inline-grid; place-items: center; width: 22px; height: 22px; margin-right: .5rem; color: #4285f4; font-weight: 800; }
+.google-logo { width: 20px; height: 20px; flex: none; }
 .divider { display: flex; align-items: center; gap: 1rem; color: #8b958f; font-size: .76rem; margin-top: 1.3rem; }
 .divider::before, .divider::after { content: ''; height: 1px; background: #dfe1da; flex: 1; }
 .divider + form { margin-top: 1.3rem; }
@@ -129,6 +129,25 @@ a { color: #1d5a49; font-weight: 700; }
 .jobs-header p { color: #68756f; margin-bottom: 0; }
 .jobs-content { padding-bottom: 5rem; }
 .job-filters { display: grid; grid-template-columns: 1.4fr 1fr .75fr .8fr auto; align-items: end; gap: .8rem; margin: 0 0 1.5rem; padding: 1.2rem; background: #fff; border: 1px solid #e1e2db; border-radius: 14px; }
+.search-control { position: relative; }
+.search-input-wrap { position: relative; }
+.search-input-wrap input { padding-left: 2.65rem; padding-right: 2.5rem; }
+.search-icon { position: absolute; left: .9rem; top: 50%; z-index: 1; transform: translateY(-50%); color: #718078; font-size: 1.05rem; pointer-events: none; }
+.filter-clear { position: absolute; right: .45rem; top: 50%; min-height: 34px; width: 34px; padding: 0; transform: translateY(-50%); color: #617068; background: transparent; box-shadow: none; font-size: 1.2rem; }
+.filter-clear:hover:not(:disabled) { transform: translateY(-50%); color: #173f34; background: #edf2ef; box-shadow: none; }
+.search-suggestions { position: absolute; left: 0; right: 0; top: calc(100% + .45rem); z-index: 12; padding: .45rem; border: 1px solid #d9dfda; border-radius: 12px; background: #fff; box-shadow: 0 16px 38px #123c3224; }
+.search-suggestions p { margin: .3rem .55rem .4rem; color: #849089; font-size: .7rem; font-weight: 800; letter-spacing: .1em; }
+.search-suggestions button { display: flex; width: 100%; min-height: 38px; padding: .6rem .7rem; color: #29483e; background: transparent; box-shadow: none; text-align: left; }
+.search-suggestions button:hover { transform: none; color: #123c32; background: #edf3ef; box-shadow: none; }
+.filter-status { display: flex; align-items: center; gap: .5rem; color: #728078; font-size: .76rem; font-weight: 500; }
+.filter-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #8bad3a; }
+.linkedin-field > span { font-size: .86rem; font-weight: 600; }
+.linkedin-field small { color: #7b8781; font-size: .75rem; font-weight: 400; }
+.url-input { display: flex; align-items: center; border: 1px solid #cfd6d0; border-radius: 10px; background: #fff; overflow: hidden; }
+.url-input:focus-within { border-color: #2b735e; box-shadow: 0 0 0 3px #2b735e20; }
+.url-input > span { display: grid; place-items: center; align-self: stretch; width: 48px; color: white; background: #0a66c2; font: 800 1rem Manrope, sans-serif; }
+.url-input input { border: 0; border-radius: 0; box-shadow: none; }
+.url-input input:focus { box-shadow: none; }
 .results-line { display: flex; justify-content: space-between; color: #68756f; margin: 1.5rem 0 1rem; }
 .job-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
 .job-card { min-width: 0; display: flex; flex-direction: column; gap: 1.15rem; padding: 1.4rem; background: #fff; border: 1px solid #e1e2db; border-radius: 15px; transition: transform .15s, box-shadow .15s; }
