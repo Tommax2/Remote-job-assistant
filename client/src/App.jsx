@@ -1,4 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
+import { LazyMotion, MotionConfig, domAnimation } from 'motion/react'
 import ProtectedRoute from './components/ProtectedRoute'
 import AuthPage from './pages/AuthPage'
 import DashboardPage from './pages/DashboardPage'
@@ -18,6 +19,8 @@ import { DashboardGate, OnboardingRouter } from './components/OnboardingGate'
 
 export default function App() {
   return (
+    <MotionConfig reducedMotion="user" transition={{ type: 'spring', stiffness: 280, damping: 26 }}>
+    <LazyMotion features={domAnimation} strict>
     <Routes>
       <Route path="/login" element={<AuthPage mode="login" />} />
       <Route path="/register" element={<AuthPage mode="register" />} />
@@ -39,5 +42,7 @@ export default function App() {
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
+    </LazyMotion>
+    </MotionConfig>
   )
 }
