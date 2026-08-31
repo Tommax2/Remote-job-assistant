@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { api } from '../services/api'
 
@@ -32,12 +32,12 @@ function normalizeLinkedIn(value) {
     return url.toString().replace(/\/$/, '')
   } catch { return trimmed }
 }
-function Section({ number, title, help, children }) {
-  return <section className="profile-section"><div className="section-heading"><span>{number}</span><div><h2>{title}</h2><p>{help}</p></div></div><div className="section-body">{children}</div></section>
+function Section({ title, help, children }) {
+  return <section className="profile-section"><div className="section-heading"><div><h2>{title}</h2><p>{help}</p></div></div><div className="section-body">{children}</div></section>
 }
 
 export default function ProfilePage() {
-  const { user, logout } = useAuth()
+  const { user } = useAuth()
   const navigate = useNavigate()
   const [profile, setProfile] = useState(() => blankProfile(user))
   const [skill, setSkill] = useState('')
@@ -72,8 +72,7 @@ export default function ProfilePage() {
   }
   if (loading) return <div className="center"><div className="loader" /></div>
 
-  return <main className="profile-page">
-    <nav className="app-nav"><Link className="brand-link" to="/dashboard"><span className="logo small">R</span><b>RemoteReady</b></Link><div><Link to="/dashboard">Dashboard</Link><button className="text-button" onClick={logout}>Sign out</button></div></nav>
+  return <main className="profile-page career-profile-page">
     <header className="profile-header"><p className="eyebrow">CAREER PROFILE</p><h1>Tell us what you bring.</h1><p>This becomes the trusted source for matching jobs and tailoring applications later.</p></header>
     <form className="profile-form" onSubmit={save}>
       {notice && <p className="success-banner">{notice}</p>}{error && <p className="error">{error}</p>}
