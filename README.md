@@ -73,7 +73,7 @@ In the Railway service Variables tab, add every variable from `server/.env.examp
 
 ```env
 NODE_ENV=production
-CLIENT_URL=https://YOUR-FRONTEND-DOMAIN
+CLIENT_URL=https://remote-job-assistant-ba96.vercel.app
 GOOGLE_REDIRECT_URI=https://YOUR-RAILWAY-DOMAIN/api/email/google/callback
 ```
 
