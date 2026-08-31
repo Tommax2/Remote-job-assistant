@@ -23,6 +23,7 @@ export function approvedOrigins() {
   const configuredOrigins = (process.env.CLIENT_URL || '').split(',')
   const deploymentOrigins = process.env.NODE_ENV === 'production'
     ? [
+        'http://localhost:5173',
         'https://remote-job-assistant-ba96.vercel.app',
         'https://remote-job-assistant-ba96-git-main-tommys-projects-b8fc9b54.vercel.app',
       ]

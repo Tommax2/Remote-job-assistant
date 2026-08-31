@@ -40,6 +40,31 @@ test('production frontend can complete an API preflight request', async (t) => {
   assert.match(response.headers.get('access-control-allow-headers'), /Authorization/i)
 })
 
+test('local frontend can complete a preflight against the production API', async (t) => {
+  const previousNodeEnv = process.env.NODE_ENV
+  process.env.NODE_ENV = 'production'
+  t.after(() => {
+    if (previousNodeEnv === undefined) delete process.env.NODE_ENV
+    else process.env.NODE_ENV = previousNodeEnv
+  })
+
+  const server = createApp().listen(0)
+  t.after(() => server.close())
+  const { port } = server.address()
+  const origin = 'http://localhost:5173'
+  const response = await fetch(`http://127.0.0.1:${port}/api/onboarding/status`, {
+    method: 'OPTIONS',
+    headers: {
+      Origin: origin,
+      'Access-Control-Request-Method': 'GET',
+      'Access-Control-Request-Headers': 'authorization,content-type',
+    },
+  })
+
+  assert.equal(response.status, 204)
+  assert.equal(response.headers.get('access-control-allow-origin'), origin)
+})
+
 test('API preflight rejects an unknown production origin', async (t) => {
   const previousNodeEnv = process.env.NODE_ENV
   process.env.NODE_ENV = 'production'

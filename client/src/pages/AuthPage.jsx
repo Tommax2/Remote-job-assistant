@@ -40,24 +40,24 @@ export default function AuthPage({ mode }) {
     <main className="auth-shell">
       <section className="brand-panel">
         <div className="brand-panel-copy">
-          <p className="auth-kicker">By invitation and application</p>
-          <h1>A private practice for your next role.</h1>
-          <p className="intro">Curated matches, a running docket, one dossier, assembled with the same discipline as a retained search.</p>
+          <p className="auth-kicker">Your remote career workspace</p>
+          <h1>Make your next career move count.</h1>
+          <p className="intro">Discover better-fit remote roles, tailor every application, and manage your job search from one focused workspace.</p>
         </div>
       </section>
       <section className="form-panel">
         <div className="form-card">
-          <p className="auth-welcome">{isRegister ? 'Start your application' : 'Welcome back'}</p>
-          <h2>{isRegister ? 'Create account' : 'Sign in'}</h2>
+          <p className="auth-welcome">{isRegister ? 'Create your account' : 'Welcome back'}</p>
+          <h2>{isRegister ? 'Sign up' : 'Sign in'}</h2>
           <form onSubmit={handleSubmit}>
             {isRegister && <label>Full name<input required minLength="2" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} autoComplete="name" placeholder="Ada Lovelace" /></label>}
             <label>Email address<input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} autoComplete="email" placeholder="you@example.com" /></label>
             <label>Password<input required minLength="8" type="password" value={form.password} onChange={(e) => setForm({ ...form, password: e.target.value })} autoComplete={isRegister ? 'new-password' : 'current-password'} placeholder="At least 8 characters" /></label>
             {error && <p className="error" role="alert">{error}</p>}
-            <button disabled={submitting}>{submitting ? 'Please wait…' : isRegister ? 'Create account' : 'Sign in'}</button>
+            <button disabled={submitting}>{submitting ? 'Please wait…' : isRegister ? 'Sign up' : 'Sign in'}</button>
           </form>
           <button className="google-button" type="button" onClick={handleGoogle}>Continue with Google</button>
-          <p className="switch">{isRegister ? 'Already have an account?' : 'New here?'} <Link to={isRegister ? '/login' : '/register'}>{isRegister ? 'Sign in' : 'Create an account'}</Link></p>
+          <p className="switch">{isRegister ? 'Already have an account?' : 'New here?'} <Link to={isRegister ? '/login' : '/register'}>{isRegister ? 'Sign in' : 'Sign up'}</Link></p>
         </div>
       </section>
     </main>
