@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 import { api } from '../services/api'
 
 const newItems = {
@@ -10,7 +9,6 @@ const newItems = {
 }
 
 export default function ResumePage() {
-  const { logout } = useAuth()
   const navigate = useNavigate()
   const inputRef = useRef(null)
   const [resume, setResume] = useState(null)
@@ -48,13 +46,12 @@ export default function ResumePage() {
     } catch (err) { setError(err.message) } finally { setBusy(false) }
   }
 
-  return <main className="profile-page">
-    <nav className="app-nav"><Link className="brand-link" to="/dashboard"><span className="logo small">R</span><b>RemoteReady</b></Link><div><Link to="/profile">Profile</Link><button className="text-button" onClick={logout}>Sign out</button></div></nav>
+  return <main className="profile-page career-profile-page master-cv-page">
     <header className="profile-header"><p className="eyebrow">MASTER CV</p><h1>Your career, in one source.</h1><p>Upload your best CV, inspect what was extracted, and approve only information that is accurate.</p></header>
     <div className="resume-workspace">
       {notice && <p className="success-banner">{notice}</p>}{error && <p className="error">{error}</p>}
       <section className={`upload-card ${dragging ? 'dragging' : ''}`} onDragOver={(e) => { e.preventDefault(); setDragging(true) }} onDragLeave={() => setDragging(false)} onDrop={(e) => { e.preventDefault(); setDragging(false); chooseFile(e.dataTransfer.files[0]) }}>
-        <span className="upload-icon">↑</span><h2>{resume ? 'Replace your master CV' : 'Upload your master CV'}</h2><p>PDF or DOCX, up to 5 MB. Uploaded files are read in memory; extracted content is saved securely to your account.</p>
+        <h2>{resume ? 'Replace your master CV' : 'Upload your master CV'}</h2><p>PDF or DOCX, up to 5 MB. Uploaded files are read in memory; extracted content is saved securely to your account.</p>
         <input ref={inputRef} className="file-input" type="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" onChange={(e) => chooseFile(e.target.files[0])} />
         <div className="upload-actions"><button type="button" className="outline-button" onClick={() => inputRef.current.click()}>Choose file</button>{file && <><span>{file.name}</span><button type="button" onClick={upload} disabled={busy}>{busy ? 'Extracting…' : 'Upload and extract'}</button></>}</div>
       </section>
@@ -74,5 +71,5 @@ export default function ResumePage() {
 
 function Field({ label, ...props }) { return <label>{label}<input {...props} /></label> }
 function ResumeList({ title, section, items, fields, update, add, remove }) {
-  return <div className="review-block"><h3>{title}</h3>{items.map((item, index) => <div className="repeat-card" key={item._id || index}><div className="repeat-title"><b>{title} {index + 1}</b><button type="button" onClick={() => remove(section, index)}>Remove</button></div><div className="field-grid">{fields.map(([name, label]) => <Field key={name} label={label} value={item[name] || (name === 'jobTitle' ? item.title : '') || ''} onChange={(e) => update(section, index, name, e.target.value)} />)}</div><label>Description<textarea rows="4" value={item.description || item.summary || ''} onChange={(e) => update(section, index, 'description', e.target.value)} /></label></div>)}<button type="button" className="outline-button" onClick={() => add(section)}>+ Add {title.toLowerCase()}</button></div>
+  return <div className="review-block"><h3>{title}</h3>{items.map((item, index) => <div className="repeat-card" key={item._id || index}><div className="repeat-title"><b>{item.jobTitle || item.title || item.name || item.school || title}</b><button type="button" onClick={() => remove(section, index)}>Remove</button></div><div className="field-grid">{fields.map(([name, label]) => <Field key={name} label={label} value={item[name] || (name === 'jobTitle' ? item.title : '') || ''} onChange={(e) => update(section, index, name, e.target.value)} />)}</div><label>Description<textarea rows="4" value={item.description || item.summary || ''} onChange={(e) => update(section, index, 'description', e.target.value)} /></label></div>)}<button type="button" className="outline-button" onClick={() => add(section)}>Add {title.toLowerCase()}</button></div>
 }

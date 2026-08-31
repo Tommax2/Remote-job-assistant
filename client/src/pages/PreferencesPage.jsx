@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 import { api } from '../services/api'
 
 const blank = {
@@ -16,7 +15,6 @@ const regionSuggestions = ['Worldwide', 'Global', 'Africa', 'West Africa', 'Euro
 const countrySuggestions = ['Nigeria', 'Ghana', 'Kenya', 'South Africa', 'United Kingdom', 'United States', 'Canada', 'Germany', 'Netherlands', 'Portugal', 'Spain', 'United Arab Emirates']
 
 export default function PreferencesPage() {
-  const { logout } = useAuth()
   const navigate = useNavigate()
   const [preferences, setPreferences] = useState(blank)
   const [loading, setLoading] = useState(true)
@@ -39,8 +37,7 @@ export default function PreferencesPage() {
   }
   if (loading) return <div className="center"><div className="loader" /></div>
 
-  return <main className="profile-page">
-    <nav className="app-nav"><Link className="brand-link" to="/dashboard"><span className="logo small">R</span><b>RemoteReady</b></Link><div><Link to="/profile">Profile</Link><Link to="/resume">Master CV</Link><button className="text-button" onClick={logout}>Sign out</button></div></nav>
+  return <main className="profile-page career-profile-page preferences-page">
     <header className="profile-header"><p className="eyebrow">JOB PREFERENCES</p><h1>Define your ideal next move.</h1><p>Set focused criteria so the job discovery and matching engine knows what is relevant—and what is not.</p></header>
     <form className="profile-form" onSubmit={save}>
       {notice && <p className="success-banner">{notice}</p>}{error && <p className="error">{error}</p>}

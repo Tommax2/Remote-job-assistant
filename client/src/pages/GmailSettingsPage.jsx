@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { useSearchParams } from 'react-router-dom'
 import { api } from '../services/api'
 
 export default function GmailSettingsPage() {
@@ -48,8 +48,7 @@ export default function GmailSettingsPage() {
     }
   }
 
-  return <main className="profile-page">
-    <nav className="app-nav"><Link className="brand-link" to="/dashboard">← Dashboard</Link><Link to="/applications">Application tracker</Link></nav>
+  return <main className="profile-page career-profile-page gmail-settings-page">
     <header className="profile-header"><p className="eyebrow">EMAIL SETTINGS</p><h1>Connect Gmail.</h1><p>RemoteReady requests permission to send only the applications you explicitly approve.</p></header>
     <div className="resume-workspace">
       {params.get('gmail') === 'connected' && <p className="success-banner">Gmail connected successfully.</p>}
