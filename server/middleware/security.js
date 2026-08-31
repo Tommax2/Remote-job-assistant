@@ -22,7 +22,10 @@ export function validateObjectId(param = 'id') {
 export function approvedOrigins() {
   const configuredOrigins = (process.env.CLIENT_URL || '').split(',')
   const deploymentOrigins = process.env.NODE_ENV === 'production'
-    ? ['https://remote-job-assistant-ba96.vercel.app']
+    ? [
+        'https://remote-job-assistant-ba96.vercel.app',
+        'https://remote-job-assistant-ba96-git-main-tommys-projects-b8fc9b54.vercel.app',
+      ]
     : ['http://localhost:5173']
 
   return [...new Set([...configuredOrigins, ...deploymentOrigins]

@@ -24,7 +24,7 @@ test('production frontend can complete an API preflight request', async (t) => {
   const server = createApp().listen(0)
   t.after(() => server.close())
   const { port } = server.address()
-  const origin = 'https://remote-job-assistant-ba96.vercel.app'
+  const origin = 'https://remote-job-assistant-ba96-git-main-tommys-projects-b8fc9b54.vercel.app'
   const response = await fetch(`http://127.0.0.1:${port}/api/auth/sync`, {
     method: 'OPTIONS',
     headers: {
