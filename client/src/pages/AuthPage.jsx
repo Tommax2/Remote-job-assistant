@@ -39,24 +39,16 @@ export default function AuthPage({ mode }) {
   return (
     <main className="auth-shell">
       <section className="brand-panel">
-        <div className="logo">R</div>
-        <p className="eyebrow">REMOTE JOB ASSISTANT</p>
-        <h1>Turn your experience into your next opportunity.</h1>
-        <p className="intro">One focused workspace to discover roles, tailor applications, and keep your search moving.</p>
-        <div className="feature"><span aria-hidden="true">✦</span><p><b>Build your profile</b><br />Keep your experience ready for every application.</p></div>
-        <div className="feature"><span aria-hidden="true">⌕</span><p><b>Find better matches</b><br />Focus on remote roles that fit your strengths.</p></div>
-        <div className="feature"><span aria-hidden="true">✓</span><p><b>Apply with confidence</b><br />Tailor, review, and track everything in one place.</p></div>
+        <div className="brand-panel-copy">
+          <p className="auth-kicker">By invitation and application</p>
+          <h1>A private practice for your next role.</h1>
+          <p className="intro">Curated matches, a running docket, one dossier, assembled with the same discipline as a retained search.</p>
+        </div>
       </section>
       <section className="form-panel">
         <div className="form-card">
-          <p className="eyebrow">{isRegister ? 'GET STARTED' : 'WELCOME BACK'}</p>
-          <h2>{isRegister ? 'Create your account' : 'Sign in to your workspace'}</h2>
-          <p className="muted">{isRegister ? 'Your next remote role starts here.' : 'Continue building your career momentum.'}</p>
-          <button className="google-button" type="button" onClick={handleGoogle}>
-            <GoogleLogo />
-            <span>Continue with Google</span>
-          </button>
-          <div className="divider"><span>or continue with email</span></div>
+          <p className="auth-welcome">{isRegister ? 'Start your application' : 'Welcome back'}</p>
+          <h2>{isRegister ? 'Create account' : 'Sign in'}</h2>
           <form onSubmit={handleSubmit}>
             {isRegister && <label>Full name<input required minLength="2" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} autoComplete="name" placeholder="Ada Lovelace" /></label>}
             <label>Email address<input required type="email" value={form.email} onChange={(e) => setForm({ ...form, email: e.target.value })} autoComplete="email" placeholder="you@example.com" /></label>
@@ -64,18 +56,10 @@ export default function AuthPage({ mode }) {
             {error && <p className="error" role="alert">{error}</p>}
             <button disabled={submitting}>{submitting ? 'Please wait…' : isRegister ? 'Create account' : 'Sign in'}</button>
           </form>
+          <button className="google-button" type="button" onClick={handleGoogle}>Continue with Google</button>
           <p className="switch">{isRegister ? 'Already have an account?' : 'New here?'} <Link to={isRegister ? '/login' : '/register'}>{isRegister ? 'Sign in' : 'Create an account'}</Link></p>
         </div>
       </section>
     </main>
   )
-}
-
-function GoogleLogo() {
-  return <svg className="google-logo" viewBox="0 0 24 24" aria-hidden="true">
-    <path fill="#4285F4" d="M21.6 12.23c0-.71-.06-1.4-.18-2.07H12v3.92h5.38a4.6 4.6 0 0 1-2 3.02v2.54h3.24c1.9-1.75 2.98-4.33 2.98-7.41Z" />
-    <path fill="#34A853" d="M12 22c2.7 0 4.97-.9 6.62-2.36l-3.24-2.54c-.9.6-2.05.96-3.38.96-2.61 0-4.82-1.76-5.61-4.13H3.04v2.62A10 10 0 0 0 12 22Z" />
-    <path fill="#FBBC05" d="M6.39 13.93A6.01 6.01 0 0 1 6.07 12c0-.67.11-1.32.32-1.93V7.45H3.04A10 10 0 0 0 2 12c0 1.61.39 3.14 1.04 4.55l3.35-2.62Z" />
-    <path fill="#EA4335" d="M12 5.94c1.47 0 2.79.51 3.83 1.5l2.87-2.88A9.62 9.62 0 0 0 12 2a10 10 0 0 0-8.96 5.45l3.35 2.62C7.18 7.7 9.39 5.94 12 5.94Z" />
-  </svg>
 }
