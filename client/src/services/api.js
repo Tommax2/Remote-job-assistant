@@ -1,6 +1,14 @@
 import { auth } from '../config/firebase'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+function normalizeApiUrl(value) {
+  const configuredUrl = value?.trim().replace(/\/$/, '')
+  if (!configuredUrl) return 'http://localhost:5000/api'
+
+  const absoluteUrl = /^https?:\/\//i.test(configuredUrl) ? configuredUrl : `https://${configuredUrl}`
+  return absoluteUrl.endsWith('/api') ? absoluteUrl : `${absoluteUrl}/api`
+}
+
+const API_URL = normalizeApiUrl(import.meta.env.VITE_API_URL)
 
 export async function api(path, options = {}) {
   const token = await auth.currentUser?.getIdToken()
