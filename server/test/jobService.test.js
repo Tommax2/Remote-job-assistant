@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { normalizeAdzunaJob, normalizeArbeitnowJob, normalizeJobdataNigeriaJob, normalizeJobicyJob, normalizeJobsColliderJob, normalizeRemotiveJob, normalizeRemoteOkJob } from '../services/jobService.js'
+import { normalizeAdzunaJob, normalizeArbeitnowJob, normalizeJobdataNigeriaJob, normalizeJobicyJob, normalizeJobsColliderJob, normalizeJoobleNigeriaJob, normalizeJSearchNigeriaJob, normalizeRemotiveJob, normalizeRemoteOkJob } from '../services/jobService.js'
 
 test('normalizes a Remotive job into the internal shape', () => {
   const job = normalizeRemotiveJob({ id: 42, company_name: 'Example', company_logo: '', title: 'Developer', description: '<p>Build &amp; ship.</p>', candidate_required_location: 'Worldwide', salary: '$50k', job_type: 'full_time', category: 'Software Development', url: 'https://remotive.com/job/42', publication_date: '2026-08-20T10:00:00Z' })
@@ -53,4 +53,20 @@ test('normalizes Adzuna remote jobs with USD salary', () => {
   assert.equal(job.employmentType, 'FULL_TIME')
   assert.match(job.salary, /USD/)
   assert.equal(job.applicationUrl, 'https://www.adzuna.com/details/24')
+})
+
+test('normalizes Jooble Nigeria remote jobs', () => {
+  const job = normalizeJoobleNigeriaJob({ id: 81, title: 'Remote Product Designer', location: 'Nigeria', snippet: '<p>Design useful products.</p>', salary: 'NGN 500,000', source: 'Example Jobs', type: 'Full-time', link: 'https://ng.jooble.org/job/81', company: 'Acme', updated: '2026-08-25T10:00:00Z' })
+  assert.equal(job.source, 'JOOBLE_NIGERIA')
+  assert.equal(job.nigeriaBased, true)
+  assert.equal(job.employmentType, 'FULL_TIME')
+  assert.equal(job.description, 'Design useful products.')
+})
+
+test('normalizes JSearch Nigeria remote jobs', () => {
+  const job = normalizeJSearchNigeriaJob({ job_id: 'js-42', employer_name: 'Acme', job_title: 'Remote Engineer', job_description: 'Build products.', job_city: 'Lagos', job_country: 'Nigeria', job_employment_type: 'FULLTIME', job_apply_link: 'https://example.com/apply', job_posted_at_datetime_utc: '2026-08-25T10:00:00Z' })
+  assert.equal(job.source, 'JSEARCH_NIGERIA')
+  assert.equal(job.nigeriaBased, true)
+  assert.equal(job.employmentType, 'FULL_TIME')
+  assert.equal(job.location, 'Lagos, Nigeria')
 })

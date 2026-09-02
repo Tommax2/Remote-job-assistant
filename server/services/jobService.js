@@ -10,6 +10,8 @@ const REMOTEOK_URL = 'https://remoteok.com/api'
 const ARBEITNOW_URL = 'https://www.arbeitnow.com/api/job-board-api'
 const JOBDATA_NIGERIA_URL = 'https://jobdataapi.com/api/jobs/?country_code=NG&has_remote=true'
 const ADZUNA_URL = 'https://api.adzuna.com/v1/api/jobs'
+const JOOBLE_NIGERIA_URL = 'https://ng.jooble.org/api'
+const JSEARCH_URL = 'https://jsearch.p.rapidapi.com/search-v2'
 const typeMap = { full_time: 'FULL_TIME', part_time: 'PART_TIME', contract: 'CONTRACT', freelance: 'FREELANCE', internship: 'INTERNSHIP' }
 const nigeriaBased = (location = '') => /(^|\W)(nigeria|lagos|abuja|port harcourt|ibadan|enugu|kano|ogun|oyo|rivers)(\W|$)/i.test(location)
 const SYNC_COOLDOWN_MS = 5 * 60 * 1000
@@ -113,11 +115,33 @@ export function normalizeAdzunaJob(job, country = 'gb') {
   }
 }
 
-async function fetchJson(url, extraHeaders = {}) {
+export function normalizeJoobleNigeriaJob(job) {
+  return {
+    externalId: String(job.id), source: 'JOOBLE_NIGERIA', company: job.company || job.source || 'Employer',
+    companyLogo: '', title: job.title, description: plainText(job.snippet), location: job.location || 'Nigeria (Remote)',
+    remote: true, nigeriaBased: true, salary: job.salary || '', employmentType: normalizedType(job.type),
+    category: '', applicationUrl: job.link, publishedAt: new Date(job.updated), lastSeenAt: new Date(), active: true,
+  }
+}
+
+export function normalizeJSearchNigeriaJob(job) {
+  const location = [job.job_city, job.job_state, job.job_country].filter(Boolean).join(', ') || 'Nigeria (Remote)'
+  const salary = salaryText(job.job_min_salary, job.job_max_salary, job.job_salary_currency || 'NGN', job.job_salary_period || 'year')
+  const employmentType = ({ FULLTIME: 'FULL_TIME', PARTTIME: 'PART_TIME', CONTRACTOR: 'CONTRACT', INTERN: 'INTERNSHIP' })[job.job_employment_type] || normalizedType(job.job_employment_type)
+  return {
+    externalId: String(job.job_id), source: 'JSEARCH_NIGERIA', company: job.employer_name || 'Employer',
+    companyLogo: job.employer_logo || '', title: job.job_title, description: plainText(job.job_description), location,
+    remote: true, nigeriaBased: true, salary, employmentType,
+    category: job.job_job_title || '', applicationUrl: job.job_apply_link || job.job_google_link,
+    publishedAt: new Date(job.job_posted_at_datetime_utc || Date.now()), lastSeenAt: new Date(), active: true,
+  }
+}
+
+async function fetchJson(url, extraHeaders = {}, requestOptions = {}) {
   const controller = new AbortController()
   const timeout = setTimeout(() => controller.abort(), 15000)
   try {
-    const response = await fetch(url, { signal: controller.signal, headers: { Accept: 'application/json', 'User-Agent': 'RemoteReady/0.1', ...extraHeaders } })
+    const response = await fetch(url, { ...requestOptions, signal: controller.signal, headers: { Accept: 'application/json', 'User-Agent': 'RemoteReady/0.1', ...extraHeaders, ...(requestOptions.headers || {}) } })
     if (!response.ok) throw new Error(`${new URL(url).hostname} returned HTTP ${response.status}`)
     return response.json()
   } finally { clearTimeout(timeout) }
@@ -177,9 +201,9 @@ export async function syncAdzunaJobs({ limit = 50 } = {}) {
   const supportedCountries = new Set(['gb', 'us', 'at', 'au', 'be', 'br', 'ca', 'ch', 'de', 'es', 'fr', 'in', 'it', 'mx', 'nl', 'nz', 'pl', 'sg', 'za'])
   const country = String(process.env.ADZUNA_COUNTRY || 'us').trim().toLowerCase()
   if (!supportedCountries.has(country)) throw new Error('ADZUNA_COUNTRY is not supported by the Adzuna API')
-  const params = new URLSearchParams({ app_id: appId, app_key: appKey, results_per_page: String(Math.min(Math.max(limit, 1), 50)), what_or: 'remote Nigeria worldwide anywhere global Africa', sort_by: 'date', 'content-type': 'application/json' })
+  const params = new URLSearchParams({ app_id: appId, app_key: appKey, results_per_page: String(Math.min(Math.max(limit, 1), 50)), what: 'remote', sort_by: 'date', 'content-type': 'application/json' })
   const data = await fetchJson(`${ADZUNA_URL}/${country}/search/1?${params}`)
-  const remoteTerms = /\b(remote|work from home|home.?based|distributed|anywhere)\b/i
+  const remoteTerms = /\b(remote|work from home|home.?based|distributed|anywhere|telecommut(?:e|ing)?|virtual)\b/i
   const nigeriaEligibleTerms = /\b(nigeria|worldwide|anywhere|global|africa.?wide|across africa|work from anywhere|remote from anywhere)\b/i
   const jobs = (data.results || []).filter((job) => {
     const text = `${job.title || ''} ${job.description || ''} ${job.location?.display_name || ''}`
@@ -191,9 +215,31 @@ export async function syncAdzunaJobs({ limit = 50 } = {}) {
   return storeJobs(jobs, 'Adzuna')
 }
 
+export async function syncJoobleNigeriaJobs({ limit = 50 } = {}) {
+  const apiKey = process.env.JOOBLE_API_KEY
+  if (!apiKey) return { fetched: 0, stored: 0, updated: 0, source: 'Jooble Nigeria', skipped: true }
+  const data = await fetchJson(`${JOOBLE_NIGERIA_URL}/${encodeURIComponent(apiKey)}`, { 'Content-Type': 'application/json' }, {
+    method: 'POST',
+    body: JSON.stringify({ keywords: 'remote', location: 'Nigeria', page: '1', ResultOnPage: Math.min(Math.max(limit, 1), 50), companysearch: false }),
+  })
+  const remoteTerms = /\b(remote|work from home|home.?based|distributed|anywhere|telecommut(?:e|ing)?|virtual)\b/i
+  const jobs = (data.jobs || []).filter((job) => remoteTerms.test(`${job.title || ''} ${job.snippet || ''} ${job.location || ''}`)).map(normalizeJoobleNigeriaJob)
+  return storeJobs(jobs, 'Jooble Nigeria')
+}
+
+export async function syncJSearchNigeriaJobs() {
+  const apiKey = process.env.JSEARCH_API_KEY
+  if (!apiKey) return { fetched: 0, stored: 0, updated: 0, source: 'JSearch Nigeria', skipped: true }
+  const host = process.env.JSEARCH_API_HOST || 'jsearch.p.rapidapi.com'
+  const params = new URLSearchParams({ query: 'remote jobs in Nigeria', page: '1', num_pages: '1', country: 'ng', date_posted: 'month', remote_jobs_only: 'true' })
+  const data = await fetchJson(`${JSEARCH_URL}?${params}`, { 'X-RapidAPI-Key': apiKey, 'X-RapidAPI-Host': host })
+  const jobs = Array.isArray(data.data) ? data.data : data.data?.jobs || []
+  return storeJobs(jobs.map(normalizeJSearchNigeriaJob), 'JSearch Nigeria')
+}
+
 export async function syncAllJobSources() {
-  const sourceNames = ['Remotive', 'Jobicy', 'JobsCollider', 'Remote OK', 'Arbeitnow', 'JobsCollider Nigeria', 'jobdataAPI Nigeria', 'Adzuna']
-  const settled = await Promise.allSettled([syncRemotiveJobs(), syncJobicyJobs(), syncJobsColliderJobs(), syncRemoteOkJobs(), syncArbeitnowJobs(), syncNigeriaJobs(), syncJobdataNigeriaJobs(), syncAdzunaJobs()])
+  const sourceNames = ['Remotive', 'Jobicy', 'JobsCollider', 'Remote OK', 'Arbeitnow', 'JobsCollider Nigeria', 'jobdataAPI Nigeria', 'Adzuna', 'Jooble Nigeria', 'JSearch Nigeria']
+  const settled = await Promise.allSettled([syncRemotiveJobs(), syncJobicyJobs(), syncJobsColliderJobs(), syncRemoteOkJobs(), syncArbeitnowJobs(), syncNigeriaJobs(), syncJobdataNigeriaJobs(), syncAdzunaJobs(), syncJoobleNigeriaJobs(), syncJSearchNigeriaJobs()])
   const sources = settled.map((result, index) => result.status === 'fulfilled' ? result.value : { source: sourceNames[index], error: result.reason.message })
   return {
     sources,

@@ -38,6 +38,16 @@ ADZUNA_COUNTRY=us
 
 Adzuna does not currently expose a Nigerian (`ng`) API market. `ADZUNA_COUNTRY` therefore defaults to its supported US market (`us`) so Adzuna salary figures are returned in USD. RemoteReady imports listings that Adzuna explicitly describes as remote; only listings that also mention Nigeria, worldwide, anywhere, global, or Africa-wide eligibility appear under the Nigeria market filter. If the credentials are omitted, Adzuna is skipped and the other job sources continue normally; the dedicated jobdataAPI source continues to supply Nigeria-specific listings.
 
+Two additional optional sources can supply Nigeria-focused remote jobs. Request a Nigeria-domain key from the [Jooble API portal](https://ng.jooble.org/api/about), and subscribe to JSearch through RapidAPI if you want both sources:
+
+```env
+JOOBLE_API_KEY=your_nigeria_jooble_key
+JSEARCH_API_KEY=your_rapidapi_key
+JSEARCH_API_HOST=jsearch.p.rapidapi.com
+```
+
+Each source is skipped independently when its key is absent, so it cannot interrupt the other job imports.
+
 Frontend: `http://localhost:5173`  
 API health check: `http://localhost:5000/api/health`
 

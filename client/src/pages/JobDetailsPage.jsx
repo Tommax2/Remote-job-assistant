@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { api } from '../services/api'
 
 const typeLabels = { FULL_TIME: 'Full-time', PART_TIME: 'Part-time', CONTRACT: 'Contract', FREELANCE: 'Freelance', INTERNSHIP: 'Internship', OTHER: 'Other' }
-const sourceNames = { REMOTIVE: 'Remotive', JOBICY: 'Jobicy', JOBSCOLLIDER: 'JobsCollider', REMOTEOK: 'Remote OK', ARBEITNOW: 'Arbeitnow', JOBDATA_NIGERIA: 'jobdataAPI Nigeria', ADZUNA: 'Jobs by Adzuna' }
+const sourceNames = { REMOTIVE: 'Remotive', JOBICY: 'Jobicy', JOBSCOLLIDER: 'JobsCollider', REMOTEOK: 'Remote OK', ARBEITNOW: 'Arbeitnow', JOBDATA_NIGERIA: 'jobdataAPI Nigeria', ADZUNA: 'Jobs by Adzuna', JOOBLE_NIGERIA: 'Jooble Nigeria', JSEARCH_NIGERIA: 'JSearch Nigeria' }
 
 export default function JobDetailsPage() {
   const { jobId } = useParams(); const navigate = useNavigate()
