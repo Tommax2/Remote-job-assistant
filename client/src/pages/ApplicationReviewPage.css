@@ -1,0 +1,175 @@
+/* Final application review */
+.profile-page:has(.approval-card) {
+  --review-bg: #12110f;
+  --review-surface: #1a1815;
+  --review-line: #39342e;
+  --review-text: #f2eee7;
+  --review-muted: #a39b91;
+  --review-accent: #c49a56;
+  min-height: 100vh;
+  color: var(--review-text);
+  background: radial-gradient(circle at 88% 2%, #c49a5614, transparent 27rem), var(--review-bg);
+}
+
+.profile-page:has(.approval-card) > .profile-header,
+.profile-page:has(.approval-card) > .application-review {
+  width: min(1120px, calc(100% - clamp(3rem, 10vw, 10rem)));
+}
+
+.profile-page:has(.approval-card) > .profile-header {
+  padding: clamp(4rem, 8vw, 6rem) 0 2.75rem;
+  border-bottom: 1px solid var(--review-line);
+}
+
+.profile-page:has(.approval-card) > .profile-header .eyebrow {
+  color: var(--review-accent);
+  font: 600 .7rem 'DM Sans', sans-serif;
+  letter-spacing: .16em;
+}
+
+.profile-page:has(.approval-card) > .profile-header h1 {
+  max-width: 15ch;
+  margin: .8rem 0;
+  color: var(--review-text);
+  font: 500 clamp(2.8rem, 6vw, 5rem)/1.02 Georgia, serif;
+}
+
+.profile-page:has(.approval-card) > .profile-header > p:last-child {
+  max-width: 700px;
+  margin: 0;
+  color: var(--review-muted);
+  line-height: 1.65;
+}
+
+.profile-page:has(.approval-card) > .application-review {
+  gap: 0;
+  padding: 2.5rem 0 7rem;
+}
+
+.profile-page:has(.approval-card) .review-summary {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin-bottom: 3.5rem;
+  border-block: 1px solid var(--review-line);
+  border-radius: 0;
+  background: transparent;
+}
+
+.profile-page:has(.approval-card) .review-summary > div {
+  min-height: 112px;
+  justify-content: center;
+  padding: 1.3rem 1.5rem;
+  border-right: 1px solid var(--review-line);
+  color: var(--review-text);
+  background: transparent;
+}
+
+.profile-page:has(.approval-card) .review-summary > div:first-child { padding-left: 0; }
+.profile-page:has(.approval-card) .review-summary > div:last-child { border-right: 0; }
+.profile-page:has(.approval-card) .review-summary span { color: #867e75; font-size: .67rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.profile-page:has(.approval-card) .review-summary strong { margin-top: .5rem; color: var(--review-text); font: 500 clamp(1.1rem, 2vw, 1.55rem) Georgia, serif; overflow-wrap: anywhere; }
+.profile-page:has(.approval-card) .review-summary > div:nth-child(3) strong { color: #dfbd78; font-size: 1.9rem; }
+.profile-page:has(.approval-card) .review-summary > div:last-child strong { color: #c7b489; text-transform: capitalize; }
+
+.profile-page:has(.approval-card) .review-columns {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1.25rem, 3vw, 2rem);
+  align-items: stretch;
+  margin-bottom: 2rem;
+}
+
+.profile-page:has(.approval-card) .review-columns > .review-block {
+  min-height: 560px;
+  align-content: start;
+  gap: 1.25rem;
+  padding: clamp(1.4rem, 3vw, 2rem);
+  border: 1px solid var(--review-line);
+  border-radius: 6px;
+  color: var(--review-text);
+  background: linear-gradient(145deg, #ffffff05, #ffffff02);
+  box-shadow: none;
+}
+
+.profile-page:has(.approval-card) .panel-title {
+  align-items: flex-end;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid var(--review-line);
+}
+
+.profile-page:has(.approval-card) .panel-title .eyebrow { margin: 0 0 .35rem; color: var(--review-accent); font-size: .65rem; letter-spacing: .13em; }
+.profile-page:has(.approval-card) .panel-title h2 { margin: 0; color: var(--review-text); font: italic 500 1.65rem Georgia, serif; }
+.profile-page:has(.approval-card) .panel-title > a { color: #c9b17e; font-size: .82rem; }
+.profile-page:has(.approval-card) .panel-title button { min-height: 42px; border: 1px solid #514a42; border-radius: 4px; color: #d9d2ca; background: transparent; }
+.profile-page:has(.approval-card) .review-block h3 { margin: .5rem 0 0; color: var(--review-text); font: 500 1.15rem Georgia, serif; }
+.profile-page:has(.approval-card) .document-copy { margin: 0; color: var(--review-muted); line-height: 1.7; }
+.profile-page:has(.approval-card) .tags span { border: 1px solid #55462f; border-radius: 3px; color: #d8b875; background: #c49a560d; }
+.profile-page:has(.approval-card) .secondary-link { color: var(--review-accent); }
+.profile-page:has(.approval-card) .review-columns > .review-block > p { margin: 0; color: var(--review-muted); line-height: 1.5; }
+.profile-page:has(.approval-card) .review-columns > .review-block > p strong { color: #ddd6cd; font-weight: 500; }
+
+.profile-page:has(.approval-card) .email-preview {
+  max-height: 420px;
+  margin: .25rem 0 0;
+  padding: 1.4rem;
+  overflow: auto;
+  border: 1px solid #d9d1c5;
+  border-radius: 4px;
+  color: #332e28;
+  background: #f7f3eb;
+  font: .95rem/1.75 Georgia, serif;
+  white-space: pre-wrap;
+}
+
+.profile-page:has(.approval-card) .approval-card {
+  grid-template-columns: minmax(0, 1fr) minmax(260px, .75fr) auto;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid #584a35;
+  border-radius: 6px;
+  color: var(--review-text);
+  background: radial-gradient(circle at 90% 0, #c49a5617, transparent 15rem), #1d1914;
+  box-shadow: 0 24px 70px #0008;
+}
+
+.profile-page:has(.approval-card) .approval-card h2 { color: var(--review-text); font: italic 500 1.7rem Georgia, serif; }
+.profile-page:has(.approval-card) .approval-card p { color: var(--review-muted); line-height: 1.5; }
+.profile-page:has(.approval-card) .approval-check { max-width: none; color: #d0c8be; font-weight: 500; line-height: 1.5; }
+.profile-page:has(.approval-card) .approval-check input { flex: none; accent-color: var(--review-accent); }
+.profile-page:has(.approval-card) .approval-card > button,
+.profile-page:has(.approval-card) .approval-card > .send-link { min-width: 190px; min-height: 52px; display: grid; place-items: center; border-radius: 4px; color: #17130e; background: var(--review-accent); text-decoration: none; }
+
+@media (max-width: 900px) {
+  .profile-page:has(.approval-card) .review-columns { grid-template-columns: 1fr; }
+  .profile-page:has(.approval-card) .review-columns > .review-block { min-height: auto; }
+  .profile-page:has(.approval-card) .approval-card { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 800px) {
+  .profile-page:has(.approval-card) > .profile-header,
+  .profile-page:has(.approval-card) > .application-review { width: min(100% - 2.5rem, 1120px); }
+  .profile-page:has(.approval-card) .review-summary { grid-template-columns: 1fr 1fr; }
+  .profile-page:has(.approval-card) .review-summary > div { min-height: 94px; border-bottom: 1px solid var(--review-line); }
+  .profile-page:has(.approval-card) .review-summary > div:nth-child(2) { border-right: 0; }
+  .profile-page:has(.approval-card) .review-summary > div:nth-child(3),
+  .profile-page:has(.approval-card) .review-summary > div:nth-child(4) { border-bottom: 0; }
+  .profile-page:has(.approval-card) .review-summary > div:first-child { padding-left: 1.5rem; }
+}
+
+@media (max-width: 520px) {
+  .profile-page:has(.approval-card) > .profile-header,
+  .profile-page:has(.approval-card) > .application-review { width: calc(100% - 2rem); }
+  .profile-page:has(.approval-card) > .profile-header { padding-top: 3rem; }
+  .profile-page:has(.approval-card) > .profile-header h1 { font-size: 2.55rem; overflow-wrap: normal; }
+  .profile-page:has(.approval-card) .review-summary { grid-template-columns: 1fr; }
+  .profile-page:has(.approval-card) .review-summary > div,
+  .profile-page:has(.approval-card) .review-summary > div:first-child { min-height: 78px; padding: 1rem 0; border-right: 0; border-bottom: 1px solid var(--review-line); }
+  .profile-page:has(.approval-card) .review-summary > div:nth-child(3) { border-bottom: 1px solid var(--review-line); }
+  .profile-page:has(.approval-card) .review-summary > div:last-child { border-bottom: 0; }
+  .profile-page:has(.approval-card) .panel-title { align-items: stretch; flex-direction: column; }
+  .profile-page:has(.approval-card) .panel-title > button,
+  .profile-page:has(.approval-card) .panel-title > a { width: 100%; text-align: center; }
+  .profile-page:has(.approval-card) .email-preview { max-height: 55dvh; padding: 1rem; }
+  .profile-page:has(.approval-card) .approval-card { padding: 1.2rem; }
+  .profile-page:has(.approval-card) .approval-card > button,
+  .profile-page:has(.approval-card) .approval-card > .send-link { width: 100%; min-width: 0; }
+}

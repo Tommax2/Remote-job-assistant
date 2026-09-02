@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { api, downloadApi } from '../services/api'
+import './ApplicationReviewPage.css'
 
 export default function ApplicationReviewPage() {
   const { applicationId } = useParams(); const navigate = useNavigate()
