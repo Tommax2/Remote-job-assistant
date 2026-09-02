@@ -77,7 +77,9 @@
 
 @media (max-width: 600px) {
   .auth-shell {
-    display: block;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     min-height: 100dvh;
     background:
       radial-gradient(circle at 90% 0, #c49a5615, transparent 17rem),
@@ -85,14 +87,19 @@
   }
 
   .auth-shell .brand-panel {
+    width: 100%;
     min-height: auto;
     display: block;
-    padding: 2rem 1.25rem 1.5rem;
+    padding: 1.75rem 1.25rem 1rem;
     border-bottom: 0;
     background: transparent;
   }
 
-  .brand-panel-copy { width: 100%; }
+  .brand-panel-copy {
+    width: min(390px, 100%);
+    margin-inline: auto;
+    text-align: center;
+  }
   .auth-kicker {
     margin-bottom: .85rem;
     font: 500 .9rem Georgia, serif;
@@ -100,19 +107,21 @@
 
   .auth-shell .brand-panel h1 {
     max-width: 12ch;
-    margin-bottom: .85rem;
+    margin: 0 auto .75rem;
     font-size: clamp(2.25rem, 11vw, 3rem);
     line-height: 1;
   }
 
   .auth-shell .intro {
     max-width: 34rem;
-    color: #928a80;
+    margin-inline: auto;
+    color: #a49c92;
     font-size: .9rem;
     line-height: 1.55;
   }
 
   .auth-shell .form-panel {
+    width: 100%;
     min-height: auto;
     display: block;
     padding: .5rem 1rem max(2rem, env(safe-area-inset-bottom));
@@ -120,6 +129,8 @@
   }
 
   .auth-shell .form-card {
+    width: min(400px, 100%);
+    margin-inline: auto;
     padding: 1.4rem 1.15rem 1.25rem;
     border: 1px solid #39342e;
     border-radius: 12px;
@@ -133,11 +144,13 @@
     font-size: .78rem;
     letter-spacing: .08em;
     text-transform: uppercase;
+    text-align: center;
   }
 
   .auth-shell .form-card h2 {
     margin-bottom: 1.6rem;
     font-size: 2.35rem;
+    text-align: center;
   }
 
   .auth-shell .form-card form {
