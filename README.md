@@ -36,7 +36,7 @@ ADZUNA_APP_KEY=your_app_key
 ADZUNA_COUNTRY=us
 ```
 
-Adzuna does not currently expose a Nigerian (`ng`) API market. `ADZUNA_COUNTRY` therefore defaults to its supported US market (`us`) so Adzuna salary figures are returned in USD. RemoteReady keeps only remote listings explicitly open to Nigeria, worldwide, anywhere, global, or Africa-wide candidates. If the credentials are omitted, Adzuna is skipped and the other job sources continue normally; the dedicated jobdataAPI source continues to supply Nigeria-specific listings.
+Adzuna does not currently expose a Nigerian (`ng`) API market. `ADZUNA_COUNTRY` therefore defaults to its supported US market (`us`) so Adzuna salary figures are returned in USD. RemoteReady imports listings that Adzuna explicitly describes as remote; only listings that also mention Nigeria, worldwide, anywhere, global, or Africa-wide eligibility appear under the Nigeria market filter. If the credentials are omitted, Adzuna is skipped and the other job sources continue normally; the dedicated jobdataAPI source continues to supply Nigeria-specific listings.
 
 Frontend: `http://localhost:5173`  
 API health check: `http://localhost:5000/api/health`

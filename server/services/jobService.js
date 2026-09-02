@@ -183,8 +183,11 @@ export async function syncAdzunaJobs({ limit = 50 } = {}) {
   const nigeriaEligibleTerms = /\b(nigeria|worldwide|anywhere|global|africa.?wide|across africa|work from anywhere|remote from anywhere)\b/i
   const jobs = (data.results || []).filter((job) => {
     const text = `${job.title || ''} ${job.description || ''} ${job.location?.display_name || ''}`
-    return remoteTerms.test(text) && nigeriaEligibleTerms.test(text)
-  }).map((job) => ({ ...normalizeAdzunaJob(job, country), nigeriaBased: true }))
+    return remoteTerms.test(text)
+  }).map((job) => {
+    const text = `${job.title || ''} ${job.description || ''} ${job.location?.display_name || ''}`
+    return { ...normalizeAdzunaJob(job, country), nigeriaBased: nigeriaEligibleTerms.test(text) }
+  })
   return storeJobs(jobs, 'Adzuna')
 }
 
