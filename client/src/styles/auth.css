@@ -74,3 +74,127 @@
   .auth-shell .form-panel { place-items: start stretch; }
   .auth-shell .form-card { width: 100%; }
 }
+
+@media (max-width: 600px) {
+  .auth-shell {
+    display: block;
+    min-height: 100dvh;
+    background:
+      radial-gradient(circle at 90% 0, #c49a5615, transparent 17rem),
+      var(--auth-bg);
+  }
+
+  .auth-shell .brand-panel {
+    min-height: auto;
+    display: block;
+    padding: 2rem 1.25rem 1.5rem;
+    border-bottom: 0;
+    background: transparent;
+  }
+
+  .brand-panel-copy { width: 100%; }
+  .auth-kicker {
+    margin-bottom: .85rem;
+    font: 500 .9rem Georgia, serif;
+  }
+
+  .auth-shell .brand-panel h1 {
+    max-width: 12ch;
+    margin-bottom: .85rem;
+    font-size: clamp(2.25rem, 11vw, 3rem);
+    line-height: 1;
+  }
+
+  .auth-shell .intro {
+    max-width: 34rem;
+    color: #928a80;
+    font-size: .9rem;
+    line-height: 1.55;
+  }
+
+  .auth-shell .form-panel {
+    min-height: auto;
+    display: block;
+    padding: .5rem 1rem max(2rem, env(safe-area-inset-bottom));
+    background: transparent;
+  }
+
+  .auth-shell .form-card {
+    padding: 1.4rem 1.15rem 1.25rem;
+    border: 1px solid #39342e;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #ffffff06, #ffffff02);
+    box-shadow: 0 22px 60px #0007;
+  }
+
+  .auth-welcome {
+    margin-bottom: .35rem;
+    color: #91897f;
+    font-size: .78rem;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .auth-shell .form-card h2 {
+    margin-bottom: 1.6rem;
+    font-size: 2.35rem;
+  }
+
+  .auth-shell .form-card form {
+    gap: 1.15rem;
+    margin-bottom: 1rem;
+  }
+
+  .auth-shell .form-card label {
+    gap: .45rem;
+    font-size: .82rem;
+  }
+
+  .auth-shell .form-card input {
+    min-height: 48px;
+    padding: .65rem .8rem;
+    border: 1px solid #403b35;
+    border-radius: 5px;
+    background: #ffffff04;
+    font-size: 16px;
+  }
+
+  .auth-shell .form-card input:focus {
+    border-color: var(--auth-accent);
+    box-shadow: 0 0 0 3px #c49a5617;
+  }
+
+  .auth-shell .form-card form > button,
+  .auth-shell .google-button {
+    min-height: 52px;
+    margin-top: .2rem;
+    border-radius: 6px;
+    font-size: .95rem;
+  }
+
+  .auth-shell .google-button {
+    border-color: #49433c;
+    background: #ffffff03;
+  }
+
+  .auth-shell .switch {
+    margin-top: 1.35rem;
+    font-size: .88rem;
+  }
+
+  .auth-shell .error {
+    padding: .8rem;
+    border-radius: 5px;
+    font-size: .82rem;
+    line-height: 1.45;
+  }
+}
+
+@media (max-width: 380px) {
+  .auth-shell .brand-panel { padding-top: 1.4rem; }
+  .auth-shell .brand-panel h1 { font-size: 2.15rem; }
+  .auth-shell .intro { display: none; }
+  .auth-shell .form-panel { padding-top: 0; }
+  .auth-shell .form-card { padding: 1.15rem 1rem; }
+  .auth-shell .form-card h2 { margin-bottom: 1.3rem; font-size: 2.05rem; }
+}
