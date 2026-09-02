@@ -84,7 +84,7 @@ In the Railway service Variables tab, add every variable from `server/.env.examp
 ```env
 NODE_ENV=production
 CLIENT_URL=http://localhost:5173,https://remote-job-assistant-ba96.vercel.app,https://remote-job-assistant-ba96-git-main-tommys-projects-b8fc9b54.vercel.app
-GOOGLE_REDIRECT_URI=https://YOUR-RAILWAY-DOMAIN/api/email/google/callback
+GOOGLE_REDIRECT_URI=https://remote-job-assistant-production-498d.up.railway.app/api/email/google/callback
 ```
 
 `CLIENT_URL` accepts comma-separated origins. Do not add paths or trailing slashes. Preserve the complete `FIREBASE_PRIVATE_KEY`, including newline escapes. Generate independent long random values for both Google secrets; changing the token encryption key invalidates stored Gmail tokens.
@@ -110,7 +110,7 @@ In Firebase Console → Authentication → Settings → Authorized domains, add 
 In Google Cloud Console, configure a Web application OAuth client with this exact Authorized redirect URI:
 
 ```text
-https://YOUR-RAILWAY-DOMAIN/api/email/google/callback
+https://remote-job-assistant-production-498d.up.railway.app/api/email/google/callback
 ```
 
 It must exactly equal `GOOGLE_REDIRECT_URI`. Add the frontend origin under Authorized JavaScript origins. While the consent screen is in Testing, add every tester under Test users; otherwise Google returns `403 access_denied`. Public access to the Gmail send scope may require Google verification.
