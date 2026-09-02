@@ -7,6 +7,21 @@ const links = [
   ['/profile', 'Profile'], ['/resume', 'Master CV'], ['/preferences', 'Preferences'], ['/settings/email', 'Gmail'],
 ]
 
+const mobileLinks = [
+  ['/dashboard', 'Home', 'home'], ['/jobs', 'Jobs', 'search'], ['/saved-jobs', 'Saved', 'bookmark'], ['/applications', 'Applications', 'briefcase'],
+]
+
+function NavIcon({ name }) {
+  const paths = {
+    home: <><path d="M3 10.5 12 3l9 7.5" /><path d="M5.5 9.5V21h13V9.5M9.5 21v-6h5v6" /></>,
+    search: <><circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 5 5" /></>,
+    bookmark: <path d="M6 3.5h12v17l-6-4-6 4z" />,
+    briefcase: <><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V4h6v3M3 12h18M10 12v2h4v-2" /></>,
+    more: <><circle cx="5" cy="12" r="1" fill="currentColor" stroke="none" /><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" /><circle cx="19" cy="12" r="1" fill="currentColor" stroke="none" /></>,
+  }
+  return <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">{paths[name]}</svg>
+}
+
 function backDestination(pathname) {
   if (pathname === '/dashboard') return null
   if (pathname === '/jobs' || pathname === '/profile' || pathname === '/resume' || pathname === '/preferences' || pathname === '/settings/email') return ['/dashboard', 'Home']
@@ -30,6 +45,7 @@ export default function AppNavigation() {
   const navigate = useNavigate()
   const [open, setOpen] = useState(false)
   const back = backDestination(location.pathname)
+  const moreActive = !mobileLinks.some(([to]) => location.pathname === to || location.pathname.startsWith(`${to}/`))
 
   useEffect(() => {
     const close = (event) => { if (event.key === 'Escape') setOpen(false) }
@@ -59,6 +75,10 @@ export default function AppNavigation() {
       </div>
       <div className="global-nav-end"><button className={`menu-toggle ${open ? 'open' : ''}`} onClick={() => setOpen(true)} aria-expanded={open} aria-controls="app-menu" aria-label="Open workspace navigation"><b>Menu</b></button></div>
     </header>
+    <nav className="mobile-tabbar" aria-label="Primary navigation">
+      {mobileLinks.map(([to, label, icon]) => <NavLink key={to} to={to} className={({ isActive }) => isActive ? 'active' : ''}><NavIcon name={icon} /><span>{label}</span></NavLink>)}
+      <button className={open || moreActive ? 'active' : ''} onClick={() => setOpen(true)} aria-expanded={open} aria-controls="app-menu"><NavIcon name="more" /><span>More</span></button>
+    </nav>
     {open && <>
       <button className="menu-backdrop" aria-label="Close menu" onClick={() => setOpen(false)} />
       <aside className="app-menu" id="app-menu">
