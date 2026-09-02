@@ -7,17 +7,27 @@ import User from '../models/User.js'
 import { completeOAuthAttempt, createMimeMessage, recordOAuthCallback, sendGmailMessage, startOAuthAttempt } from '../services/gmailService.js'
 import { createResumePdfBuffer } from '../services/pdfService.js'
 import { recordApplicationEvent } from '../services/applicationEventService.js'
+import { approvedOrigins } from '../middleware/security.js'
 
 async function owner(req) { return User.findOne({ firebaseUid: req.firebaseUser.uid }).select('_id') }
 
-export async function connectGmail(req, res, next) { try { const user = await owner(req); if (!user) return res.status(404).json({ message: 'User account not found' }); const attempt = await startOAuthAttempt(user._id); res.json({ url: attempt.url }) } catch (error) { next(error) } }
+export function gmailClientUrl(requestOrigin, storedUrl) {
+  const allowed = approvedOrigins()
+  const normalize = (value) => String(value || '').trim().replace(/\/$/, '')
+  const requested = normalize(requestOrigin)
+  const stored = normalize(storedUrl)
+  if (stored && allowed.includes(stored)) return stored
+  if (requested && allowed.includes(requested)) return requested
+  return allowed.find((origin) => process.env.NODE_ENV === 'production' && origin.startsWith('https://')) || allowed[0] || 'http://localhost:5173'
+}
+
+export async function connectGmail(req, res, next) { try { const user = await owner(req); if (!user) return res.status(404).json({ message: 'User account not found' }); const attempt = await startOAuthAttempt(user._id, gmailClientUrl(req.get('origin'))); res.json({ url: attempt.url }) } catch (error) { next(error) } }
 
 export async function gmailCallback(req, res, next) {
   try {
-    const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173'
-    if (req.query.error) return res.redirect(`${clientUrl}/settings/email?gmail=denied`)
+    if (req.query.error) return res.redirect(`${gmailClientUrl(req.get('origin'))}/settings/email?gmail=denied`)
     const attempt = await recordOAuthCallback(req.query.state, req.query.code)
-    res.redirect(`${clientUrl}/settings/email?gmail=finalize&attempt=${encodeURIComponent(attempt._id)}`)
+    res.redirect(`${gmailClientUrl(req.get('origin'), attempt.clientUrl)}/settings/email?gmail=finalize&attempt=${encodeURIComponent(attempt._id)}`)
   } catch (error) { next(error) }
 }
 
