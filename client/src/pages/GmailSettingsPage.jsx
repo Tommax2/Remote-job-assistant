@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { api } from '../services/api'
 
@@ -7,10 +7,15 @@ export default function GmailSettingsPage() {
   const [status, setStatus] = useState(null)
   const [working, setWorking] = useState(false)
   const [error, setError] = useState('')
+  const finalizeStarted = useRef(false)
 
   useEffect(() => {
     const attemptId = params.get('attempt')
     if (params.get('gmail') === 'finalize' && attemptId) {
+      if (finalizeStarted.current) return
+      finalizeStarted.current = true
+      setWorking(true)
+      window.history.replaceState({}, '', '/settings/email?gmail=connecting')
       api('/email/google/finalize', { method: 'POST', body: JSON.stringify({ attemptId }) })
         .then(() => {
           setStatus({ connected: true, connectedAt: new Date().toISOString() })

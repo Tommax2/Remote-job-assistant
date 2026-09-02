@@ -21,7 +21,7 @@ const stateHash = (state) => crypto.createHash('sha256').update(String(state)).d
 export async function startOAuthAttempt(userId, clientUrl) {
   const state = crypto.randomBytes(32).toString('base64url')
   await GmailOAuthAttempt.deleteMany({ userId, status: 'AWAITING_CALLBACK' })
-  await GmailOAuthAttempt.create({ userId, stateHash: stateHash(state), clientUrl, expiresAt: new Date(Date.now() + 10 * 60 * 1000) })
+  await GmailOAuthAttempt.create({ userId, stateHash: stateHash(state), clientUrl, expiresAt: new Date(Date.now() + 20 * 60 * 1000) })
   return { state, url: googleAuthorizationUrl(state) }
 }
 
@@ -42,10 +42,15 @@ export async function completeOAuthAttempt(attemptId, userId) {
     { $set: { status: 'EXCHANGING' } },
     { returnDocument: 'after' },
   )
-  if (!attempt) throw Object.assign(new Error('Google OAuth attempt is invalid, expired, already used, or belongs to another account'), { statusCode: 400 })
+  if (!attempt) {
+    const completed = await GmailOAuthAttempt.findOne({ _id: attemptId, userId, status: 'COMPLETED', expiresAt: { $gt: new Date() } })
+    const connection = completed && await GmailConnection.findOne({ userId })
+    if (connection) return connection
+    throw Object.assign(new Error('Google OAuth attempt expired or is no longer valid. Start a new Gmail connection.'), { statusCode: 400 })
+  }
   try {
     const connection = await exchangeCode(userId, decryptToken(attempt.encryptedCode))
-    await GmailOAuthAttempt.deleteOne({ _id: attempt._id })
+    await GmailOAuthAttempt.updateOne({ _id: attempt._id }, { $set: { status: 'COMPLETED' }, $unset: { encryptedCode: 1 } })
     return connection
   } catch (error) {
     await GmailOAuthAttempt.updateOne({ _id: attempt._id, status: 'EXCHANGING' }, { $set: { status: 'CALLBACK_RECEIVED' } }).catch(() => {})
