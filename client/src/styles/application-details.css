@@ -1,0 +1,76 @@
+/* Application details workspace */
+.profile-page:has(.timeline) {
+  --detail-bg: #12110f;
+  --detail-surface: #1a1815;
+  --detail-line: #39342e;
+  --detail-text: #f2eee7;
+  --detail-muted: #a39b91;
+  --detail-accent: #c49a56;
+  color: var(--detail-text);
+  background: radial-gradient(circle at 85% 4%, #c49a5612, transparent 26rem), var(--detail-bg);
+}
+.profile-page:has(.timeline) > .profile-header { width: min(1120px, calc(100% - clamp(3rem, 10vw, 10rem))); padding: clamp(4rem, 8vw, 6rem) 0 2.5rem; border-bottom: 1px solid var(--detail-line); }
+.profile-page:has(.timeline) > .profile-header .eyebrow { color: var(--detail-accent); font: 600 .7rem 'DM Sans', sans-serif; letter-spacing: .16em; }
+.profile-page:has(.timeline) > .profile-header h1 { max-width: 14ch; margin: .8rem 0; color: var(--detail-text); font: 500 clamp(2.8rem, 6vw, 5rem)/1.02 Georgia, serif; }
+.profile-page:has(.timeline) > .profile-header > p:last-child { color: var(--detail-muted); font-size: 1.05rem; text-transform: capitalize; }
+.profile-page:has(.timeline) .application-review { width: min(1120px, calc(100% - clamp(3rem, 10vw, 10rem))); gap: 0; padding: 2.4rem 0 6rem; }
+.profile-page:has(.timeline) .review-summary { display: none; }
+.profile-page:has(.timeline) .review-summary { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin-bottom: 3.5rem; border-block: 1px solid var(--detail-line); }
+.profile-page:has(.timeline) .review-summary > div { min-height: 118px; justify-content: center; padding: 1.4rem 1.6rem; border: 0; border-right: 1px solid var(--detail-line); border-radius: 0; color: var(--detail-text); background: transparent; box-shadow: none; }
+.profile-page:has(.timeline) .review-summary > div:first-child { padding-left: 0; }
+.profile-page:has(.timeline) .review-summary > div:last-child { border-right: 0; }
+.profile-page:has(.timeline) .review-summary span { color: #8c847a; font-size: .68rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.profile-page:has(.timeline) .review-summary strong { margin-top: .55rem; color: var(--detail-text); font: 500 clamp(1.3rem, 2.5vw, 1.8rem) Georgia, serif; }
+.profile-page:has(.timeline) .review-summary > div:first-child strong { color: #dfbd78; font-size: 2.1rem; }
+.profile-page:has(.timeline) .review-columns { grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr); gap: clamp(2.5rem, 6vw, 5rem); padding-bottom: 3.5rem; }
+.profile-page:has(.timeline) .review-block { padding: 0; border: 0; border-radius: 0; color: var(--detail-text); background: transparent; box-shadow: none; }
+.profile-page:has(.timeline) .review-block h2 { margin: 0 0 1.6rem; padding-bottom: .9rem; border-bottom: 1px solid var(--detail-line); color: var(--detail-text); font: italic 500 1.7rem Georgia, serif; }
+.profile-page:has(.timeline) .review-block > p { color: var(--detail-muted); line-height: 1.65; }
+.profile-page:has(.timeline) .review-block > p strong { color: #d7d0c7; font-weight: 500; }
+.profile-page:has(.timeline) .asset-links { align-items: stretch; margin-top: 1.5rem; }
+.profile-page:has(.timeline) .asset-links a,
+.profile-page:has(.timeline) .asset-links button { min-height: 48px; display: inline-grid; place-items: center; margin: 0; padding: .8rem 1rem; border: 1px solid #554b3d; border-radius: 4px; text-decoration: none; }
+.profile-page:has(.timeline) .asset-links a { color: #17130e; background: var(--detail-accent); }
+.profile-page:has(.timeline) .asset-links button { color: var(--detail-text); background: transparent; }
+.profile-page:has(.timeline) .status-form { gap: 1.2rem; }
+.profile-page:has(.timeline) .status-form label { color: var(--detail-muted); font-weight: 500; }
+.profile-page:has(.timeline) .status-form select,
+.profile-page:has(.timeline) .status-form textarea { border: 1px solid #403b35; border-radius: 4px; color: var(--detail-text); background: #ffffff05; }
+.profile-page:has(.timeline) .status-form select { color-scheme: dark; }
+.profile-page:has(.timeline) .status-form textarea:focus,
+.profile-page:has(.timeline) .status-form select:focus { border-color: var(--detail-accent); box-shadow: 0 0 0 2px #c49a5618; }
+.profile-page:has(.timeline) .status-form button { min-height: 50px; border-radius: 4px; color: #17130e; background: var(--detail-accent); }
+.profile-page:has(.timeline) .application-review > .review-block { padding-top: 3rem; border-top: 1px solid var(--detail-line); }
+.profile-page:has(.timeline) .application-review > .review-block h2 { max-width: 720px; }
+.profile-page:has(.timeline) .timeline { max-width: 760px; }
+.profile-page:has(.timeline) .timeline article { grid-template-columns: 26px 1fr; min-height: 112px; gap: 1.25rem; }
+.profile-page:has(.timeline) .timeline article > span { width: 13px; height: 13px; margin-top: .35rem; border: 2px solid var(--detail-bg); background: var(--detail-accent); box-shadow: 0 0 0 1px #80683f, 0 0 0 6px #c49a560d; }
+.profile-page:has(.timeline) .timeline article > span::after { top: 17px; left: 4px; height: calc(100% + 72px); width: 1px; background: #4a433a; }
+.profile-page:has(.timeline) .timeline time { color: #81796f; font-size: .7rem; letter-spacing: .06em; text-transform: uppercase; }
+.profile-page:has(.timeline) .timeline h3 { margin-top: .4rem; color: var(--detail-text); font: 500 1.2rem Georgia, serif; }
+.profile-page:has(.timeline) .timeline p { color: var(--detail-muted); line-height: 1.55; }
+
+@media (max-width: 800px) {
+  .profile-page:has(.timeline) > .profile-header,
+  .profile-page:has(.timeline) .application-review { width: min(100% - 2.5rem, 1120px); }
+  .profile-page:has(.timeline) .review-summary { grid-template-columns: 1fr 1fr; }
+  .profile-page:has(.timeline) .review-summary > div { min-height: 98px; padding: 1.2rem; border-bottom: 1px solid var(--detail-line); }
+  .profile-page:has(.timeline) .review-summary > div:nth-child(2) { border-right: 0; }
+  .profile-page:has(.timeline) .review-summary > div:nth-child(3),
+  .profile-page:has(.timeline) .review-summary > div:nth-child(4) { border-bottom: 0; }
+  .profile-page:has(.timeline) .review-summary > div:first-child { padding-left: 1.2rem; }
+  .profile-page:has(.timeline) .review-columns { grid-template-columns: 1fr; gap: 3.5rem; }
+}
+
+@media (max-width: 480px) {
+  .profile-page:has(.timeline) > .profile-header,
+  .profile-page:has(.timeline) .application-review { width: calc(100% - 2rem); }
+  .profile-page:has(.timeline) > .profile-header { padding-top: 3rem; }
+  .profile-page:has(.timeline) > .profile-header h1 { font-size: 2.65rem; overflow-wrap: normal; }
+  .profile-page:has(.timeline) .review-summary { grid-template-columns: 1fr; }
+  .profile-page:has(.timeline) .review-summary > div { align-items: flex-start; min-height: 84px; padding-inline: 0; border-right: 0; }
+  .profile-page:has(.timeline) .review-summary > div:nth-child(3) { border-bottom: 1px solid var(--detail-line); }
+  .profile-page:has(.timeline) .review-summary > div:first-child { padding-left: 0; }
+  .profile-page:has(.timeline) .asset-links { flex-direction: column; }
+  .profile-page:has(.timeline) .asset-links > * { width: 100%; }
+}

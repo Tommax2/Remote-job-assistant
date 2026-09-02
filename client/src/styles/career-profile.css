@@ -1,0 +1,129 @@
+/* Editorial career profile */
+.career-profile-page {
+  --profile-bg: #12110f;
+  --profile-text: #f2eee7;
+  --profile-muted: #9e968b;
+  --profile-accent: #c49a56;
+  --profile-line: #34312d;
+  min-height: 100vh;
+  padding: clamp(4.5rem, 8vw, 7rem) clamp(1.5rem, 5vw, 5rem) 7rem;
+  color: var(--profile-text);
+  background: var(--profile-bg);
+}
+.career-profile-page .profile-header,
+.career-profile-page .profile-form { width: min(1120px, 100%); }
+.career-profile-page .profile-header { padding: 0 0 3.5rem; border-bottom: 1px solid var(--profile-line); }
+.career-profile-page .profile-header::after { display: none; }
+.career-profile-page .profile-header .eyebrow { color: var(--profile-accent); font: italic 500 1.05rem Georgia, serif; letter-spacing: 0; text-transform: none; }
+.career-profile-page .profile-header h1 {
+  margin: .85rem 0 1rem;
+  color: var(--profile-text);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(3rem, 5vw, 5rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+.career-profile-page .profile-header > p:last-child { max-width: 780px; margin: 0; color: var(--profile-muted); font-size: 1.15rem; line-height: 1.55; }
+.career-profile-page .profile-form { gap: 0; }
+.career-profile-page .profile-form > .success-banner,
+.career-profile-page .profile-form > .error { margin: 1.5rem 0 0; }
+.career-profile-page .profile-section {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  padding: 3rem 0;
+  overflow: visible;
+  border: 0;
+  border-bottom: 1px solid var(--profile-line);
+  border-radius: 0;
+  color: var(--profile-text);
+  background: transparent;
+  box-shadow: none;
+}
+.career-profile-page .profile-section:hover { border-color: var(--profile-line); }
+.career-profile-page .section-heading { display: block; }
+.career-profile-page .section-heading h2 { margin: 0 0 .4rem; color: var(--profile-text); font: italic 500 1.6rem Georgia, serif; letter-spacing: -.02em; }
+.career-profile-page .section-heading p { color: var(--profile-muted); font-size: 1rem; }
+.career-profile-page .section-body { gap: 1.6rem; }
+.career-profile-page .field-grid { gap: 2rem 3.5rem; }
+.career-profile-page label { gap: .65rem; color: var(--profile-muted); font-size: .9rem; font-weight: 500; }
+.career-profile-page input,
+.career-profile-page select,
+.career-profile-page textarea {
+  padding: .5rem 0 1rem;
+  border: 0;
+  border-bottom: 1px solid #4a4641;
+  border-radius: 0;
+  color: var(--profile-text);
+  background: transparent;
+  font-size: 1.05rem;
+}
+.career-profile-page input::placeholder,
+.career-profile-page textarea::placeholder { color: #777067; opacity: 1; }
+.career-profile-page input:focus,
+.career-profile-page select:focus,
+.career-profile-page textarea:focus { border-color: var(--profile-accent); box-shadow: 0 1px 0 var(--profile-accent); }
+.career-profile-page textarea { min-height: 130px; padding: 1.1rem 1.35rem; border: 0; border-left: 3px solid var(--profile-accent); background: #ffffff04; line-height: 1.65; }
+.career-profile-page .tag-entry { gap: 1rem; }
+.career-profile-page .tag-entry button,
+.career-profile-page .outline-button { color: var(--profile-text); border: 1px solid #504a43; background: transparent; }
+.career-profile-page .tag-entry button:hover,
+.career-profile-page .outline-button:hover { color: var(--profile-bg); border-color: var(--profile-text); background: var(--profile-text); }
+.career-profile-page .tags span { color: #d9b977; border: 1px solid #55462f; background: #c49a560d; }
+.career-profile-page .tags button { color: #b7a486; background: transparent; }
+.career-profile-page .repeat-card {
+  padding: 1.5rem;
+  border: 1px solid #393530;
+  border-radius: 4px;
+  color: var(--profile-text);
+  background: #ffffff05;
+}
+.career-profile-page .repeat-title { padding-bottom: .8rem; border-bottom: 1px solid #34312d; }
+.career-profile-page .repeat-title b { font: 500 1.2rem Georgia, serif; }
+.career-profile-page .repeat-title button { color: #c58d82; }
+.career-profile-page .checkbox { color: var(--profile-text); }
+.career-profile-page .checkbox input { accent-color: var(--profile-accent); }
+.career-profile-page .url-input { border: 0; border-bottom: 1px solid #4a4641; border-radius: 0; background: transparent; }
+.career-profile-page .url-input:focus-within { border-color: var(--profile-accent); box-shadow: 0 1px 0 var(--profile-accent); }
+.career-profile-page .url-input > span { width: 42px; color: var(--profile-bg); background: var(--profile-accent); }
+.career-profile-page .url-input input { border: 0; }
+.career-profile-page .linkedin-field small { color: #777067; }
+.career-profile-page .save-bar {
+  position: sticky;
+  bottom: 1rem;
+  z-index: 5;
+  margin-top: 2rem;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid #4b443b;
+  border-radius: 5px;
+  color: var(--profile-text);
+  background: #1a1713eb;
+  box-shadow: 0 18px 60px #0008;
+  backdrop-filter: blur(18px);
+}
+.career-profile-page .save-bar p { color: var(--profile-muted); }
+.career-profile-page .save-bar button { color: #17130e; background: var(--profile-accent); }
+.career-profile-page .save-bar button:hover { background: #d2ad6b; }
+.career-profile-page .success-banner { color: #d8c18f; border: 1px solid #5b4b30; background: #c49a5612; }
+.career-profile-page .loader { border-color: #4b4741; border-top-color: var(--profile-accent); }
+
+@media (max-width: 800px) {
+  .career-profile-page { padding: 3rem 1.25rem 5rem; }
+  .career-profile-page .profile-header h1 { max-width: 12ch; font-size: clamp(2.5rem, 12vw, 3.4rem); }
+  .career-profile-page .profile-header > p:last-child { font-size: 1rem; }
+  .career-profile-page .profile-section { padding: 2.5rem 0; }
+  .career-profile-page .field-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+  .career-profile-page .save-bar { align-items: stretch; bottom: .5rem; flex-direction: column; }
+  .career-profile-page .save-bar button { width: 100%; }
+}
+
+@media (max-width: 480px) {
+  .career-profile-page { padding-inline: 1rem; }
+  .career-profile-page .profile-header { padding-bottom: 2.5rem; }
+  .career-profile-page .section-heading h2 { font-size: 1.4rem; }
+  .career-profile-page .tag-entry { grid-template-columns: 1fr; }
+  .career-profile-page .tag-entry button { width: 100%; }
+  .career-profile-page .repeat-card { padding: 1rem; }
+  .career-profile-page textarea { padding-inline: 1rem; }
+}

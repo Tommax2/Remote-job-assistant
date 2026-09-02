@@ -1,0 +1,76 @@
+/* Responsive layout safeguards */
+html, body, #root { max-width: 100%; overflow-x: hidden; }
+img, svg { max-width: 100%; }
+main, section, article, div { min-width: 0; }
+p, h1, h2, h3, a, strong, pre { overflow-wrap: anywhere; }
+.email-preview, .raw-text pre { max-width: 100%; word-break: break-word; }
+.app-menu { height: 100dvh; padding-bottom: max(1.5rem, env(safe-area-inset-bottom)); }
+
+@media (max-width: 900px) {
+  .dashboard-hero { align-items: flex-start; flex-direction: column; }
+  .dashboard-hero .primary-link { margin: 0; }
+  .metric-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 700px) {
+  .profile-header, .profile-form, .resume-workspace,
+  .jobs-header, .jobs-content, .job-detail,
+  .application-review, .application-queue, .dashboard-content {
+    width: min(100% - 2rem, 1180px);
+  }
+  .profile-header, .jobs-header, .dashboard-hero { padding-top: 2.5rem; }
+  .profile-header h1, .jobs-header h1, .dashboard-hero h1,
+  .detail-company h1 { font-size: clamp(2rem, 10vw, 2.75rem); }
+  .job-detail { padding-block: 1rem 3rem; }
+  .job-filters, .tracker-filters { padding: 1rem; }
+  .review-actions { position: static; }
+  .review-actions button, .save-bar button { width: 100%; }
+  .batch-bar div { display: grid; grid-template-columns: auto 1fr; width: 100%; }
+  .batch-bar div button:last-child { width: 100%; }
+  .panel-title { align-items: stretch; flex-direction: column; }
+  .panel-title > button, .panel-title > a { width: 100%; text-align: center; }
+  .email-editor textarea { min-height: 320px; }
+  .detail-company img { width: 52px; height: 52px; flex: none; }
+  .pagination { gap: .5rem; }
+  .pagination button { padding-inline: .8rem; }
+}
+
+@media (max-width: 520px) {
+  .global-nav { padding-inline: .75rem; }
+  .app-menu { width: 100%; padding: 1.1rem; }
+  .profile-header, .profile-form, .resume-workspace,
+  .jobs-header, .jobs-content, .job-detail,
+  .application-review, .application-queue, .dashboard-content,
+  .welcome { width: calc(100% - 1.25rem); }
+  .profile-section, .review-heading, .review-block, .raw-text,
+  .job-card, .queue-card, .dashboard-panel, .dashboard-setup,
+  .approval-card { padding: 1rem; border-radius: 12px; }
+  .auth-shell { min-height: 100dvh; }
+  .brand-panel { padding: 1.5rem 1.25rem; }
+  .brand-panel h1 { font-size: 2.15rem; }
+  .intro { margin-bottom: 0; font-size: 1rem; }
+  .form-panel { padding: 2rem 1.25rem; }
+  .form-card { padding: 0; }
+  .form-card h2 { font-size: 1.9rem; }
+  .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .metric-card { min-height: 105px; padding: .9rem; }
+  .tracker-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .review-summary { grid-template-columns: 1fr; }
+  .option-grid { grid-template-columns: 1fr; }
+  .tag-entry { grid-template-columns: 1fr; }
+  .tag-entry button { width: 100%; }
+  .switch-row { align-items: flex-start; gap: 1rem; }
+  .job-card-top, .job-card-footer { align-items: flex-start; }
+  .job-card-footer { flex-direction: column; }
+  .job-card-footer a { align-self: stretch; padding: .65rem; text-align: center; border-radius: 8px; background: #edf2ef; }
+  .score-breakdown { grid-template-columns: 1fr; }
+  .match-overview { grid-template-columns: 1fr; text-align: center; }
+  .score-ring { margin-inline: auto; }
+  .match-overview button { grid-column: auto; width: 100%; }
+  .approval-check { max-width: none; }
+  .approval-card > button, .approval-card > a { width: 100%; }
+  .gmail-actions button { width: 100%; }
+  .upload-actions { align-items: stretch; flex-direction: column; }
+  .upload-actions > * { width: 100%; text-align: center; }
+  .upload-actions > span { max-width: 100%; }
+}

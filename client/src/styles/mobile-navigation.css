@@ -1,0 +1,88 @@
+/* Mobile navigation lives at the top */
+@media (max-width: 800px) {
+  .protected-shell > .global-nav { display: none; }
+  .protected-shell {
+    padding-top: calc(63px + env(safe-area-inset-top));
+    padding-bottom: 0;
+  }
+  .mobile-tabbar {
+    top: 0;
+    bottom: auto;
+    padding-top: max(.45rem, env(safe-area-inset-top));
+    padding-bottom: .45rem;
+    border-top: 0;
+    border-bottom: 1px solid #3a352f;
+    box-shadow: 0 12px 36px #0005;
+  }
+  .mobile-tabbar a.active::before,
+  .mobile-tabbar button.active::before {
+    top: auto;
+    bottom: -.46rem;
+  }
+  .career-profile-page .save-bar,
+  .profile-page:has(.email-editor) .review-actions { bottom: .75rem; }
+  .dashboard-page .dashboard-panel,
+  .application-group { scroll-margin-top: calc(80px + env(safe-area-inset-top)); }
+
+  .dashboard-page .dashboard-panel .dashboard-empty {
+    width: 100%;
+    min-height: 230px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: .85rem;
+    margin-top: 1.4rem;
+    padding: 2rem 1.25rem;
+    border: 1px solid #34312d;
+    border-radius: 6px;
+    background: linear-gradient(145deg, #ffffff04, #ffffff01);
+    text-align: center;
+  }
+  .dashboard-page .dashboard-panel .dashboard-empty::before {
+    content: '★';
+    width: 54px;
+    height: 54px;
+    display: grid;
+    place-items: center;
+    border: 1px solid #5d4c31;
+    border-radius: 50%;
+    color: #d2ae69;
+    background: #c49a560d;
+    font-size: 1.15rem;
+    box-shadow: 0 0 0 8px #c49a5605;
+  }
+  .dashboard-page .dashboard-panel:nth-child(2) .dashboard-empty::before { content: '↻'; }
+  .dashboard-page .dashboard-empty p { max-width: 28ch; margin: .25rem 0 0; color: #aaa198; line-height: 1.55; }
+  .dashboard-page .dashboard-empty a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: .25rem;
+    padding: .7rem 1.1rem;
+    border: 1px solid #6b5635;
+    border-radius: 4px;
+    color: #17130e;
+    background: #c49a56;
+    text-decoration: none;
+  }
+}
+
+@media (max-width: 520px) {
+  .jobs-page .pagination {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(74px, 1fr) auto minmax(74px, 1fr);
+    align-items: center;
+    gap: .65rem;
+  }
+  .jobs-page .pagination span {
+    grid-column: auto;
+    order: 0;
+    width: auto;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .jobs-page .pagination button { width: 100%; min-width: 0; padding-inline: .5rem; }
+}

@@ -1,0 +1,179 @@
+/* Tailored CV editor. Kept beside the page so this UI does not grow styles.css. */
+.profile-page:has(> .resume-workspace > .review-block + .review-block) {
+  --tailored-bg: #12110f;
+  --tailored-surface: #1a1815;
+  --tailored-line: #39342e;
+  --tailored-text: #f2eee7;
+  --tailored-muted: #a39b91;
+  --tailored-accent: #c49a56;
+  min-height: 100vh;
+  color: var(--tailored-text);
+  background: radial-gradient(circle at 88% 3%, #c49a5614, transparent 26rem), var(--tailored-bg);
+}
+
+.profile-page:has(> .resume-workspace > .review-block + .review-block) > .profile-header {
+  width: min(1080px, calc(100% - clamp(3rem, 10vw, 10rem)));
+  padding: clamp(4rem, 8vw, 6rem) 0 2.75rem;
+  border-bottom: 1px solid var(--tailored-line);
+}
+
+.profile-page:has(> .resume-workspace > .review-block + .review-block) > .profile-header .eyebrow {
+  color: var(--tailored-accent);
+  font: 600 .7rem 'DM Sans', sans-serif;
+  letter-spacing: .16em;
+}
+
+.profile-page:has(> .resume-workspace > .review-block + .review-block) > .profile-header h1 {
+  max-width: 15ch;
+  margin: .8rem 0;
+  color: var(--tailored-text);
+  font: 500 clamp(2.8rem, 6vw, 5rem)/1.02 Georgia, serif;
+}
+
+.profile-page:has(> .resume-workspace > .review-block + .review-block) > .profile-header > p:last-child {
+  max-width: 680px;
+  margin: 0;
+  color: var(--tailored-muted);
+  line-height: 1.65;
+}
+
+.profile-page:has(> .resume-workspace > .review-block + .review-block) > .resume-workspace {
+  width: min(1080px, calc(100% - clamp(3rem, 10vw, 10rem)));
+  gap: 0;
+  padding: 2rem 0 7rem;
+}
+
+.profile-page:has(> .resume-workspace > .review-block + .review-block) > .resume-workspace > .review-block {
+  gap: 1.5rem;
+  padding: 2.75rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--tailored-line);
+  border-radius: 0;
+  color: var(--tailored-text);
+  background: transparent;
+  box-shadow: none;
+}
+
+.profile-page:has(> .resume-workspace > .review-block + .review-block) > .resume-workspace > .review-block h2 {
+  margin: 0 0 .5rem;
+  color: var(--tailored-text);
+  font: italic 500 clamp(1.65rem, 3vw, 2rem) Georgia, serif;
+}
+
+.profile-page:has(> .resume-workspace > .review-block + .review-block) .review-block label {
+  gap: .7rem;
+  color: var(--tailored-muted);
+  font-size: .82rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  text-transform: capitalize;
+}
+
+.profile-page:has(> .resume-workspace > .review-block + .review-block) .review-block input,
+.profile-page:has(> .resume-workspace > .review-block + .review-block) .review-block textarea {
+  padding: .8rem 0 1rem;
+  border: 0;
+  border-bottom: 1px solid #4a443d;
+  border-radius: 0;
+  color: var(--tailored-text);
+  background: transparent;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.profile-page:has(> .resume-workspace > .review-block + .review-block) .review-block textarea:focus,
+.profile-page:has(> .resume-workspace > .review-block + .review-block) .review-block input:focus {
+  border-color: var(--tailored-accent);
+  box-shadow: 0 1px 0 var(--tailored-accent);
+}
+
+.profile-page:has(> .resume-workspace > .review-block + .review-block) .repeat-card {
+  gap: 1.35rem;
+  padding: 1.5rem;
+  border: 1px solid #39342e;
+  border-radius: 5px;
+  color: var(--tailored-text);
+  background: linear-gradient(145deg, #ffffff05, #ffffff02);
+  box-shadow: none;
+}
+
+.profile-page:has(> .resume-workspace > .review-block + .review-block) .repeat-card + .repeat-card {
+  margin-top: .5rem;
+}
+
+.profile-page:has(> .resume-workspace > .review-block + .review-block) .review-actions {
+  bottom: 1rem;
+  gap: .65rem;
+  margin-top: 2rem;
+  padding: .8rem;
+  border: 1px solid #494139;
+  border-radius: 6px;
+  background: #1a1713ed;
+  box-shadow: 0 20px 65px #0009;
+}
+
+.profile-page:has(> .resume-workspace > .review-block + .review-block) .review-actions button {
+  min-height: 50px;
+  border-radius: 4px;
+}
+
+.profile-page:has(> .resume-workspace > .review-block + .review-block) .review-actions .outline-button {
+  color: #d6cfc6;
+  border: 1px solid #514a42;
+  background: transparent;
+}
+
+.profile-page:has(> .resume-workspace > .review-block + .review-block) .review-actions button:last-child {
+  color: #17130e;
+  background: var(--tailored-accent);
+}
+
+@media (max-width: 800px) {
+  .profile-page:has(> .resume-workspace > .review-block + .review-block) > .profile-header,
+  .profile-page:has(> .resume-workspace > .review-block + .review-block) > .resume-workspace {
+    width: min(100% - 2.5rem, 1080px);
+  }
+
+  .profile-page:has(> .resume-workspace > .review-block + .review-block) > .profile-header {
+    padding-top: 3rem;
+  }
+
+  .profile-page:has(> .resume-workspace > .review-block + .review-block) .review-actions {
+    position: sticky;
+    bottom: .75rem;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .profile-page:has(> .resume-workspace > .review-block + .review-block) .review-actions button:last-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 520px) {
+  .profile-page:has(> .resume-workspace > .review-block + .review-block) > .profile-header,
+  .profile-page:has(> .resume-workspace > .review-block + .review-block) > .resume-workspace {
+    width: calc(100% - 2rem);
+  }
+
+  .profile-page:has(> .resume-workspace > .review-block + .review-block) > .profile-header h1 {
+    font-size: 2.55rem;
+    overflow-wrap: normal;
+  }
+
+  .profile-page:has(> .resume-workspace > .review-block + .review-block) > .resume-workspace > .review-block {
+    padding-block: 2.2rem;
+  }
+
+  .profile-page:has(> .resume-workspace > .review-block + .review-block) .repeat-card {
+    padding: 1rem;
+  }
+
+  .profile-page:has(> .resume-workspace > .review-block + .review-block) .review-actions {
+    position: static;
+    grid-template-columns: 1fr;
+  }
+
+  .profile-page:has(> .resume-workspace > .review-block + .review-block) .review-actions button:last-child {
+    grid-column: auto;
+  }
+}

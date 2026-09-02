@@ -1,0 +1,64 @@
+/* Application email composer */
+.profile-page:has(.email-editor) {
+  --email-bg: #12110f;
+  --email-surface: #1a1815;
+  --email-line: #39342e;
+  --email-text: #f2eee7;
+  --email-muted: #a39b91;
+  --email-accent: #c49a56;
+  color: var(--email-text);
+  background: radial-gradient(circle at 88% 3%, #c49a5614, transparent 25rem), var(--email-bg);
+}
+.profile-page:has(.email-editor) > .profile-header { width: min(1040px, calc(100% - clamp(3rem, 10vw, 10rem))); padding: clamp(4rem, 8vw, 6rem) 0 2.5rem; border-bottom: 1px solid var(--email-line); }
+.profile-page:has(.email-editor) > .profile-header .eyebrow { color: var(--email-accent); font: 600 .7rem 'DM Sans', sans-serif; letter-spacing: .16em; }
+.profile-page:has(.email-editor) > .profile-header h1 { max-width: 15ch; margin: .8rem 0; color: var(--email-text); font: 500 clamp(2.7rem, 6vw, 4.8rem)/1.03 Georgia, serif; }
+.profile-page:has(.email-editor) > .profile-header > p:last-child { max-width: 650px; margin: 0; color: var(--email-muted); line-height: 1.65; }
+.profile-page:has(.email-editor) .resume-workspace { width: min(1040px, calc(100% - clamp(3rem, 10vw, 10rem))); gap: 1.25rem; padding: 2.5rem 0 6rem; }
+.profile-page:has(.email-editor) .success-banner { border: 1px solid #536047; color: #c6d4bc; background: #68805f16; }
+.profile-page:has(.email-editor) .email-editor {
+  position: relative;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid #d7d0c5;
+  border-radius: 7px;
+  color: #29251f;
+  background: #f4f0e8;
+  box-shadow: 0 30px 80px #0006;
+}
+.profile-page:has(.email-editor) .email-editor::before { content: 'New application message'; display: block; padding: 1rem 1.4rem; border-bottom: 1px solid #d9d1c5; color: #635b52; background: #ebe5dc; font-size: .7rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+.profile-page:has(.email-editor) .email-editor label { grid-template-columns: 105px minmax(0, 1fr); align-items: center; gap: 1rem; padding: .15rem 1.4rem; border-bottom: 1px solid #ddd6cc; color: #766e64; font-size: .78rem; font-weight: 600; }
+.profile-page:has(.email-editor) .email-editor label:last-child { grid-template-columns: 1fr; align-items: stretch; gap: .75rem; padding-block: 1.2rem 1.5rem; border-bottom: 0; }
+.profile-page:has(.email-editor) .email-editor input,
+.profile-page:has(.email-editor) .email-editor textarea { padding: 1rem 0; border: 0; border-radius: 0; color: #2e2923; background: transparent; box-shadow: none; }
+.profile-page:has(.email-editor) .email-editor input:focus { box-shadow: inset 0 -1px var(--email-accent); }
+.profile-page:has(.email-editor) .email-editor textarea { min-height: 480px; padding: 1.5rem clamp(1rem, 3vw, 2.5rem); border: 1px solid #ddd5c9; border-radius: 3px; background: #fbf9f4; font: 1.05rem/1.8 Georgia, serif; resize: vertical; }
+.profile-page:has(.email-editor) .email-editor textarea:focus { border-color: #ad8c56; box-shadow: 0 0 0 3px #c49a5618; }
+.profile-page:has(.email-editor) .review-actions { bottom: 1rem; gap: .6rem; margin-top: .25rem; padding: .75rem; border: 1px solid #403a33; border-radius: 6px; background: #1a1713ed; box-shadow: 0 18px 60px #0008; }
+.profile-page:has(.email-editor) .review-actions button { min-height: 48px; border-radius: 4px; }
+.profile-page:has(.email-editor) .review-actions .outline-button { color: #d4cdc4; border: 1px solid #504941; background: transparent; }
+.profile-page:has(.email-editor) .review-actions .outline-button:hover { color: #17130e; background: #e9e3da; }
+.profile-page:has(.email-editor) .review-actions button:last-child { color: #17130e; background: var(--email-accent); }
+.profile-page:has(.email-editor) .review-actions button:last-child:hover { background: #d2ad6b; }
+
+@media (max-width: 800px) {
+  .profile-page:has(.email-editor) > .profile-header,
+  .profile-page:has(.email-editor) .resume-workspace { width: min(100% - 2.5rem, 1040px); }
+  .profile-page:has(.email-editor) .email-editor textarea { min-height: 400px; }
+  .profile-page:has(.email-editor) .review-actions { position: sticky; bottom: calc(66px + env(safe-area-inset-bottom)); grid-template-columns: 1fr 1fr; }
+  .profile-page:has(.email-editor) .review-actions button:last-child { grid-column: 1 / -1; }
+}
+
+@media (max-width: 520px) {
+  .profile-page:has(.email-editor) > .profile-header,
+  .profile-page:has(.email-editor) .resume-workspace { width: calc(100% - 2rem); }
+  .profile-page:has(.email-editor) > .profile-header { padding-top: 3rem; }
+  .profile-page:has(.email-editor) > .profile-header h1 { font-size: 2.55rem; overflow-wrap: normal; }
+  .profile-page:has(.email-editor) .email-editor::before { padding-inline: 1rem; }
+  .profile-page:has(.email-editor) .email-editor label { grid-template-columns: 1fr; gap: 0; padding: .75rem 1rem 0; }
+  .profile-page:has(.email-editor) .email-editor input { padding-top: .45rem; }
+  .profile-page:has(.email-editor) .email-editor label:last-child { padding-top: 1rem; }
+  .profile-page:has(.email-editor) .email-editor textarea { min-height: 360px; padding: 1rem; font-size: 1rem; }
+  .profile-page:has(.email-editor) .review-actions { grid-template-columns: 1fr; }
+  .profile-page:has(.email-editor) .review-actions button:last-child { grid-column: auto; }
+}

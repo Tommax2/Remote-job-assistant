@@ -1,0 +1,125 @@
+/* Editorial applications tracker — application IDs are deliberately not displayed. */
+.applications-page {
+  --applications-bg: #12110f;
+  --applications-text: #f2eee7;
+  --applications-muted: #9e968b;
+  --applications-accent: #c49a56;
+  --applications-line: #34312d;
+  min-height: 100vh;
+  padding: clamp(4.5rem, 8vw, 7rem) clamp(1.5rem, 5vw, 5rem) 6rem;
+  color: var(--applications-text);
+  background: var(--applications-bg);
+}
+.applications-page .profile-header,
+.applications-page .application-queue { width: min(1120px, 100%); }
+.applications-page .profile-header { padding: 0 0 3.2rem; border-bottom: 1px solid var(--applications-line); }
+.applications-page .profile-header::after { display: none; }
+.applications-page .profile-header .eyebrow { color: var(--applications-accent); font: italic 500 1.05rem Georgia, serif; letter-spacing: 0; text-transform: none; }
+.applications-page .profile-header h1 {
+  margin: .85rem 0 1rem;
+  color: var(--applications-text);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(3rem, 5vw, 5rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -.04em;
+}
+.applications-page .profile-header > p:last-child { max-width: 850px; margin: 0; color: var(--applications-muted); font-size: 1.15rem; }
+.applications-page .application-queue { gap: 0; margin-bottom: 0; }
+.applications-page .tracker-stats {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0;
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--applications-line);
+}
+.applications-page .tracker-stats button {
+  min-height: 96px;
+  padding: .4rem 1rem .4rem 0;
+  border: 0;
+  border-radius: 0;
+  color: var(--applications-muted);
+  background: transparent;
+  box-shadow: none;
+}
+.applications-page .tracker-stats button::after { display: none; }
+.applications-page .tracker-stats button:hover,
+.applications-page .tracker-stats button.active { color: var(--applications-text); border: 0; background: transparent; }
+.applications-page .tracker-stats button.active strong { color: var(--applications-accent); }
+.applications-page .tracker-stats strong { color: var(--applications-text); font: 500 2rem Georgia, serif; }
+.applications-page .tracker-stats span { color: var(--applications-muted); font-size: .9rem; }
+.applications-page .tracker-filters {
+  grid-template-columns: 1fr 260px auto;
+  gap: 1.75rem;
+  margin: 0;
+  padding: 3rem 0 2rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.applications-page .tracker-filters input,
+.applications-page .tracker-filters select {
+  padding: .7rem 0 1rem;
+  border: 0;
+  border-bottom: 1px solid #4a4641;
+  border-radius: 0;
+  color: var(--applications-text);
+  background: transparent;
+  font-size: 1.05rem;
+}
+.applications-page .tracker-filters input::placeholder { color: var(--applications-muted); opacity: 1; }
+.applications-page .tracker-filters input:focus,
+.applications-page .tracker-filters select:focus { border-color: var(--applications-accent); box-shadow: 0 1px 0 var(--applications-accent); }
+.applications-page .tracker-filters select option { color: #171512; background: #f2eee7; }
+.applications-page .tracker-filters button { min-width: 92px; color: var(--applications-text); border: 1px solid #4a4641; background: transparent; }
+.applications-page .tracker-filters button:hover { color: var(--applications-bg); background: var(--applications-text); }
+.application-groups { display: grid; gap: 2.5rem; }
+.application-group > header { display: flex; justify-content: space-between; align-items: center; padding: .75rem 0 1.2rem; border-bottom: 1px solid #5a554f; }
+.application-group > header h2 { margin: 0; color: var(--applications-text); font: italic 500 1.45rem Georgia, serif; }
+.application-group > header span { color: var(--applications-muted); }
+.applications-page .queue-card {
+  grid-template-columns: minmax(240px, 1.6fr) minmax(100px, .55fr) minmax(135px, .7fr) auto;
+  gap: 1.5rem;
+  min-height: 105px;
+  padding: 1.5rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--applications-line);
+  border-radius: 0;
+  color: var(--applications-text);
+  background: transparent;
+  box-shadow: none;
+}
+.applications-page .queue-card:hover { border-color: var(--applications-line); box-shadow: none; background: #ffffff03; }
+.queue-identity { display: flex; align-items: baseline; gap: 1rem; min-width: 0; }
+.queue-identity h3 { margin: 0; color: var(--applications-text); font: 500 1.25rem Georgia, serif; }
+.queue-identity p,
+.queue-match,
+.queue-date { margin: 0; color: var(--applications-muted); }
+.queue-match,
+.queue-date { font-size: .9rem; }
+.applications-page .queue-actions { justify-content: flex-end; }
+.applications-page .queue-actions a { color: var(--applications-text); font-weight: 500; text-underline-offset: .25rem; white-space: nowrap; }
+.applications-page .queue-actions a:first-child { color: var(--applications-accent); }
+.applications-page .empty-state { color: var(--applications-text); border-color: var(--applications-line); background: transparent; box-shadow: none; }
+.applications-page .empty-state p { color: var(--applications-muted); }
+.applications-page .loader { border-color: #4b4741; border-top-color: var(--applications-accent); box-shadow: none; }
+
+@media (max-width: 1050px) {
+  .applications-page { padding-inline: 2rem; }
+  .applications-page .queue-card { grid-template-columns: minmax(220px, 1.5fr) .6fr .7fr; }
+  .applications-page .queue-actions { grid-column: 1 / -1; justify-content: flex-start; }
+}
+
+@media (max-width: 800px) {
+  .applications-page { padding: 3rem 1.25rem 4rem; }
+  .applications-page .tracker-stats { grid-template-columns: repeat(3, 1fr); }
+  .applications-page .tracker-filters { grid-template-columns: 1fr; gap: 1rem; }
+  .applications-page .tracker-filters button { width: 100%; }
+}
+
+@media (max-width: 600px) {
+  .applications-page .tracker-stats { grid-template-columns: repeat(2, 1fr); }
+  .applications-page .queue-card { grid-template-columns: 1fr; gap: .75rem; }
+  .queue-identity { align-items: flex-start; flex-direction: column; gap: .3rem; }
+  .applications-page .queue-actions { grid-column: auto; align-items: flex-start; }
+  .applications-page .queue-actions a { width: 100%; padding: .7rem; border: 1px solid #4a4641; text-align: center; }
+}

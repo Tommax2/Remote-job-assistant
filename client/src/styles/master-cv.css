@@ -1,0 +1,120 @@
+/* Master CV within the editorial workspace */
+.master-cv-page .resume-workspace { width: min(1120px, 100%); gap: 0; }
+.master-cv-page .upload-card {
+  position: relative;
+  margin-top: 2.5rem;
+  padding: clamp(2.5rem, 6vw, 4.5rem);
+  overflow: hidden;
+  border: 1px solid #464038;
+  border-radius: 5px;
+  color: var(--profile-text);
+  background: linear-gradient(145deg, #ffffff05, #ffffff01);
+  box-shadow: inset 0 1px 0 #ffffff08;
+  animation: premium-item-rise .65s .12s cubic-bezier(.16, 1, .3, 1) both;
+}
+.master-cv-page .upload-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(110deg, transparent 30%, #c49a5609 50%, transparent 70%);
+  transform: translateX(-100%);
+  transition: transform .8s cubic-bezier(.16, 1, .3, 1);
+}
+.master-cv-page .upload-card:hover::before,
+.master-cv-page .upload-card.dragging::before { transform: translateX(100%); }
+.master-cv-page .upload-card.dragging { border-color: var(--profile-accent); background: #c49a560b; transform: translateY(-3px); }
+.master-cv-page .upload-card h2 { position: relative; margin: 0 0 .7rem; color: var(--profile-text); font: 500 clamp(1.8rem, 3vw, 2.5rem) Georgia, serif; }
+.master-cv-page .upload-card > p { position: relative; color: var(--profile-muted); }
+.master-cv-page .upload-actions { position: relative; margin-top: 1.5rem; }
+.master-cv-page .upload-actions > span { color: #c9b99f; }
+.master-cv-page .upload-actions button {
+  min-height: 50px;
+  border: 1px solid #554e46;
+  border-radius: 4px;
+  color: #17130e;
+  background: var(--profile-accent);
+  box-shadow: none;
+  transition: transform .3s cubic-bezier(.16, 1, .3, 1), background-color .2s ease;
+}
+.master-cv-page .upload-actions button:hover { transform: translateY(-2px); background: #d2ad6b; }
+.master-cv-page .upload-actions .outline-button { color: var(--profile-text); background: transparent; }
+.master-cv-page .upload-actions .outline-button:hover { color: #17130e; background: var(--profile-text); }
+.master-cv-page .review-shell { gap: 0; margin-top: 3rem; }
+.master-cv-page .review-heading,
+.master-cv-page .review-block,
+.master-cv-page .raw-text {
+  padding: 2.5rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--profile-line);
+  border-radius: 0;
+  color: var(--profile-text);
+  background: transparent;
+  box-shadow: none;
+  animation: premium-item-rise .62s cubic-bezier(.16, 1, .3, 1) both;
+}
+.master-cv-page .review-heading { animation-delay: .1s; }
+.master-cv-page .review-block:nth-of-type(2) { animation-delay: .16s; }
+.master-cv-page .review-block:nth-of-type(3) { animation-delay: .22s; }
+.master-cv-page .review-block:nth-of-type(4) { animation-delay: .28s; }
+.master-cv-page .review-block:nth-of-type(5) { animation-delay: .34s; }
+.master-cv-page .review-block:nth-of-type(6) { animation-delay: .4s; }
+.master-cv-page .review-heading .eyebrow { color: var(--profile-accent); font: italic 500 .9rem Georgia, serif; letter-spacing: .04em; }
+.master-cv-page .review-heading h2 { margin: .55rem 0; color: var(--profile-text); font: 500 2rem Georgia, serif; }
+.master-cv-page .review-heading p { color: var(--profile-muted); }
+.master-cv-page .status-pill { padding: .5rem .75rem; border: 1px solid #675638; border-radius: 3px; color: #dbbd7e; background: #c49a560c; }
+.master-cv-page .status-pill.approved { color: #b8cbb5; border-color: #485b46; background: #7ca0780c; }
+.master-cv-page .review-block { gap: 1.5rem; }
+.master-cv-page .review-block h3 { color: var(--profile-text); font: italic 500 1.55rem Georgia, serif; }
+.master-cv-page .review-block input,
+.master-cv-page .review-block textarea {
+  padding: .5rem 0 1rem;
+  border: 0;
+  border-bottom: 1px solid #4a4641;
+  border-radius: 0;
+  color: var(--profile-text);
+  background: transparent;
+}
+.master-cv-page .review-block textarea { padding: 1.1rem 1.35rem; border: 0; border-left: 3px solid var(--profile-accent); background: #ffffff04; }
+.master-cv-page .review-block input:focus,
+.master-cv-page .review-block textarea:focus { border-color: var(--profile-accent); box-shadow: 0 1px 0 var(--profile-accent); }
+.master-cv-page .review-block label { color: var(--profile-muted); }
+.master-cv-page .review-block .outline-button,
+.master-cv-page .tag-entry button { color: var(--profile-text); border: 1px solid #504a43; background: transparent; }
+.master-cv-page .review-block .outline-button:hover,
+.master-cv-page .tag-entry button:hover { color: #17130e; background: var(--profile-text); }
+.master-cv-page .repeat-card { border-color: #3f3a34; border-radius: 4px; color: var(--profile-text); background: #ffffff04; }
+.master-cv-page .repeat-card:hover { border-color: #5b5145; transform: translateY(-2px); }
+.master-cv-page .repeat-title button { color: #c58d82; }
+.master-cv-page .tags span { border-radius: 3px; color: #d9b977; border: 1px solid #55462f; background: #c49a560d; }
+.master-cv-page .raw-text summary { color: var(--profile-accent); font: 500 1rem Georgia, serif; }
+.master-cv-page .raw-text pre { color: #b7aea2; border: 1px solid #393530; border-radius: 4px; background: #0d0c0a; }
+.master-cv-page .review-actions {
+  bottom: 1rem;
+  margin-top: 2rem;
+  padding: 1rem;
+  border: 1px solid #4b443b;
+  border-radius: 5px;
+  background: #1a1713eb;
+  box-shadow: 0 18px 60px #0008;
+}
+.master-cv-page .review-actions button { min-height: 50px; border-radius: 4px; color: #17130e; background: var(--profile-accent); }
+.master-cv-page .review-actions .outline-button { color: var(--profile-text); border-color: #554e46; background: transparent; }
+.master-cv-page .review-actions .outline-button:hover { color: #17130e; background: var(--profile-text); }
+
+@media (max-width: 700px) {
+  .master-cv-page .upload-card { padding: 2.25rem 1.25rem; text-align: left; }
+  .master-cv-page .upload-card > p { margin-inline: 0; }
+  .master-cv-page .upload-actions { align-items: stretch; flex-direction: column; }
+  .master-cv-page .upload-actions > * { width: 100%; text-align: center; }
+  .master-cv-page .review-heading { flex-direction: column; }
+  .master-cv-page .review-actions { position: static; grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .master-cv-page .upload-card,
+  .master-cv-page .review-heading,
+  .master-cv-page .review-block,
+  .master-cv-page .raw-text { animation: none !important; }
+  .master-cv-page .upload-card::before { display: none; }
+}

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { api, downloadApi } from '../services/api'
+import './TailoredResumePage.css'
 
 export default function TailoredResumePage() {
   const { resumeId } = useParams(); const navigate = useNavigate()

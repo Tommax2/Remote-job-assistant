@@ -1,0 +1,46 @@
+/* Plain job selection control — no pill background */
+.jobs-page .job-select,
+.jobs-page .job-select:has(input:checked) {
+  padding: .35rem 0;
+  border: 0 !important;
+  border-radius: 0;
+  color: var(--jobs-muted);
+  background: transparent !important;
+  box-shadow: none;
+}
+.jobs-page .job-select:has(input:checked) { color: var(--jobs-accent); }
+.jobs-page .job-select input { accent-color: var(--jobs-accent); }
+
+@media (max-width: 520px) {
+  .jobs-page .pagination {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(74px, 1fr) auto minmax(74px, 1fr);
+    align-items: center;
+    gap: .65rem;
+    margin-top: 1.75rem;
+  }
+  .jobs-page .pagination span {
+    grid-column: auto;
+    order: 0;
+    width: auto;
+    text-align: center;
+    white-space: nowrap;
+    font-size: .82rem;
+  }
+  .jobs-page .pagination button {
+    width: 100%;
+    min-width: 0;
+    min-height: 44px;
+    padding: .65rem .5rem;
+    font-size: .82rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .auth-shell .brand-panel,
+  .auth-shell .form-panel { padding: 2.5rem 1.25rem; }
+  .auth-kicker { margin-bottom: 1.25rem; }
+  .auth-shell .brand-panel h1 { margin-bottom: 1.25rem; font-size: 2.75rem; }
+  .auth-shell .form-card h2 { margin-bottom: 2.25rem; font-size: 2.5rem; }
+}

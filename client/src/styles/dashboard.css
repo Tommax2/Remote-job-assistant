@@ -1,0 +1,120 @@
+/* Editorial workspace shell and dashboard */
+.protected-shell {
+  --workspace-bg: #12110f;
+  --workspace-text: #f2eee7;
+  --workspace-muted: #9e968b;
+  --workspace-accent: #c49a56;
+  --workspace-line: #34312d;
+  min-height: 100vh;
+  padding-left: clamp(280px, 22vw, 340px);
+}
+.workspace-sidebar {
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 30;
+  width: clamp(280px, 22vw, 340px);
+  display: flex;
+  flex-direction: column;
+  padding: clamp(2.5rem, 5vw, 4rem) 2.25rem 3.5rem;
+  border-right: 1px solid var(--workspace-line);
+  color: var(--workspace-text);
+  background: var(--workspace-bg);
+}
+.workspace-wordmark {
+  margin-bottom: 3.25rem;
+  color: var(--workspace-text);
+  font: italic 600 1.5rem Georgia, serif;
+  text-decoration: none;
+}
+.workspace-sidebar nav { display: grid; gap: .35rem; }
+.workspace-sidebar nav a {
+  position: relative;
+  padding: .75rem 1.2rem;
+  color: var(--workspace-muted);
+  font-size: 1.05rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+.workspace-sidebar nav a::before { content: ''; position: absolute; inset: 0 auto 0 0; width: 3px; background: transparent; }
+.workspace-sidebar nav a:hover,
+.workspace-sidebar nav a.active { color: var(--workspace-text); }
+.workspace-sidebar nav a.active::before { background: var(--workspace-accent); }
+.workspace-signout {
+  width: 100%;
+  min-height: 58px;
+  margin-top: auto;
+  border: 1px solid #4a4641;
+  color: var(--workspace-text);
+  background: transparent;
+}
+.workspace-signout:hover { border-color: var(--workspace-muted); background: #ffffff08; }
+.protected-shell > .global-nav { display: none; }
+.mobile-tabbar { display: none; }
+
+.dashboard-page { min-height: 100vh; color: var(--workspace-text); background: var(--workspace-bg); }
+.dashboard-content { width: min(1120px, calc(100% - clamp(3rem, 10vw, 10rem))); margin: 0 auto; padding: clamp(4.5rem, 8vw, 7rem) 0 6rem; }
+.dashboard-hero { display: block; padding: 0 0 3.25rem; border-bottom: 1px solid var(--workspace-line); }
+.dashboard-hero::after { display: none; }
+.dashboard-hero .eyebrow,
+.dashboard-panel .eyebrow { color: var(--workspace-accent); font: italic 500 1.05rem Georgia, serif; letter-spacing: 0; text-transform: none; }
+.dashboard-hero h1 { margin: .9rem 0 .8rem; color: var(--workspace-text); font-family: Georgia, 'Times New Roman', serif; font-size: clamp(2.7rem, 4.2vw, 4.2rem); font-weight: 500; line-height: 1.05; letter-spacing: -.035em; }
+.dashboard-hero p:last-child { margin: 0; color: var(--workspace-muted); font-size: 1.15rem; }
+.dashboard-page .metric-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; padding: 2.6rem 0 2.4rem; border-bottom: 1px solid var(--workspace-line); }
+.dashboard-page .metric-card {
+  min-height: 110px;
+  align-content: start;
+  gap: .75rem;
+  padding: .5rem 1.5rem .5rem 0;
+  border: 0;
+  border-radius: 0;
+  color: var(--workspace-text);
+  background: transparent;
+  box-shadow: none;
+}
+.dashboard-page .metric-card::after { display: none; }
+.dashboard-page .metric-card:hover { transform: none; color: var(--workspace-accent); }
+.dashboard-page .metric-card strong { color: var(--workspace-text); font: 600 2rem Georgia, serif; }
+.dashboard-page .metric-card span { color: var(--workspace-muted); font-size: .9rem; }
+.dashboard-page .metric-offers strong { color: var(--workspace-accent); }
+.dashboard-page .dashboard-columns { grid-template-columns: 1fr 1fr; gap: clamp(2.5rem, 5vw, 4.5rem); margin-top: 0; padding-top: 3rem; }
+.dashboard-page .dashboard-panel { padding: 0; border: 0; border-radius: 0; color: var(--workspace-text); background: transparent; box-shadow: none; }
+.dashboard-page .panel-title { align-items: end; }
+.dashboard-page .panel-title h2 { margin: .35rem 0 0; color: var(--workspace-text); font: 500 1.85rem Georgia, serif; letter-spacing: -.02em; }
+.dashboard-page .panel-title > a { color: var(--workspace-muted); font-weight: 500; text-decoration: none; }
+.dashboard-page .panel-title > a:hover { color: var(--workspace-text); }
+.dashboard-page .dashboard-list { margin-top: 1.75rem; border-bottom: 1px solid var(--workspace-line); }
+.dashboard-page .dashboard-list > a { min-height: 105px; padding: 1.25rem 0; border-top: 1px solid var(--workspace-line); border-radius: 0; color: var(--workspace-text); }
+.dashboard-page .dashboard-list > a:hover { padding-inline: .5rem; background: #ffffff05; }
+.dashboard-page .dashboard-list p { margin: 0 0 .35rem; color: var(--workspace-muted); font-size: .87rem; font-weight: 500; }
+.dashboard-page .dashboard-list h3 { margin: 0; color: var(--workspace-text); font: 500 1.05rem 'DM Sans', sans-serif; }
+.dashboard-score,
+.dashboard-status { flex: none; color: var(--workspace-accent); font-weight: 600; }
+.dashboard-status { max-width: 38%; text-align: right; }
+.dashboard-page .dashboard-empty { color: var(--workspace-muted); }
+.dashboard-page .dashboard-empty a { color: var(--workspace-accent); }
+.dashboard-page .loader { border-color: #4b4741; border-top-color: var(--workspace-accent); box-shadow: none; }
+
+@media (max-width: 1050px) {
+  .protected-shell { padding-left: 250px; }
+  .workspace-sidebar { width: 250px; padding-inline: 1.5rem; }
+  .dashboard-content { width: calc(100% - 3rem); }
+}
+
+@media (max-width: 800px) {
+  .protected-shell { padding-left: 0; }
+  .workspace-sidebar { display: none; }
+  .protected-shell > .global-nav { display: grid; color: var(--workspace-text); border-color: var(--workspace-line); background: #12110ff2; }
+  .protected-shell > .global-nav .brand-link { color: var(--workspace-text); font-family: Georgia, serif; font-style: italic; }
+  .dashboard-content { width: min(100% - 2.5rem, 680px); padding: 3rem 0 4rem; }
+  .dashboard-page .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dashboard-page .dashboard-columns { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 480px) {
+  .dashboard-content { width: calc(100% - 2rem); }
+  .dashboard-hero { padding-bottom: 2.25rem; }
+  .dashboard-hero h1 { font-size: 2.55rem; }
+  .dashboard-page .metric-grid { grid-template-columns: 1fr 1fr; padding-block: 1.8rem; }
+  .dashboard-page .metric-card { min-height: 95px; padding-right: .75rem; }
+  .dashboard-page .dashboard-columns { gap: 3rem; padding-top: 2.5rem; }
+}
