@@ -7,7 +7,7 @@ const GOOGLE_AUTH_URL = 'https://accounts.google.com/o/oauth2/v2/auth'
 const GOOGLE_TOKEN_URL = 'https://oauth2.googleapis.com/token'
 
 function oauthConfig() {
-  const clientId = process.env.GOOGLE_CLIENT_ID; const clientSecret = process.env.GOOGLE_CLIENT_SECRET; const redirectUri = process.env.GOOGLE_REDIRECT_URI
+  const clientId = process.env.GOOGLE_CLIENT_ID?.trim(); const clientSecret = process.env.GOOGLE_CLIENT_SECRET?.trim(); const redirectUri = process.env.GOOGLE_REDIRECT_URI?.trim().replace(/\/+$/, '')
   if (!clientId || !clientSecret || !redirectUri) throw Object.assign(new Error('Google OAuth credentials are not configured'), { statusCode: 503 })
   let parsedRedirect
   try { parsedRedirect = new URL(redirectUri) } catch { throw Object.assign(new Error('GOOGLE_REDIRECT_URI must be a valid absolute URL'), { statusCode: 503 }) }
