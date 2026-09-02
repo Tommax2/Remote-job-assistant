@@ -12,17 +12,36 @@
 .preferences-page .switch-row small,
 .preferences-page .range-field small { color: var(--profile-muted); }
 .preferences-page .switch-row input {
-  width: 50px;
-  height: 28px;
+  appearance: none;
+  -webkit-appearance: none;
+  display: block;
+  flex: 0 0 52px;
+  width: 52px;
+  height: 30px;
+  min-height: 30px;
+  margin: 0;
   padding: 3px;
   border: 1px solid #514b44;
   border-radius: 99px;
   background: #292622;
   box-shadow: none;
+  cursor: pointer;
+  overflow: hidden;
 }
-.preferences-page .switch-row input::before { width: 20px; height: 20px; background: #a39a8e; box-shadow: none; }
+.preferences-page .switch-row input::before {
+  content: '';
+  display: block;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #a39a8e;
+  box-shadow: 0 2px 5px #0006;
+  transition: transform .2s ease, background-color .2s ease;
+}
 .preferences-page .switch-row input:checked { border-color: var(--profile-accent); background: #c49a5628; }
-.preferences-page .switch-row input:checked::before { background: var(--profile-accent); transform: translateX(21px); }
+.preferences-page .switch-row input:checked::before { background: var(--profile-accent); transform: translateX(22px); }
+.preferences-page .switch-row input:focus { border-color: var(--profile-accent); box-shadow: none; }
+.preferences-page .switch-row input:focus-visible { outline: 3px solid #c49a5645; outline-offset: 3px; }
 .preferences-page .option-grid { gap: .7rem; }
 .preferences-page .option-card {
   min-height: 58px;

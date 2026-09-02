@@ -30,7 +30,7 @@ export default function PreferencesPage() {
     try {
       const isFirstSave = !preferences._id
       const payload = Object.fromEntries(Object.entries(preferences).filter(([key]) => !['_id', 'userId', 'createdAt', 'updatedAt', '__v'].includes(key)))
-      payload.minimumSalary = Number(payload.minimumSalary) || 0; payload.minimumMatchScore = Number(payload.minimumMatchScore)
+      payload.minimumSalary = Number(payload.minimumSalary) || 0; payload.salaryCurrency = 'USD'; payload.minimumMatchScore = Number(payload.minimumMatchScore)
       const { preferences: saved } = await api('/preferences', { method: preferences._id ? 'PATCH' : 'POST', body: JSON.stringify(payload) })
       setPreferences({ ...blank, ...saved }); if (isFirstSave) navigate('/dashboard'); else { setNotice('Job preferences saved. Future recommendations will use these filters.'); window.scrollTo({ top: 0, behavior: 'smooth' }) }
     } catch (err) { setError(err.message) } finally { setSaving(false) }
@@ -52,8 +52,8 @@ export default function PreferencesPage() {
       </PreferenceSection>
       <PreferenceSection title="Employment type" help="Select every arrangement you are willing to consider."><OptionGrid options={employmentOptions} selected={preferences.employmentTypes} onToggle={(value) => toggle('employmentTypes', value)} /></PreferenceSection>
       <PreferenceSection title="Experience level" help="Choose the seniority levels that match your current search."><OptionGrid options={experienceOptions} selected={preferences.experienceLevels} onToggle={(value) => toggle('experienceLevels', value)} /></PreferenceSection>
-      <PreferenceSection title="Salary and match threshold" help="Set your minimum compensation and how selective recommendations should be.">
-        <div className="salary-grid"><label>Currency<select value={preferences.salaryCurrency} onChange={(e) => setField('salaryCurrency', e.target.value)}>{['USD', 'NGN', 'GBP', 'EUR'].map((currency) => <option key={currency}>{currency}</option>)}</select></label><label>Minimum annual salary<input type="number" min="0" step="1000" value={preferences.minimumSalary} onChange={(e) => setField('minimumSalary', e.target.value)} /></label></div>
+      <PreferenceSection title="Pay and match threshold" help="Set your minimum hourly rate and how selective recommendations should be.">
+        <div className="salary-grid"><label>Minimum hourly rate (USD)<input type="number" min="0" step="1" inputMode="decimal" placeholder="e.g. 25" value={preferences.minimumSalary} onChange={(e) => setField('minimumSalary', e.target.value)} /></label></div>
         <label className="range-field"><span><b>Minimum match score</b><strong>{preferences.minimumMatchScore}%</strong></span><input type="range" min="0" max="100" step="5" value={preferences.minimumMatchScore} onChange={(e) => setField('minimumMatchScore', e.target.value)} /><small>Jobs scoring below this threshold will not appear as strong recommendations.</small></label>
       </PreferenceSection>
       <div className="save-bar"><div><b>{preferences._id ? 'Preferences configured' : 'Ready to focus your search'}</b><p>You can adjust these settings whenever your goals change.</p></div><button type="submit" disabled={saving}>{saving ? 'Saving…' : 'Save job preferences'}</button></div>
