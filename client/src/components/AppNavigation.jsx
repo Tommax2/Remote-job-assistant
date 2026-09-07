@@ -39,7 +39,7 @@ function BrandLockup({ compact = false }) {
   return <span className={`brand-lockup ${compact ? 'compact' : ''}`}><span className="brand-monogram" aria-hidden="true">RR</span><span className="brand-words"><b>RemoteReady</b><small>Career intelligence</small></span></span>
 }
 
-export default function AppNavigation() {
+export default function AppNavigation({ theme, onToggleTheme }) {
   const { logout } = useAuth()
   const location = useLocation()
   const navigate = useNavigate()
@@ -65,7 +65,7 @@ export default function AppNavigation() {
       <Link className="workspace-wordmark" to="/dashboard" aria-label="RemoteReady home"><BrandLockup /></Link>
       <p className="workspace-nav-label">Workspace</p>
       <WorkspaceLinks />
-      <div className="workspace-footer"><p>Private career workspace</p><button className="workspace-signout" onClick={logout}>Sign out</button></div>
+      <div className="workspace-footer"><p>Private career workspace</p><button className="workspace-theme" onClick={onToggleTheme}>{theme === 'light' ? 'Black mode' : 'White mode'}</button><button className="workspace-signout" onClick={logout}>Sign out</button></div>
     </aside>
     <header className="global-nav">
       <div className="global-nav-start">
@@ -84,7 +84,7 @@ export default function AppNavigation() {
       <aside className="app-menu" id="app-menu">
         <div className="app-menu-head"><div><p className="eyebrow">WORKSPACE</p><h2>RemoteReady</h2></div><button className="menu-close" onClick={() => setOpen(false)} aria-label="Close menu">Close</button></div>
         <WorkspaceLinks onSelect={() => setOpen(false)} />
-        <button className="menu-signout" onClick={logout}>Sign out</button>
+        <div className="menu-footer"><button className="workspace-theme" onClick={onToggleTheme}>{theme === 'light' ? 'Black mode' : 'White mode'}</button><button className="menu-signout" onClick={logout}>Sign out</button></div>
       </aside>
     </>}
   </>
