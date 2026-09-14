@@ -5,7 +5,7 @@ import { api } from '../services/api'
 const newItems = {
   experience: { jobTitle: '', company: '', startDate: '', endDate: '', description: '' },
   education: { school: '', degree: '', fieldOfStudy: '', startDate: '', endDate: '', description: '' },
-  projects: { name: '', description: '', technologies: [] },
+  projects: { name: '', description: '', technologies: [], url: '' },
 }
 
 export default function ResumePage() {
@@ -45,6 +45,16 @@ export default function ResumePage() {
       setResume(result.resume); if (firstApproval) navigate('/preferences'); else { setNotice(approve ? 'Master CV approved. Your career profile was updated with the reviewed CV details.' : 'Your review changes were saved.'); window.scrollTo({ top: 0, behavior: 'smooth' }) }
     } catch (err) { setError(err.message) } finally { setBusy(false) }
   }
+  async function deleteCv() {
+    if (!window.confirm('Delete this CV? This cannot be undone.')) return
+    setBusy(true); setError(''); setNotice('')
+    try {
+      await api(`/resumes/${resume._id}`, { method: 'DELETE' })
+      setResume(null); setFile(null); setSkill(''); setNotice('CV deleted successfully.')
+      if (inputRef.current) inputRef.current.value = ''
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } catch (err) { setError(err.message) } finally { setBusy(false) }
+  }
 
   return <main className="profile-page career-profile-page master-cv-page">
     <header className="profile-header"><p className="eyebrow">MASTER CV</p><h1>Your career, in one source.</h1><p>Upload your best CV, inspect what was extracted, and approve only information that is accurate.</p></header>
@@ -61,9 +71,9 @@ export default function ResumePage() {
         <div className="review-block"><h3>Skills</h3><div className="tag-entry"><input value={skill} onChange={(e) => setSkill(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addSkill() } }} placeholder="Add a verified skill" /><button type="button" onClick={addSkill}>Add</button></div><div className="tags">{resume.skills.map((item) => <span key={item}>{item}<button type="button" onClick={() => setField('skills', resume.skills.filter((value) => value !== item))}>×</button></span>)}</div></div>
         <ResumeList title="Experience" section="experience" items={resume.experience} update={updateItem} add={addItem} remove={removeItem} fields={[['jobTitle', 'Job title'], ['company', 'Company'], ['startDate', 'Start date'], ['endDate', 'End date']]} />
         <ResumeList title="Education" section="education" items={resume.education} update={updateItem} add={addItem} remove={removeItem} fields={[['school', 'School'], ['degree', 'Degree'], ['fieldOfStudy', 'Field of study'], ['startDate', 'Start date'], ['endDate', 'Completion date']]} />
-        <ResumeList title="Projects" section="projects" items={resume.projects} update={updateItem} add={addItem} remove={removeItem} fields={[['name', 'Project name']]} />
+        <ResumeList title="Projects" section="projects" items={resume.projects} update={updateItem} add={addItem} remove={removeItem} fields={[['name', 'Project name'], ['url', 'Project link'], ['technologies', 'Technologies']]} />
         <details className="raw-text"><summary>View extracted source text</summary><pre>{resume.parsedText}</pre></details>
-        <div className="review-actions"><button type="button" className="outline-button" onClick={() => save(false)} disabled={busy}>Save draft</button><button type="button" onClick={() => save(true)} disabled={busy}>{busy ? 'Saving…' : 'Approve & update career profile'}</button></div>
+        <div className="review-actions"><button type="button" className="outline-button delete-button" onClick={deleteCv} disabled={busy}>Delete CV</button><button type="button" className="outline-button" onClick={() => save(false)} disabled={busy}>Save draft</button><button type="button" onClick={() => save(true)} disabled={busy}>{busy ? 'Saving…' : 'Approve & update career profile'}</button></div>
       </section>}
     </div>
   </main>
@@ -71,5 +81,5 @@ export default function ResumePage() {
 
 function Field({ label, ...props }) { return <label>{label}<input {...props} /></label> }
 function ResumeList({ title, section, items, fields, update, add, remove }) {
-  return <div className="review-block"><h3>{title}</h3>{items.map((item, index) => <div className="repeat-card" key={item._id || index}><div className="repeat-title"><b>{item.jobTitle || item.title || item.name || item.school || title}</b><button type="button" onClick={() => remove(section, index)}>Remove</button></div><div className="field-grid">{fields.map(([name, label]) => <Field key={name} label={label} value={item[name] || (name === 'jobTitle' ? item.title : '') || ''} onChange={(e) => update(section, index, name, e.target.value)} />)}</div><label>Description<textarea rows="4" value={item.description || item.summary || ''} onChange={(e) => update(section, index, 'description', e.target.value)} /></label></div>)}<button type="button" className="outline-button" onClick={() => add(section)}>Add {title.toLowerCase()}</button></div>
+  return <div className="review-block"><h3>{title}</h3>{items.map((item, index) => <div className="repeat-card" key={item._id || index}><div className="repeat-title"><b>{item.jobTitle || item.title || item.name || item.school || title}</b><button type="button" onClick={() => remove(section, index)}>Remove</button></div><div className="field-grid">{fields.map(([name, label]) => <Field key={name} label={label} value={Array.isArray(item[name]) ? item[name].join(', ') : item[name] || (name === 'jobTitle' ? item.title : '') || ''} onChange={(e) => update(section, index, name, Array.isArray(item[name]) ? e.target.value.split(',').map((value) => value.trim()).filter(Boolean) : e.target.value)} />)}</div><label>Description<textarea rows="4" value={item.description || item.summary || ''} onChange={(e) => update(section, index, 'description', e.target.value)} /></label></div>)}<button type="button" className="outline-button" onClick={() => add(section)}>Add {title.toLowerCase()}</button></div>
 }
