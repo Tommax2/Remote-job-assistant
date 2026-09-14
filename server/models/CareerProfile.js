@@ -21,6 +21,7 @@ const educationSchema = new mongoose.Schema({
   fieldOfStudy: { type: String, trim: true, maxlength: 160 },
   startDate: { type: String, trim: true, maxlength: 30 },
   endDate: { type: String, trim: true, maxlength: 30 },
+  description: { type: String, trim: true, maxlength: 2000 },
 }, { _id: true })
 
 const projectSchema = new mongoose.Schema({

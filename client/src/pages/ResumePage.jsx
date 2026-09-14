@@ -4,7 +4,7 @@ import { api } from '../services/api'
 
 const newItems = {
   experience: { jobTitle: '', company: '', startDate: '', endDate: '', description: '' },
-  education: { school: '', degree: '', fieldOfStudy: '', endDate: '' },
+  education: { school: '', degree: '', fieldOfStudy: '', startDate: '', endDate: '', description: '' },
   projects: { name: '', description: '', technologies: [] },
 }
 
@@ -60,7 +60,7 @@ export default function ResumePage() {
         <div className="review-block"><h3>Professional overview</h3><div className="field-grid"><Field label="CV name" value={resume.name} onChange={(e) => setField('name', e.target.value)} /><Field label="Professional title" value={resume.professionalTitle || ''} onChange={(e) => setField('professionalTitle', e.target.value)} /></div><label>Professional summary<textarea rows="5" value={resume.professionalSummary || ''} onChange={(e) => setField('professionalSummary', e.target.value)} /></label></div>
         <div className="review-block"><h3>Skills</h3><div className="tag-entry"><input value={skill} onChange={(e) => setSkill(e.target.value)} onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addSkill() } }} placeholder="Add a verified skill" /><button type="button" onClick={addSkill}>Add</button></div><div className="tags">{resume.skills.map((item) => <span key={item}>{item}<button type="button" onClick={() => setField('skills', resume.skills.filter((value) => value !== item))}>×</button></span>)}</div></div>
         <ResumeList title="Experience" section="experience" items={resume.experience} update={updateItem} add={addItem} remove={removeItem} fields={[['jobTitle', 'Job title'], ['company', 'Company'], ['startDate', 'Start date'], ['endDate', 'End date']]} />
-        <ResumeList title="Education" section="education" items={resume.education} update={updateItem} add={addItem} remove={removeItem} fields={[['school', 'School'], ['degree', 'Degree'], ['fieldOfStudy', 'Field of study'], ['endDate', 'Completion date']]} />
+        <ResumeList title="Education" section="education" items={resume.education} update={updateItem} add={addItem} remove={removeItem} fields={[['school', 'School'], ['degree', 'Degree'], ['fieldOfStudy', 'Field of study'], ['startDate', 'Start date'], ['endDate', 'Completion date']]} />
         <ResumeList title="Projects" section="projects" items={resume.projects} update={updateItem} add={addItem} remove={removeItem} fields={[['name', 'Project name']]} />
         <details className="raw-text"><summary>View extracted source text</summary><pre>{resume.parsedText}</pre></details>
         <div className="review-actions"><button type="button" className="outline-button" onClick={() => save(false)} disabled={busy}>Save draft</button><button type="button" onClick={() => save(true)} disabled={busy}>{busy ? 'Saving…' : 'Approve & update career profile'}</button></div>

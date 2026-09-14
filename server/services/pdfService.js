@@ -15,7 +15,7 @@ export function renderResumePdf(resume, profile, job, output) {
   if (resume.skills?.length) { section(doc, 'Core skills'); description(doc, resume.skills.join('  •  ')) }
   if (resume.experience?.length) { section(doc, 'Experience'); resume.experience.forEach((item) => { doc.font('Helvetica-Bold').fontSize(10).text(value(item.jobTitle || item.title, item.company)); doc.font('Helvetica').fontSize(8.5).fillColor('#68756f').text(value(item.location, item.startDate, item.current ? 'Present' : item.endDate)); description(doc, item.description || item.highlights); doc.moveDown(.4) }) }
   if (resume.projects?.length) { section(doc, 'Projects'); resume.projects.forEach((item) => { doc.font('Helvetica-Bold').fontSize(10).text(item.name || item.title || 'Project'); description(doc, value(item.description, (item.technologies || []).join(', '))); doc.moveDown(.35) }) }
-  if (resume.education?.length) { section(doc, 'Education'); resume.education.forEach((item) => { doc.font('Helvetica-Bold').fontSize(10).text(value(item.degree, item.fieldOfStudy)); description(doc, value(item.school, item.startDate, item.endDate)) }) }
+  if (resume.education?.length) { section(doc, 'Education'); resume.education.forEach((item) => { doc.font('Helvetica-Bold').fontSize(10).text(value(item.degree, item.fieldOfStudy)); description(doc, value(item.school, item.startDate, item.endDate)); description(doc, item.description || item.summary); doc.moveDown(.35) }) }
   doc.end()
 }
 

@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 
+export const JOB_RETENTION_SECONDS = 20 * 24 * 60 * 60
+
 const jobSchema = new mongoose.Schema({
   externalId: { type: String, required: true, trim: true },
   source: { type: String, required: true, enum: ['REMOTIVE', 'JOBICY', 'JOBSCOLLIDER', 'REMOTEOK', 'ARBEITNOW', 'JOBDATA_NIGERIA', 'ADZUNA', 'JOOBLE_NIGERIA', 'JSEARCH_NIGERIA'], index: true },
@@ -15,7 +17,7 @@ const jobSchema = new mongoose.Schema({
   category: { type: String, trim: true },
   applicationUrl: { type: String, required: true, trim: true },
   applicationEmail: { type: String, trim: true, lowercase: true, maxlength: 254 },
-  publishedAt: { type: Date, required: true, index: true },
+  publishedAt: { type: Date, required: true, index: { expires: JOB_RETENTION_SECONDS } },
   lastSeenAt: { type: Date, default: Date.now },
   active: { type: Boolean, default: true, index: true },
 }, { timestamps: true })

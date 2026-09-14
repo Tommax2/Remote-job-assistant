@@ -5,7 +5,7 @@ import { api } from '../services/api'
 
 const templates = {
   experience: { jobTitle: '', company: '', location: '', startDate: '', endDate: '', current: false, description: '' },
-  education: { school: '', degree: '', fieldOfStudy: '', startDate: '', endDate: '' },
+  education: { school: '', degree: '', fieldOfStudy: '', startDate: '', endDate: '', description: '' },
   projects: { name: '', description: '', technologies: [], url: '' },
 }
 

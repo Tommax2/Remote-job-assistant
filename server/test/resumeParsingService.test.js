@@ -30,3 +30,16 @@ test('supports a singular date range field', () => {
   assert.equal(item.startDate, '2019')
   assert.equal(item.endDate, '2021')
 })
+
+test('normalizes education school and description field variants', () => {
+  const [item] = normalizeParsedResume({
+    education: [{ institution: 'Lagos Business School', qualification: 'BSc', major: 'Economics', dates: '2018 - 2022', details: 'First Class Honours' }],
+  }).education
+
+  assert.equal(item.school, 'Lagos Business School')
+  assert.equal(item.degree, 'BSc')
+  assert.equal(item.fieldOfStudy, 'Economics')
+  assert.equal(item.startDate, '2018')
+  assert.equal(item.endDate, '2022')
+  assert.equal(item.description, 'First Class Honours')
+})

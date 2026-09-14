@@ -47,11 +47,26 @@ function normalizeExperience(item) {
   }
 }
 
+function normalizeEducation(item) {
+  if (!item || typeof item !== 'object') return null
+  const rangeValue = first(item, ['dateRange', 'date_range', 'dates', 'date', 'duration', 'period'])
+  const [rangeStart, rangeEnd] = splitDateRange(rangeValue)
+  return {
+    ...item,
+    school: first(item, ['school', 'schoolName', 'school_name', 'institution', 'institutionName', 'institution_name', 'university', 'college']),
+    degree: first(item, ['degree', 'degreeName', 'degree_name', 'qualification']),
+    fieldOfStudy: first(item, ['fieldOfStudy', 'field_of_study', 'field', 'major', 'course']),
+    startDate: first(item, ['startDate', 'start_date', 'from', 'start']) || rangeStart,
+    endDate: first(item, ['endDate', 'end_date', 'to', 'end', 'graduationDate', 'graduation_date']) || rangeEnd,
+    description: first(item, ['description', 'summary', 'details', 'highlights', 'coursework']),
+  }
+}
+
 export function normalizeParsedResume(parsed = {}) {
   return {
     ...parsed,
     experience: Array.isArray(parsed.experience) ? parsed.experience.map(normalizeExperience).filter(Boolean) : [],
-    education: Array.isArray(parsed.education) ? parsed.education : [],
+    education: Array.isArray(parsed.education) ? parsed.education.map(normalizeEducation).filter(Boolean) : [],
     projects: Array.isArray(parsed.projects) ? parsed.projects : [],
     skills: Array.isArray(parsed.skills) ? parsed.skills : [],
   }
@@ -65,7 +80,7 @@ export async function parseResumeText(text) {
     method: 'POST',
     headers: { 'x-goog-api-key': apiKey, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      systemInstruction: { parts: [{ text: 'Extract only facts explicitly present in the CV. Never invent or infer qualifications. Return JSON with professionalTitle, professionalSummary, skills (strings), experience, education, and projects (arrays of objects). Every experience object must use jobTitle, company, location, startDate, endDate, current, and description. Preserve employment dates exactly as written; split a date range into startDate and endDate, and use current=true when the end is Present or Current. Use empty values when absent.' }] },
+      systemInstruction: { parts: [{ text: 'Extract only facts explicitly present in the CV. Never invent or infer qualifications. Return JSON with professionalTitle, professionalSummary, skills (strings), experience, education, and projects (arrays of objects). Every experience object must use jobTitle, company, location, startDate, endDate, current, and description. Every education object must use school, degree, fieldOfStudy, startDate, endDate, and description. Preserve dates exactly as written; split a date range into startDate and endDate, and use current=true when an employment end date is Present or Current. Use empty values when absent.' }] },
       contents: [{ role: 'user', parts: [{ text: text.slice(0, 60000) }] }],
       generationConfig: { temperature: 0, responseMimeType: 'application/json' },
     }),

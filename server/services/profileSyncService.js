@@ -18,6 +18,7 @@ function normalizeEducation(items) {
     school: text(item.school || item.institution || item.university), degree: text(item.degree),
     fieldOfStudy: text(item.fieldOfStudy || item.field || item.major),
     startDate: text(item.startDate || item.start), endDate: text(item.endDate || item.end || item.graduationDate),
+    description: text(item.description || item.summary || item.details),
   }))
 }
 
