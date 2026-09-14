@@ -101,6 +101,8 @@
 .master-cv-page .review-actions button { min-height: 50px; border-radius: 4px; color: #17130e; background: var(--profile-accent); }
 .master-cv-page .review-actions .outline-button { color: var(--profile-text); border-color: #554e46; background: transparent; }
 .master-cv-page .review-actions .outline-button:hover { color: #17130e; background: var(--profile-text); }
+.master-cv-page .review-actions .delete-button { color: #ffb4a8; border-color: #b95d4d; }
+.master-cv-page .review-actions .delete-button:hover { color: #fff; border-color: #b54230; background: #9b3c2d; }
 
 @media (max-width: 700px) {
   .master-cv-page .upload-card { padding: 2.25rem 1.25rem; text-align: left; }

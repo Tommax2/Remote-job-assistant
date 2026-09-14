@@ -4,10 +4,31 @@ import { PDFParse } from 'pdf-parse'
 export async function extractResumeText(file) {
   if (file.mimetype === 'application/pdf') {
     const parser = new PDFParse({ data: file.buffer })
-    try { return (await parser.getText()).text.trim() } finally { await parser.destroy() }
+    try { return (await parser.getText({ parseHyperlinks: true })).text.trim() } finally { await parser.destroy() }
   }
-  const result = await mammoth.extractRawText({ buffer: file.buffer })
-  return result.value.trim()
+  const [raw, html] = await Promise.all([
+    mammoth.extractRawText({ buffer: file.buffer }),
+    mammoth.convertToHtml({ buffer: file.buffer }),
+  ])
+  const links = extractLinksFromHtml(html.value)
+  return [raw.value.trim(), links.length ? `Embedded links:\n${links.join('\n')}` : ''].filter(Boolean).join('\n\n')
+}
+
+const decodeHtml = (value) => value
+  .replace(/&amp;/gi, '&').replace(/&quot;/gi, '"').replace(/&#39;|&apos;/gi, "'")
+  .replace(/&lt;/gi, '<').replace(/&gt;/gi, '>').replace(/&nbsp;/gi, ' ')
+
+export function extractLinksFromHtml(html = '') {
+  const links = []
+  const seen = new Set()
+  for (const match of String(html).matchAll(/<a\b[^>]*\bhref=["']([^"']+)["'][^>]*>([\s\S]*?)<\/a>/gi)) {
+    const url = decodeHtml(match[1]).trim()
+    if (!/^https?:\/\//i.test(url) || seen.has(url)) continue
+    const label = decodeHtml(match[2].replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ')).trim()
+    links.push(`${label || 'Link'}: ${url}`)
+    seen.add(url)
+  }
+  return links
 }
 
 function fallbackParse(text) {
@@ -62,12 +83,31 @@ function normalizeEducation(item) {
   }
 }
 
+function normalizeProject(item) {
+  if (typeof item === 'string') {
+    const name = clean(item)
+    return name ? { name, description: '', technologies: [], url: '' } : null
+  }
+  if (!item || typeof item !== 'object') return null
+  const rawTechnologies = item.technologies ?? item.techStack ?? item.tech_stack ?? item.skills ?? item.tools
+  const technologies = Array.isArray(rawTechnologies)
+    ? rawTechnologies.map(clean).filter(Boolean)
+    : clean(rawTechnologies).split(/[,|]/).map((value) => value.trim()).filter(Boolean)
+  return {
+    ...item,
+    name: first(item, ['name', 'projectName', 'project_name', 'projectTitle', 'project_title', 'project', 'title']),
+    description: first(item, ['description', 'summary', 'details', 'highlights']),
+    technologies,
+    url: first(item, ['url', 'link', 'projectUrl', 'project_url', 'website', 'repository', 'repo', 'github']),
+  }
+}
+
 export function normalizeParsedResume(parsed = {}) {
   return {
     ...parsed,
     experience: Array.isArray(parsed.experience) ? parsed.experience.map(normalizeExperience).filter(Boolean) : [],
     education: Array.isArray(parsed.education) ? parsed.education.map(normalizeEducation).filter(Boolean) : [],
-    projects: Array.isArray(parsed.projects) ? parsed.projects : [],
+    projects: Array.isArray(parsed.projects) ? parsed.projects.map(normalizeProject).filter(Boolean) : [],
     skills: Array.isArray(parsed.skills) ? parsed.skills : [],
   }
 }
@@ -80,7 +120,7 @@ export async function parseResumeText(text) {
     method: 'POST',
     headers: { 'x-goog-api-key': apiKey, 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      systemInstruction: { parts: [{ text: 'Extract only facts explicitly present in the CV. Never invent or infer qualifications. Return JSON with professionalTitle, professionalSummary, skills (strings), experience, education, and projects (arrays of objects). Every experience object must use jobTitle, company, location, startDate, endDate, current, and description. Every education object must use school, degree, fieldOfStudy, startDate, endDate, and description. Preserve dates exactly as written; split a date range into startDate and endDate, and use current=true when an employment end date is Present or Current. Use empty values when absent.' }] },
+      systemInstruction: { parts: [{ text: 'Extract only facts explicitly present in the CV. Never invent or infer qualifications. Return JSON with professionalTitle, professionalSummary, skills (strings), experience, education, and projects (arrays of objects). Every experience object must use jobTitle, company, location, startDate, endDate, current, and description. Every education object must use school, degree, fieldOfStudy, startDate, endDate, and description. Every project object must use name, description, technologies (an array of strings), and url. Preserve project URLs exactly as written. Preserve dates exactly as written; split a date range into startDate and endDate, and use current=true when an employment end date is Present or Current. Use empty values when absent.' }] },
       contents: [{ role: 'user', parts: [{ text: text.slice(0, 60000) }] }],
       generationConfig: { temperature: 0, responseMimeType: 'application/json' },
     }),
