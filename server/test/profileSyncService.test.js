@@ -24,3 +24,22 @@ test('normalizes Gemini field aliases for the career profile schema', () => {
   assert.equal(result.education[0].school, 'Example University')
   assert.equal(result.projects[0].url, 'https://example.com')
 })
+
+test('fits parsed CV text within career profile field limits', () => {
+  const result = profileFieldsFromResume({
+    professionalTitle: 'T'.repeat(140),
+    professionalSummary: 'S'.repeat(3200),
+    skills: ['K'.repeat(70)],
+    experience: [{ description: 'E'.repeat(2200) }],
+    education: [{ description: 'D'.repeat(2200) }],
+    projects: [{ description: 'P'.repeat(2200), technologies: ['R'.repeat(70)] }],
+  })
+
+  assert.equal(result.professionalTitle.length, 120)
+  assert.equal(result.professionalSummary.length, 3000)
+  assert.equal(result.skills[0].length, 60)
+  assert.equal(result.experience[0].description.length, 2000)
+  assert.equal(result.education[0].description.length, 2000)
+  assert.equal(result.projects[0].description.length, 2000)
+  assert.equal(result.projects[0].technologies[0].length, 60)
+})
