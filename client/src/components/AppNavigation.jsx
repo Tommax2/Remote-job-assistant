@@ -18,6 +18,8 @@ function NavIcon({ name }) {
     bookmark: <path d="M6 3.5h12v17l-6-4-6 4z" />,
     briefcase: <><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V4h6v3M3 12h18M10 12v2h4v-2" /></>,
     more: <><circle cx="5" cy="12" r="1" fill="currentColor" stroke="none" /><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" /><circle cx="19" cy="12" r="1" fill="currentColor" stroke="none" /></>,
+    moon: <path d="M20.5 15.2A8.5 8.5 0 0 1 8.8 3.5 8.5 8.5 0 1 0 20.5 15.2Z" />,
+    sun: <><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></>,
   }
   return <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">{paths[name]}</svg>
 }
@@ -37,6 +39,11 @@ function WorkspaceLinks({ onSelect }) {
 
 function BrandLockup({ compact = false }) {
   return <span className={`brand-lockup ${compact ? 'compact' : ''}`}><span className="brand-monogram" aria-hidden="true">RR</span><span className="brand-words"><b>RemoteReady</b><small>Career intelligence</small></span></span>
+}
+
+function ThemeButton({ theme, onToggleTheme }) {
+  const dark = theme === 'light'
+  return <button className="workspace-theme" onClick={onToggleTheme}><NavIcon name={dark ? 'moon' : 'sun'} /><span>{dark ? 'Black mode' : 'White mode'}</span></button>
 }
 
 export default function AppNavigation({ theme, onToggleTheme }) {
@@ -65,7 +72,7 @@ export default function AppNavigation({ theme, onToggleTheme }) {
       <Link className="workspace-wordmark" to="/dashboard" aria-label="RemoteReady home"><BrandLockup /></Link>
       <p className="workspace-nav-label">Workspace</p>
       <WorkspaceLinks />
-      <div className="workspace-footer"><p>Private career workspace</p><button className="workspace-theme" onClick={onToggleTheme}>{theme === 'light' ? 'Black mode' : 'White mode'}</button><button className="workspace-signout" onClick={logout}>Sign out</button></div>
+      <div className="workspace-footer"><p>Private career workspace</p><ThemeButton theme={theme} onToggleTheme={onToggleTheme} /><button className="workspace-signout" onClick={logout}>Sign out</button></div>
     </aside>
     <header className="global-nav">
       <div className="global-nav-start">
@@ -84,7 +91,7 @@ export default function AppNavigation({ theme, onToggleTheme }) {
       <aside className="app-menu" id="app-menu">
         <div className="app-menu-head"><div><p className="eyebrow">WORKSPACE</p><h2>RemoteReady</h2></div><button className="menu-close" onClick={() => setOpen(false)} aria-label="Close menu">Close</button></div>
         <WorkspaceLinks onSelect={() => setOpen(false)} />
-        <div className="menu-footer"><button className="workspace-theme" onClick={onToggleTheme}>{theme === 'light' ? 'Black mode' : 'White mode'}</button><button className="menu-signout" onClick={logout}>Sign out</button></div>
+        <div className="menu-footer"><ThemeButton theme={theme} onToggleTheme={onToggleTheme} /><button className="menu-signout" onClick={logout}>Sign out</button></div>
       </aside>
     </>}
   </>

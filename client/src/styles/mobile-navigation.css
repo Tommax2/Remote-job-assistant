@@ -86,3 +86,48 @@
   }
   .jobs-page .pagination button { width: 100%; min-width: 0; padding-inline: .5rem; }
 }
+
+/* Keep the mobile home screen visually pure in either monochrome theme. */
+@media (max-width: 800px) {
+  .app-theme-light:has(.dashboard-page),
+  .app-theme-light .dashboard-page,
+  .app-theme-light .dashboard-page .metric-grid,
+  .app-theme-light .dashboard-page .top-markets,
+  .app-theme-light .dashboard-page .dashboard-columns.single-column {
+    --workspace-bg: #fff;
+    --workspace-text: #111;
+    --workspace-muted: #666;
+    --workspace-accent: #111;
+    --workspace-line: #d8d8d8;
+    color: var(--workspace-text);
+    background: #fff;
+  }
+  .app-theme-light:has(.dashboard-page) .mobile-tabbar { border-color: #d8d8d8; background: #fff; box-shadow: 0 -8px 24px #00000012; backdrop-filter: none; }
+  .app-theme-light:has(.dashboard-page) .mobile-tabbar a,
+  .app-theme-light:has(.dashboard-page) .mobile-tabbar button { color: #666; }
+  .app-theme-light:has(.dashboard-page) .mobile-tabbar a.active,
+  .app-theme-light:has(.dashboard-page) .mobile-tabbar button.active { color: #111; background: transparent; }
+  .app-theme-light:has(.dashboard-page) .mobile-tabbar a.active::before,
+  .app-theme-light:has(.dashboard-page) .mobile-tabbar button.active::before { background: #111; }
+
+  .app-theme-dark:has(.dashboard-page),
+  .app-theme-dark .dashboard-page,
+  .app-theme-dark .dashboard-page .metric-grid,
+  .app-theme-dark .dashboard-page .top-markets,
+  .app-theme-dark .dashboard-page .dashboard-columns.single-column {
+    --workspace-bg: #090909;
+    --workspace-text: #fff;
+    --workspace-muted: #aaa;
+    --workspace-accent: #fff;
+    --workspace-line: #303030;
+    color: var(--workspace-text);
+    background: #090909;
+  }
+  .app-theme-dark:has(.dashboard-page) .mobile-tabbar { border-color: #303030; background: #090909; box-shadow: 0 -8px 24px #0008; backdrop-filter: none; }
+  .app-theme-dark:has(.dashboard-page) .mobile-tabbar a,
+  .app-theme-dark:has(.dashboard-page) .mobile-tabbar button { color: #aaa; }
+  .app-theme-dark:has(.dashboard-page) .mobile-tabbar a.active,
+  .app-theme-dark:has(.dashboard-page) .mobile-tabbar button.active { color: #fff; background: transparent; }
+  .app-theme-dark:has(.dashboard-page) .mobile-tabbar a.active::before,
+  .app-theme-dark:has(.dashboard-page) .mobile-tabbar button.active::before { background: #fff; }
+}

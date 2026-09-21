@@ -49,7 +49,8 @@
 }
 .workspace-signout:hover { border-color: var(--workspace-muted); background: #ffffff08; }
 .workspace-footer { display: grid; gap: .65rem; margin-top: auto; }
-.workspace-theme { width: 100%; min-height: 46px; border: 1px solid #5b554e; color: #111; background: #fff; }
+.workspace-theme { width: 100%; min-height: 46px; display: inline-flex; align-items: center; justify-content: center; gap: .55rem; border: 1px solid #5b554e; color: #111; background: #fff; }
+.workspace-theme svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 .workspace-theme:hover { color: #fff; border-color: #fff; background: #111; }
 .menu-footer { display: grid; gap: .65rem; }
 .protected-shell > .global-nav { display: none; }
