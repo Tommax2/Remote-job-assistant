@@ -75,7 +75,7 @@ export async function sendApplication(req, res, next) {
     res.json({ application: lockedApplication, message: 'Application sent through Gmail.' })
     console.info(`[gmail:${sendId}] completed`)
   } catch (error) {
-    if (error.name === 'TimeoutError' || error.name === 'AbortError') error = Object.assign(new Error('Google did not respond in time. Your application was not marked as sent; please try again.'), { statusCode: 504 })
+    if (error.name === 'TimeoutError' || error.name === 'AbortError') error = Object.assign(new Error('Google did not respond in time. Check Gmail Sent and refresh the application status before trying again; the email may already have been delivered.'), { statusCode: 504 })
     if (lockedApplication && lockedApplication.status === 'PREPARING') await Application.updateOne({ _id: lockedApplication._id, status: 'PREPARING' }, { $set: { status: 'APPROVED', lastSendAttemptAt: new Date(), lastSendError: error.message }, $inc: { emailSendAttempts: 1 } }).catch(() => {})
     console.warn(`[gmail:${sendId}] failed: ${error.message}`)
     next(error)

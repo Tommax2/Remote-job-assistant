@@ -1,4 +1,5 @@
 import { auth } from '../config/firebase'
+import { withinDeadline } from './requestDeadline'
 
 function normalizeApiUrl(value) {
   const configuredUrl = value?.trim().replace(/\/$/, '')
@@ -11,10 +12,14 @@ function normalizeApiUrl(value) {
 const API_URL = normalizeApiUrl(import.meta.env.VITE_API_URL)
 
 export async function api(path, options = {}) {
+  const signal = options.signal || (path.startsWith('/email/') ? AbortSignal.timeout(40000) : undefined)
+  return withinDeadline(async () => {
   const token = await auth.currentUser?.getIdToken()
+  signal?.throwIfAborted()
   const isFormData = options.body instanceof FormData
   const response = await fetch(`${API_URL}${path}`, {
     ...options,
+    signal,
     headers: {
       ...(!isFormData ? { 'Content-Type': 'application/json' } : {}),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -22,8 +27,10 @@ export async function api(path, options = {}) {
     },
   })
   const data = await response.json().catch(() => ({}))
+  signal?.throwIfAborted()
   if (!response.ok) throw new Error(data.message || 'Something went wrong')
   return data
+  }, signal)
 }
 
 export async function downloadApi(path, filename) {

@@ -3,26 +3,13 @@ import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 const links = [
-  ['/dashboard', 'Home'], ['/jobs', 'Jobs'], ['/saved-jobs', 'Saved'], ['/applications', 'Applications'],
-  ['/profile', 'Profile'], ['/resume', 'Master CV'], ['/preferences', 'Preferences'], ['/settings/email', 'Gmail'],
+  ['/dashboard', 'Overview'], ['/planner', 'Action planner'], ['/jobs', 'Explore jobs'], ['/saved-jobs', 'Saved jobs'], ['/applications', 'Applications'],
+  ['/profile', 'My profile'], ['/resume', 'Master CV'], ['/preferences', 'Preferences'], ['/settings/email', 'Email connection'],
 ]
 
 const mobileLinks = [
-  ['/dashboard', 'Home', 'home'], ['/jobs', 'Jobs', 'search'], ['/saved-jobs', 'Saved', 'bookmark'], ['/applications', 'Applications', 'briefcase'],
+  ['/dashboard', 'Home'], ['/jobs', 'Jobs'], ['/saved-jobs', 'Saved'], ['/applications', 'Applications'],
 ]
-
-function NavIcon({ name }) {
-  const paths = {
-    home: <><path d="M3 10.5 12 3l9 7.5" /><path d="M5.5 9.5V21h13V9.5M9.5 21v-6h5v6" /></>,
-    search: <><circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 5 5" /></>,
-    bookmark: <path d="M6 3.5h12v17l-6-4-6 4z" />,
-    briefcase: <><rect x="3" y="7" width="18" height="13" rx="2" /><path d="M9 7V4h6v3M3 12h18M10 12v2h4v-2" /></>,
-    more: <><circle cx="5" cy="12" r="1" fill="currentColor" stroke="none" /><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none" /><circle cx="19" cy="12" r="1" fill="currentColor" stroke="none" /></>,
-    moon: <path d="M20.5 15.2A8.5 8.5 0 0 1 8.8 3.5 8.5 8.5 0 1 0 20.5 15.2Z" />,
-    sun: <><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></>,
-  }
-  return <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">{paths[name]}</svg>
-}
 
 function backDestination(pathname) {
   if (pathname === '/dashboard') return null
@@ -34,16 +21,16 @@ function backDestination(pathname) {
 }
 
 function WorkspaceLinks({ onSelect }) {
-  return <nav>{links.map(([to, label]) => <NavLink key={to} to={to} onClick={onSelect} className={({ isActive }) => isActive ? 'active' : ''}>{label}</NavLink>)}</nav>
+  return <nav aria-label="Workspace">{links.map(([to, label]) => <NavLink key={to} to={to} onClick={onSelect} className={({ isActive }) => isActive ? 'active' : ''}><span>{label}</span></NavLink>)}</nav>
 }
 
 function BrandLockup({ compact = false }) {
-  return <span className={`brand-lockup ${compact ? 'compact' : ''}`}><span className="brand-monogram" aria-hidden="true">RR</span><span className="brand-words"><b>RemoteReady</b><small>Career intelligence</small></span></span>
+  return <span className={`brand-lockup ${compact ? 'compact' : ''}`}><span className="brand-words"><b>RemoteReady.</b><small>Your next chapter</small></span></span>
 }
 
 function ThemeButton({ theme, onToggleTheme }) {
   const dark = theme === 'light'
-  return <button className="workspace-theme" onClick={onToggleTheme}><NavIcon name={dark ? 'moon' : 'sun'} /><span>{dark ? 'Black mode' : 'White mode'}</span></button>
+  return <button className="workspace-theme" onClick={onToggleTheme}><span>{dark ? 'Dark mode' : 'Light mode'}</span></button>
 }
 
 export default function AppNavigation({ theme, onToggleTheme }) {
@@ -72,19 +59,20 @@ export default function AppNavigation({ theme, onToggleTheme }) {
       <Link className="workspace-wordmark" to="/dashboard" aria-label="RemoteReady home"><BrandLockup /></Link>
       <p className="workspace-nav-label">Workspace</p>
       <WorkspaceLinks />
+      <Link to="/resume" className="sidebar-note"><strong>Your experience.<br />A new perspective.</strong><small>Polish your master CV</small></Link>
       <div className="workspace-footer"><p>Private career workspace</p><ThemeButton theme={theme} onToggleTheme={onToggleTheme} /><button className="workspace-signout" onClick={logout}>Sign out</button></div>
     </aside>
     <header className="global-nav">
       <div className="global-nav-start">
         {back
-          ? <button className="nav-back" onClick={() => navigate(back[0])} aria-label={`Back to ${back[1]}`}>← <span>{back[1]}</span></button>
+          ? <button className="nav-back" onClick={() => navigate(back[0])} aria-label={`Back to ${back[1]}`}>Back to <span>{back[1]}</span></button>
           : <Link className="brand-link" to="/dashboard" aria-label="RemoteReady home"><BrandLockup compact /></Link>}
       </div>
       <div className="global-nav-end"><button className={`menu-toggle ${open ? 'open' : ''}`} onClick={() => setOpen(true)} aria-expanded={open} aria-controls="app-menu" aria-label="Open workspace navigation"><b>Menu</b></button></div>
     </header>
     <nav className="mobile-tabbar" aria-label="Primary navigation">
-      {mobileLinks.map(([to, label, icon]) => <NavLink key={to} to={to} className={({ isActive }) => isActive ? 'active' : ''}><NavIcon name={icon} /><span>{label}</span></NavLink>)}
-      <button className={open || moreActive ? 'active' : ''} onClick={() => setOpen(true)} aria-expanded={open} aria-controls="app-menu"><NavIcon name="more" /><span>More</span></button>
+      {mobileLinks.map(([to, label]) => <NavLink key={to} to={to} className={({ isActive }) => isActive ? 'active' : ''}><span>{label}</span></NavLink>)}
+      <button className={open || moreActive ? 'active' : ''} onClick={() => setOpen(true)} aria-expanded={open} aria-controls="app-menu"><span>More</span></button>
     </nav>
     {open && <>
       <button className="menu-backdrop" aria-label="Close menu" onClick={() => setOpen(false)} />

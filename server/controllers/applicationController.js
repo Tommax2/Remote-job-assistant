@@ -10,8 +10,31 @@ import { tailorResume } from '../services/resumeTailoringService.js'
 import ApplicationEvent from '../models/ApplicationEvent.js'
 import { allowedManualStatus, recordApplicationEvent } from '../services/applicationEventService.js'
 import { extractApplicationEmail } from '../services/jobEmailService.js'
+import { validateApplicationPlan } from '../services/applicationPlanService.js'
 
 async function owner(req) { return User.findOne({ firebaseUid: req.firebaseUser.uid }).select('_id') }
+
+export async function listApplicationPlans(req, res, next) {
+  try {
+    const user = await owner(req)
+    if (!user) return res.status(404).json({ message: 'User account not found' })
+    const applications = await Application.find({ userId: user._id, nextAction: { $exists: true, $ne: '' } })
+      .select('company position status nextAction actionDueDate actionCompleted priority')
+      .sort({ actionDueDate: 1, updatedAt: -1 }).lean()
+    res.json({ applications })
+  } catch (error) { next(error) }
+}
+
+export async function updateApplicationPlan(req, res, next) {
+  try {
+    const user = await owner(req)
+    if (!user) return res.status(404).json({ message: 'User account not found' })
+    const update = validateApplicationPlan(req.body)
+    const application = await Application.findOneAndUpdate({ _id: req.params.id, userId: user._id }, { $set: update }, { returnDocument: 'after', runValidators: true })
+    if (!application) return res.status(404).json({ message: 'Application not found' })
+    res.json({ application })
+  } catch (error) { next(error) }
+}
 
 export async function listApplications(req, res, next) {
   try {

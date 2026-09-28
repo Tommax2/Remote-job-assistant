@@ -1,0 +1,144 @@
+﻿/* RemoteReady: warm paper, forest ink, and a little optimism. */
+:root { color: #203d32; background: #f7f8f2; }
+:where(a, button, input, textarea, select):focus-visible { outline: 3px solid #82a636; outline-offset: 4px; }
+.auth-shell { --auth-bg: #f7f8f2; --auth-text: #203d32; --auth-muted: #53634f; --auth-accent: #315442; --auth-line: #d9dfd4; --auth-button: #244d3c; --auth-button-text: #fff; grid-template-columns: 1.08fr 1fr; }
+.auth-shell .brand-panel { position: relative; overflow: hidden; justify-content: space-between; padding: 42px clamp(28px, 5vw, 80px); background: #e8eddf; color: var(--auth-text); border: 0; }
+.auth-brand { display: flex; align-items: center; gap: 10px; font: 800 23px Manrope, sans-serif; letter-spacing: -1px; }
+.brand-dot { margin-left: -10px; color: #6b863e; }
+.brand-panel-copy { margin: 50px 0 20px; width: 100%; text-align: left; }
+.auth-kicker { color: #536949; font: 700 11px 'DM Sans', sans-serif; letter-spacing: .13em; text-transform: uppercase; margin-bottom: 25px; }
+.auth-shell .brand-panel h1 { color: var(--auth-text); max-width: none; margin: 0 0 24px; font: 700 clamp(40px, 4.5vw, 70px)/1.08 Manrope, sans-serif; letter-spacing: -.065em; }
+.auth-shell .brand-panel h1 em { font: italic 500 1.18em Georgia, serif; color: #49652e; }
+.auth-shell .intro { max-width: 410px; font-size: 14px; line-height: 1.8; color: var(--auth-muted); }
+.auth-benefits { display: flex; gap: 24px; font-size: 10px; color: var(--auth-muted); border-top: 1px solid #cbd5be; padding-top: 22px; }
+.auth-shell .form-panel { padding: 40px clamp(28px, 6vw, 90px); }
+.auth-shell .form-card { width: min(390px, 100%); border: 0; background: transparent; box-shadow: none; }
+.auth-welcome { color: var(--auth-muted); font: 700 10px 'DM Sans', sans-serif; letter-spacing: .17em; text-transform: uppercase; text-align: left; }
+.auth-shell .form-card h2 { color: var(--auth-text); margin: 12px 0; font: 800 42px Manrope, sans-serif; letter-spacing: -2px; text-align: left; }
+.auth-description { color: var(--auth-muted); margin: 0 0 32px; font-size: 13px; }
+.auth-shell .form-card form { gap: 19px; }
+.auth-shell .form-card label { color: #354a39; font-size: 12px; font-weight: 600; }
+.auth-shell .form-card input { min-height: 52px; padding: 14px 16px; border: 1px solid #d9dfd4; border-radius: 10px; background: #fffefa; font-size: 16px; }
+.auth-shell .form-card input::placeholder { color: #65715e; font-size: 13px; }
+.auth-shell .form-card form > button, .auth-shell .google-button { min-height: 51px; border-radius: 10px; font-size: 13px; }
+.auth-shell .form-card form > button:hover { background: #163b2b; }
+.auth-divider { display: flex; align-items: center; gap: 12px; margin: 23px 0; color: var(--auth-muted); font-size: 10px; }
+.auth-divider::before, .auth-divider::after { content: ''; height: 1px; flex: 1; background: #dce1d6; }
+.auth-shell .google-button { border-color: #d7dece; background: #fffefa; }
+.auth-shell .google-button:hover { background: #edf2e4; }
+.auth-shell .switch { font-size: 12px; }
+.auth-shell .error { color: #982f23; background: #fff0eb; border-color: #e8b3a7; }
+.protected-shell { --ui-bg: #f5f6ef; --ui-surface: #fffefa; --ui-ink: #243f32; --ui-muted: #71806e; --ui-line: #dfe5d8; padding-left: 246px; background: var(--ui-bg); }
+.protected-shell.app-theme-dark { --ui-bg: #14221c; --ui-surface: #1c2e24; --ui-ink: #eef2e6; --ui-muted: #b0bfa8; --ui-line: #34493a; }
+.workspace-sidebar { width: 246px; padding: 35px 22px 24px; background: #203d30; border: 0; }
+.workspace-sidebar::before, .workspace-sidebar::after { display: none; }
+.workspace-wordmark { margin-bottom: 42px; }
+.brand-words b { font: 800 17px Manrope, sans-serif; color: #f5f7ed; letter-spacing: -.6px; }
+.brand-words small { color: #abbba2; font-size: 8px; letter-spacing: .1em; }
+.workspace-nav-label { margin: 0 12px 15px; color: #91a68a; font-size: 9px; }
+.workspace-sidebar nav { gap: 5px; }
+.workspace-sidebar nav a, .app-menu nav a { display: flex; gap: 12px; align-items: center; }
+.workspace-sidebar nav a { color: #bdcbb6; font-size: 12px; padding: 12px 14px; border-radius: 9px; }
+.workspace-sidebar nav a svg, .app-menu nav a svg { width: 18px; height: 18px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linejoin: round; stroke-linecap: round; }
+.workspace-sidebar nav a.active { background: #dced9c; color: #243f32; font-weight: 700; }
+.workspace-sidebar nav a::before { display: none; }
+.workspace-sidebar nav a:hover { background: #ffffff0d; color: #fff; }
+.workspace-sidebar nav a.active:hover { background: #e5f4b3; color: #243f32; }
+.workspace-sidebar nav a:nth-child(5) { margin-top: 22px; }
+.sidebar-note { display: grid; gap: 12px; margin: 30px 0; padding: 18px; border: 1px solid #587049; border-radius: 13px; background: #2e4a36; text-decoration: none; }
+.sidebar-note > span { color: #dced9c; font-size: 28px; }
+.sidebar-note strong { color: #f0f5e7; font: 600 14px/1.5 Manrope, sans-serif; }
+.sidebar-note small { color: #c6d899; font-size: 10px; }
+.workspace-footer > p { color: #a3b39a; font-size: 10px; }
+.workspace-theme, .workspace-signout { min-height: 38px; border: 1px solid #52664a; background: transparent; color: #d3ddca; font-size: 11px; }
+.workspace-sidebar { overflow-y: auto; }
+.protected-shell .dashboard-page, .protected-shell .jobs-page, .protected-shell .applications-page, .protected-shell .career-profile-page { --workspace-bg: var(--ui-bg); --workspace-text: var(--ui-ink); --workspace-muted: var(--ui-muted); --workspace-accent: var(--ui-ink); --workspace-line: var(--ui-line); --jobs-bg: var(--ui-bg); --jobs-text: var(--ui-ink); --jobs-muted: var(--ui-muted); --jobs-accent: var(--ui-ink); --jobs-line: var(--ui-line); --applications-bg: var(--ui-bg); --applications-text: var(--ui-ink); --applications-muted: var(--ui-muted); --applications-accent: var(--ui-ink); --applications-line: var(--ui-line); --profile-bg: var(--ui-bg); --profile-text: var(--ui-ink); --profile-muted: var(--ui-muted); --profile-accent: var(--ui-ink); --profile-line: var(--ui-line); background: var(--ui-bg); }
+.dashboard-page::before, .jobs-page::before, .applications-page::before { display: none; }
+.dashboard-content { width: min(1180px, calc(100% - 80px)); padding: 40px 0 60px; }
+.dashboard-hero { padding-bottom: 26px; border: 0; align-items: center; }
+.dashboard-hero .eyebrow, .dashboard-panel .eyebrow, .top-markets-heading .eyebrow { font: 700 9px 'DM Sans', sans-serif; letter-spacing: .15em; color: var(--ui-muted); }
+.dashboard-hero h1 { font: 800 clamp(30px, 3vw, 43px) Manrope, sans-serif; letter-spacing: -1.8px; margin: 10px 0; }
+.greeting-dot { color: #89a34a; }
+.dashboard-hero p:last-child { color: var(--ui-muted); font-size: 13px; }
+.dashboard-explore { display: flex; align-items: center; gap: 20px; padding: 13px 18px; border: 1px solid var(--ui-line); border-radius: 9px; background: var(--ui-surface); color: var(--ui-ink); font-size: 11px; text-decoration: none; }
+.dashboard-explore span { font-size: 20px; }
+.next-move { position: relative; display: grid; grid-template-columns: 1fr; min-height: 280px; overflow: hidden; padding: 32px 36px; background: #e6edce; color: #24452e; border-radius: 20px; }
+.feature-label { font-size: 9px; letter-spacing: .17em; font-weight: 700; }
+.next-move h2 { margin: 17px 0 12px; font: 800 clamp(30px, 3.4vw, 46px)/1.07 Manrope, sans-serif; letter-spacing: -1.7px; }
+.next-move h2 em { color: #658444; font: italic 500 1.1em Georgia, serif; }
+.next-move p { max-width: 310px; font-size: 12px; line-height: 1.7; color: #677757; }
+.next-move a { display: inline-flex; gap: 24px; align-items: center; padding: 12px 17px; margin-top: 7px; background: #244d3c; border-radius: 8px; color: #fff; font-size: 11px; text-decoration: none; }
+.protected-shell .dashboard-page .metric-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); margin-top: 22px; gap: 13px; padding: 0; border: 0; background: transparent; }
+.protected-shell .dashboard-page .metric-card { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; min-height: 125px; gap: 10px; padding: 22px; border: 1px solid var(--ui-line); border-radius: 14px; background: var(--ui-surface); transition: transform .2s, border-color .2s; }
+.protected-shell .dashboard-page .metric-card:hover { transform: translateY(-4px); border-color: #8da46a; }
+.protected-shell .dashboard-page .metric-card strong { order: 0; font: 800 32px Manrope, sans-serif; color: var(--ui-ink); }
+.protected-shell .dashboard-page .metric-card span { color: var(--ui-muted); font-size: 11px; }
+.protected-shell .dashboard-page .metric-strongMatches { background: #e8edda; }
+.protected-shell .dashboard-page .metric-strongMatches strong { color: #304928; }
+.protected-shell .dashboard-page .metric-strongMatches span { color: #53664a; }
+.protected-shell .dashboard-page .top-markets, .protected-shell .dashboard-page .dashboard-columns.single-column { --workspace-text: var(--ui-ink); --workspace-muted: var(--ui-muted); --workspace-accent: var(--ui-ink); --workspace-line: var(--ui-line); margin-top: 24px; padding: 26px; border: 1px solid var(--ui-line); border-radius: 16px; background: var(--ui-surface); color: var(--ui-ink); }
+.top-markets-heading { gap: 16px; padding-bottom: 20px; }
+.top-markets-heading h2, .dashboard-page .panel-title h2 { font: 800 clamp(18px, 2vw, 23px) Manrope, sans-serif; letter-spacing: -.7px; }
+.top-markets-heading > a, .dashboard-page .panel-title > a { font-size: 11px; color: var(--ui-muted); }
+.market-row { grid-template-columns: minmax(0,1.4fr) minmax(0,1fr) auto; gap: 20px; min-height: 95px; border-top: 1px solid var(--ui-line); }
+.market-role strong { font: 700 14px Manrope, sans-serif; }
+.market-role span, .market-location span, .market-location strong { font-size: 11px; }
+.market-posted { display: none; }
+.market-score.score-strong { background: #e8efcf; }
+.market-score.score-fair { background: #fff0cd; }
+.market-score.score-low { background: #eee9e1; }
+.market-score strong { color: #3c542f; font-size: 11px; }
+.dashboard-page .dashboard-empty, .dashboard-page .dashboard-panel .dashboard-empty { min-height: 140px; padding: 28px; border: 1px dashed var(--ui-line); border-radius: 12px; background: var(--ui-bg); text-align: center; }
+.dashboard-page .dashboard-empty p { color: var(--ui-muted); font-size: 13px; }
+.dashboard-page .dashboard-empty a { color: var(--ui-ink); font-size: 12px; background: transparent; border: 0; }
+.dashboard-page .dashboard-panel .dashboard-empty::before { display: none; }
+.protected-shell .jobs-page, .protected-shell .applications-page, .protected-shell .career-profile-page { padding-top: 44px; }
+.protected-shell .jobs-header h1, .protected-shell .profile-header h1 { font-family: Manrope, sans-serif; font-weight: 800; font-size: clamp(30px, 4vw, 50px); }
+.protected-shell .jobs-page .job-card, .protected-shell .applications-page .queue-card { border-radius: 14px; border: 1px solid var(--ui-line); background: var(--ui-surface); padding: 24px; margin-bottom: 12px; }
+@media (max-height: 820px) and (min-width: 801px) { .sidebar-note { margin: 20px 0; padding: 13px; gap: 6px; } .workspace-wordmark { margin-bottom: 28px; } }
+@media (max-width: 1100px) { .dashboard-content { width: calc(100% - 44px); } .next-move { padding: 28px; } .move-card { left: 0; } .dashboard-explore { gap: 8px; } .market-location { display: none; } .market-row { grid-template-columns: minmax(0,1fr) auto; } }
+@media (max-width: 800px) {
+ .protected-shell { padding-left: 0; padding-top: calc(63px + env(safe-area-inset-top)); }
+ .auth-shell { display: grid; grid-template-columns: 1fr; }
+ .auth-shell .brand-panel { min-height: auto; padding: 26px 30px; }
+ .brand-panel-copy { margin: 35px 0 10px; }
+ .auth-shell .brand-panel h1 { font-size: 46px; }
+ .auth-benefits { margin-top: 22px; }
+ .auth-shell .form-panel { min-height: auto; padding: 36px 24px 50px; }
+ .auth-shell .form-card { margin-inline: auto; padding: 0; }
+ .protected-shell .mobile-tabbar { background: #203d30; border-color: #456038; box-shadow: 0 4px 15px #203d3015; }
+ .protected-shell .mobile-tabbar a, .protected-shell .mobile-tabbar button { color: #bdcbb6; }
+ .protected-shell .mobile-tabbar a.active, .protected-shell .mobile-tabbar button.active { color: #dced9c; background: #ffffff08; }
+ .protected-shell .mobile-tabbar a.active::before, .protected-shell .mobile-tabbar button.active::before { background: #dced9c; }
+ .app-menu { background: #203d30; }
+ .app-menu nav a { color: #dbe5d4; }
+ .dashboard-hero { flex-direction: row; }
+ .dashboard-hero .eyebrow { font-size: 8px; }
+}
+@media (max-width: 560px) {
+ .dashboard-content { width: 100%; padding: 26px 18px 40px; }
+ .dashboard-hero { align-items: flex-start; flex-direction: column; gap: 15px; padding-bottom: 22px; }
+ .dashboard-hero h1 { font-size: 34px; }
+ .dashboard-explore { padding: 9px 13px; }
+ .next-move { grid-template-columns: 1fr; padding: 27px; min-height: 270px; }
+ .next-move > div:first-child { position: relative; z-index: 1; }
+ .next-move h2 { font-size: 37px; }
+ .next-move p { max-width: 230px; }
+ .protected-shell .dashboard-page .metric-grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 10px; }
+ .protected-shell .dashboard-page .metric-card { min-height: 105px; padding: 17px; }
+ .protected-shell .dashboard-page .top-markets, .protected-shell .dashboard-page .dashboard-columns.single-column { padding: 19px; }
+ .top-markets-heading, .dashboard-page .panel-title { align-items: flex-start; flex-wrap: wrap; gap: 12px; }
+ .top-markets-heading h2, .dashboard-page .panel-title h2 { font-size: 20px; }
+ .market-row { gap: 8px; }
+ .market-role strong { white-space: normal; overflow-wrap: anywhere; font-size: 13px; }
+ .auth-shell .brand-panel h1 { max-width: none; margin-left: 0; font-size: 39px; }
+ .auth-shell .intro { display: block; font-size: 12px; }
+ .auth-kicker { font-size: 9px; }
+ .auth-benefits { gap: 15px; font-size: 8px; }
+ .auth-shell .form-card h2 { font-size: 34px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+
+/* Text-only navigation keeps every action visible without decorative icons. */
+.protected-shell .mobile-tabbar a, .protected-shell .mobile-tabbar button { display: flex; align-items: center; justify-content: center; gap: 0; }
+.next-move p { max-width: 440px; }

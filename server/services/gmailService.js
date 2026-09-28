@@ -75,8 +75,8 @@ export async function exchangeCode(userId, code) {
   return GmailConnection.findOneAndUpdate({ userId }, { $set: { encryptedAccessToken: encryptToken(data.access_token), encryptedRefreshToken: data.refresh_token ? encryptToken(data.refresh_token) : existing?.encryptedRefreshToken, tokenExpiry: new Date(Date.now() + Number(data.expires_in || 3600) * 1000), scope: data.scope, connectedAt: new Date() }, $setOnInsert: { userId } }, { upsert: true, returnDocument: 'after', runValidators: true })
 }
 
-async function accessToken(connection) {
-  if (connection.tokenExpiry && connection.tokenExpiry.getTime() > Date.now() + 60000) return decryptToken(connection.encryptedAccessToken)
+async function accessToken(connection, forceRefresh = false) {
+  if (!forceRefresh && connection.tokenExpiry && connection.tokenExpiry.getTime() > Date.now() + 60000) return decryptToken(connection.encryptedAccessToken)
   const refreshToken = decryptToken(connection.encryptedRefreshToken)
   if (!refreshToken) throw Object.assign(new Error('Reconnect Gmail to continue'), { statusCode: 409 })
   const { clientId, clientSecret } = oauthConfig()
@@ -106,8 +106,14 @@ export function createMimeMessage({ to, subject, body, pdf, filename }) {
 export async function sendGmailMessage(userId, raw) {
   const connection = await GmailConnection.findOne({ userId })
   if (!connection) throw Object.assign(new Error('Connect Gmail before sending'), { statusCode: 409 })
-  const token = await accessToken(connection)
-  const response = await fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', { method: 'POST', signal: AbortSignal.timeout(20000), headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ raw }) })
+  const send = (token) => fetch('https://gmail.googleapis.com/gmail/v1/users/me/messages/send', { method: 'POST', signal: AbortSignal.timeout(20000), headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }, body: JSON.stringify({ raw }) })
+  let response = await send(await accessToken(connection))
+  // A rejected access token can be renewed without discarding the Gmail connection.
+  // Retry only an explicit authorization rejection, never an ambiguous send failure.
+  if (response.status === 401) {
+    await response.arrayBuffer()
+    response = await send(await accessToken(connection, true))
+  }
   const data = await response.json()
   if (response.status === 401) {
     await GmailConnection.deleteOne({ _id: connection._id })

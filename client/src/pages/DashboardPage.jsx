@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 import { api } from '../services/api'
+import DashboardActions from '../components/DashboardActions'
 
 const metricLabels = { newJobsToday: 'New jobs today', strongMatches: 'Strong matches', prepared: 'Applications prepared', sent: 'Applications sent' }
 const statusLabels = { READY_FOR_REVIEW: 'Ready for review', APPROVED: 'Approved', APPLIED: 'Applied', PREPARING: 'Preparing', ASSESSMENT: 'Assessment', INTERVIEW: 'Interview', OFFER: 'Offer', REJECTED: 'Rejected', WITHDRAWN: 'Withdrawn' }
@@ -17,18 +18,21 @@ export default function DashboardPage() {
   return <main className="dashboard-page">
     <div className="dashboard-content">
       <header className="dashboard-hero">
-        <div><p className="eyebrow">Your workspace</p><h1>Welcome back, {user.name}.</h1><p>Here&apos;s what&apos;s moving in your remote job search.</p></div>
+        <div><p className="eyebrow">YOUR NEXT CHAPTER STARTS HERE</p><h1>Hey, {user.name?.split(' ')[0] || 'there'}<span className="greeting-dot">.</span></h1><p>Let&apos;s make your next move a great one.</p></div>
+        <Link className="dashboard-explore" to="/jobs">Explore opportunities</Link>
       </header>
-      {error && <p className="error">{error}</p>}
-      {!data ? <div className="jobs-loading"><div className="loader" /></div> : <>
+      <section className="next-move"><div><span className="feature-label">A WORLD OF OPPORTUNITY</span><h2>Great work.<br /><em>On your terms.</em></h2><p>Find a role that fits your skills, your ambitions, and your life.</p><Link to="/jobs">Find your next role</Link></div></section>
+      {error && <p className="error" role="alert">{error}</p>}
+      <DashboardActions />
+      {!data ? !error && <div className="jobs-loading" role="status" aria-label="Loading dashboard"><div className="loader" /></div> : <>
         <section className="metric-grid">{Object.entries(metricLabels).map(([key, label]) => <Link to={key === 'newJobsToday' || key === 'strongMatches' ? '/jobs' : '/applications'} className={`metric-card metric-${key}`} key={key}><strong>{data.metrics[key]}</strong><span>{label}</span></Link>)}</section>
         <section className="top-markets">
-          <div className="top-markets-heading"><div><p className="eyebrow">By relevance and demand</p><h2>Top job markets</h2></div><Link to="/jobs">View all jobs</Link></div>
+          <div className="top-markets-heading"><div><p className="eyebrow">CURATED FOR YOUR NEXT MOVE</p><h2>Meet your next opportunity</h2></div><Link to="/jobs">View all jobs</Link></div>
           {data.topMatches.length ? <div className="market-list">{data.topMatches.map((match) => <Link className="market-row" to={`/jobs/${match.job._id}`} key={match.job._id}>
             <div className="market-role"><span>{match.job.company}</span><strong>{match.job.title}</strong></div>
             <div className="market-location"><span>{match.job.location}</span><strong>{typeLabels[match.job.employmentType] || match.job.employmentType?.replaceAll('_', ' ')}</strong></div>
             <span className="market-posted">{relativeDate(match.job.publishedAt)}</span>
-            <div className={`market-score score-${scoreBand(match.overallScore)}`}><span className="market-score-ring" aria-hidden="true" /><strong>{match.overallScore}% matched</strong></div>
+            <div className={`market-score score-${scoreBand(match.overallScore)}`}><strong>{match.overallScore}% matched</strong></div>
           </Link>)}</div> : <Empty message="Browse jobs to generate your first match scores." link="/jobs" label="Browse jobs" />}
         </section>
         <div className="dashboard-columns single-column">
@@ -42,7 +46,7 @@ export default function DashboardPage() {
   </main>
 }
 
-function Empty({ message, link, label }) { return <div className="dashboard-empty"><p>{message}</p><Link to={link}>{label} →</Link></div> }
+function Empty({ message, link, label }) { return <div className="dashboard-empty"><p>{message}</p><Link to={link}>{label}</Link></div> }
 
 function scoreBand(score) { return score >= 80 ? 'strong' : score >= 50 ? 'fair' : 'low' }
 function relativeDate(value) {

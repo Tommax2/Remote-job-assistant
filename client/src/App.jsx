@@ -15,6 +15,7 @@ import GmailSettingsPage from './pages/GmailSettingsPage'
 import ApplicationQueuePage from './pages/ApplicationQueuePage'
 import ApplicationDetailsPage from './pages/ApplicationDetailsPage'
 import SavedJobsPage from './pages/SavedJobsPage'
+import PlannerPage from './pages/PlannerPage'
 import { DashboardGate, OnboardingRouter } from './components/OnboardingGate'
 
 export default function App() {
@@ -39,6 +40,7 @@ export default function App() {
         <Route path="/applications" element={<ApplicationQueuePage />} />
         <Route path="/applications/:applicationId" element={<ApplicationDetailsPage />} />
         <Route path="/saved-jobs" element={<SavedJobsPage />} />
+        <Route path="/planner" element={<PlannerPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>

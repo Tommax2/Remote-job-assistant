@@ -19,6 +19,11 @@ const applicationSchema = new mongoose.Schema({
   emailSendAttempts: { type: Number, min: 0, default: 0 },
   lastSendAttemptAt: Date,
   lastSendError: { type: String, trim: true, maxlength: 1000 },
+  nextAction: { type: String, trim: true, maxlength: 240, default: '' },
+  actionDueDate: { type: String, default: '', match: /^(\d{4}-\d{2}-\d{2})?$/ },
+  actionCompleted: { type: Boolean, default: false },
+  priority: { type: String, enum: ['NORMAL', 'HIGH'], default: 'NORMAL' },
+  privateNotes: { type: String, maxlength: 6000, default: '' },
 }, { timestamps: true })
 
 applicationSchema.index({ userId: 1, jobId: 1 }, { unique: true })
