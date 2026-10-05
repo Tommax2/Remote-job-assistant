@@ -134,6 +134,8 @@ Use a new account and a private browser window. Repeat key screens at 320 px, 37
 
 ## Release checklist
 
+Job listings expire 20 days after `publishedAt`. MongoDB's TTL index handles automatic deletion; the API also deletes expired listings at startup and every hour to support databases with an older index. Source refreshes skip expired listings so they cannot be reimported. Cleanup removes job listings only and keeps application records. Deploy or restart the updated API to enable the cleanup task.
+
 - [ ] MongoDB Atlas production access confirmed from Railway
 - [ ] Backend deployed and health endpoint passes
 - [ ] Frontend deployed and routes refresh correctly

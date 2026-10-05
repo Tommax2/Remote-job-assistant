@@ -1,5 +1,5 @@
 import crypto from 'node:crypto'
-import Job from '../models/Job.js'
+import Job, { JOB_RETENTION_SECONDS } from '../models/Job.js'
 import JobSyncState from '../models/JobSyncState.js'
 import { extractApplicationEmail } from './jobEmailService.js'
 
@@ -149,7 +149,8 @@ async function fetchJson(url, extraHeaders = {}, requestOptions = {}) {
 
 async function storeJobs(jobs, source) {
   jobs.forEach((job) => { job.applicationEmail = job.applicationEmail || extractApplicationEmail(job.applicationUrl, job.description) })
-  const valid = jobs.filter((job) => job.externalId && job.title && job.company && job.applicationUrl && job.description && !Number.isNaN(job.publishedAt.valueOf()))
+  const cutoff = Date.now() - JOB_RETENTION_SECONDS * 1000
+  const valid = jobs.filter((job) => job.externalId && job.title && job.company && job.applicationUrl && job.description && job.publishedAt.valueOf() > cutoff)
   if (!valid.length) return { fetched: 0, stored: 0, updated: 0, source }
   const operations = valid.map((job) => ({ updateOne: { filter: { source: job.source, externalId: job.externalId }, update: { $set: job }, upsert: true } }))
   const result = await Job.bulkWrite(operations, { ordered: false })

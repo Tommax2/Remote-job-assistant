@@ -15,6 +15,8 @@ try {
     import('./config/db.js'),
   ])
   await connectDatabase(process.env.MONGODB_URI)
+  const { startJobCleanup } = await import('./services/jobRetentionService.js')
+  await startJobCleanup()
   createApp().listen(port, '0.0.0.0', () => console.log(`API listening on port ${port}`))
 } catch (error) {
   console.error(`Startup failed: ${error?.message || error}`)
