@@ -1,3 +1,4 @@
+import LoadingState from './LoadingState'
 import { Navigate, Outlet } from 'react-router-dom'
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
@@ -11,6 +12,6 @@ export default function ProtectedRoute() {
     setTheme(next)
     localStorage.setItem('app-theme', next)
   }
-  if (loading) return <main className="center"><div className="loader" aria-label="Loading" /></main>
+  if (loading) return <main className="center"><LoadingState /></main>
   return user ? <div className={`protected-shell app-theme-${theme}`}><AppNavigation theme={theme} onToggleTheme={toggleTheme} /><Outlet /></div> : <Navigate to="/login" replace />
 }

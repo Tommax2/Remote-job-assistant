@@ -6,6 +6,7 @@ import App from './App'
 import './styles.css'
 import './styles/refresh.css'
 import './styles/planner.css'
+import './styles/applylumo.css'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

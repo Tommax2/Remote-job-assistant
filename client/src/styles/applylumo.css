@@ -1,0 +1,158 @@
+/* Display the supplied artwork without its generous outer whitespace. */
+.applylumo-logo { display: inline-block; position: relative; overflow: hidden; width: 202px; max-width: 100%; aspect-ratio: 3 / 1; flex-shrink: 0; background: transparent; vertical-align: middle; }
+.applylumo-logo img { position: absolute; width: 108%; max-width: none; height: auto; left: -4%; top: -64%; }
+.applylumo-logo.compact { width: 158px; }
+.auth-brand .applylumo-logo { width: 280px; }
+.workspace-wordmark { display: block; }
+:root { color: #142749; background: #f3f7fc; }
+.protected-shell { --ui-bg: #f3f7fc; --ui-surface: #fff; --ui-ink: #142749; --ui-muted: #596b85; --ui-line: #d8e3ef; }
+.protected-shell.app-theme-dark { --ui-bg: #091426; --ui-surface: #11233c; --ui-ink: #edf5ff; --ui-muted: #adbed5; --ui-line: #29405e; }
+.workspace-sidebar { background: #0b1b38; }
+.auth-shell { --auth-bg: #f3f7fc; --auth-text: #142749; --auth-muted: #596b85; --auth-accent: #0064d9; --auth-line: #d8e3ef; --auth-button: #0064d9; --auth-button-text: #fff; }
+.auth-shell .brand-panel { background: linear-gradient(145deg, #eaf3ff, #e4faf7); }
+.auth-shell .brand-panel h1 em, .auth-kicker { color: #0064d9; }
+.auth-shell .form-card label { color: #142749; }
+.auth-shell .form-card form > button { background: #0064d9; color: white; }
+.auth-shell .form-card form > button:hover { background: #004da8; }
+.auth-shell .form-card input { color: #142749; background: white; border-color: #c9d9ea; }
+:where(a, button, input, textarea, select):focus-visible { outline-color: #008cff; }
+.app-menu-head .applylumo-logo { width: 150px; }
+
+/* A shared blue/cyan palette connects the logo to the surrounding UI. */
+:root {
+  --brand-blue: #0064d9;
+  --brand-blue-hover: #004da8;
+  --brand-cyan: #65e4eb;
+  --brand-nav: #0b1b38;
+  --brand-nav-text: #c3d3ea;
+  --brand-nav-line: #29405e;
+}
+.protected-shell { --ui-accent: var(--brand-blue); --ui-tint: #e5f2ff; }
+.protected-shell.app-theme-dark { --ui-accent: #78c7ff; --ui-tint: #183653; }
+
+/* Lighten only the navy lettering on dark surfaces, retaining the colorful artwork. */
+.applylumo-logo .logo-light-lettering { display: none; }
+.workspace-sidebar .applylumo-logo .logo-light-lettering,
+.app-menu .applylumo-logo .logo-light-lettering {
+  display: block;
+  filter: brightness(0) invert(1);
+  clip-path: polygon(30% 43%, 65% 43%, 65% 61%, 90% 61%, 90% 68%, 30% 68%);
+}
+.workspace-sidebar,
+.protected-shell .app-menu { background: var(--brand-nav); color: var(--brand-nav-text); }
+.workspace-nav-label,
+.workspace-footer > p,
+.app-menu .eyebrow { color: #91aacb; }
+.workspace-sidebar nav a,
+.protected-shell .app-menu nav a { color: var(--brand-nav-text); }
+.workspace-sidebar nav a::after { background: none; }
+.workspace-sidebar nav a:hover,
+.protected-shell .app-menu nav a:hover { background: #183653; color: #fff; }
+.workspace-sidebar nav a.active,
+.workspace-sidebar nav a.active:hover,
+.protected-shell .app-menu nav a.active { background: #163d61; color: #a3f1f2; }
+.sidebar-note { background: #112b49; border-color: var(--brand-nav-line); }
+.sidebar-note strong { color: #edf5ff; }
+.sidebar-note small { color: #9ddbe9; }
+.workspace-theme,
+.workspace-signout,
+.app-menu .menu-signout,
+.app-menu .menu-close { background: transparent; color: var(--brand-nav-text); border-color: var(--brand-nav-line); }
+.workspace-theme:hover,
+.workspace-signout:hover,
+.app-menu .menu-signout:hover,
+.app-menu .menu-close:hover { background: #183653; color: white; }
+.app-menu-head,
+.app-menu .menu-footer { border-color: var(--brand-nav-line); }
+.workspace-wordmark::after { background: var(--brand-cyan); }
+.workspace-sidebar :is(a, button):focus-visible,
+.app-menu :is(a, button):focus-visible { outline-color: var(--brand-cyan); }
+
+.auth-benefits { border-color: var(--auth-line); }
+.auth-divider::before,
+.auth-divider::after { background: var(--auth-line); }
+.auth-shell .form-card input::placeholder { color: #657a94; }
+.auth-shell .form-card input:focus { border-color: var(--brand-blue); box-shadow: 0 0 0 3px #0064d918; }
+.auth-shell .google-button { background: white; color: var(--auth-text); border-color: var(--auth-line); }
+.auth-shell .google-button:hover { background: #eaf3ff; }
+.auth-shell .switch { color: var(--auth-muted); }
+.auth-shell .switch a { color: var(--brand-blue); }
+
+.greeting-dot { color: var(--ui-accent); }
+.next-move { background: linear-gradient(120deg, var(--ui-tint), var(--ui-surface)); color: var(--ui-ink); }
+.next-move h2 em { color: var(--ui-accent); }
+.next-move p { color: var(--ui-muted); }
+.next-move a { background: var(--brand-blue); color: white; }
+.next-move a:hover { background: var(--brand-blue-hover); }
+.protected-shell .dashboard-page .metric-card:hover { border-color: var(--ui-accent); }
+.protected-shell .dashboard-page .metric-strongMatches { background: var(--ui-tint); }
+.protected-shell .dashboard-page .metric-strongMatches strong { color: var(--ui-accent); }
+.protected-shell .dashboard-page .metric-strongMatches span { color: var(--ui-muted); }
+.market-score.score-strong { background: var(--ui-tint); }
+.market-score.score-strong strong { color: var(--ui-accent); }
+.planner-tabs button[aria-pressed='true'],
+.planner-item-actions button { background: var(--brand-blue); color: white; border-color: var(--brand-blue); }
+
+/* Labels already communicate these actions; omit redundant decorative glyphs. */
+.jobs-hero-pills span::before,
+.gmail-card::before,
+.job-detail .insight h3::before,
+.dashboard-page .dashboard-panel .dashboard-empty::before { content: none; display: none; }
+.gmail-card { padding-left: 1.7rem; }
+.dashboard-shortcut:hover { border-color: var(--ui-accent); }
+.jobs-page .search-suggestions button { grid-template-columns: minmax(0, 1fr) auto; }
+
+/* Shared page accents and loading states also cover Saved Jobs. */
+.protected-shell .jobs-page { --jobs-accent: var(--ui-accent); }
+.protected-shell .jobs-page .jobs-header .eyebrow {
+  color: var(--ui-accent);
+  font: 700 .7rem/1.5 'DM Sans', sans-serif;
+  letter-spacing: .14em;
+  background: none;
+  animation: none;
+}
+.protected-shell .primary-link {
+  background: var(--brand-blue);
+  color: white;
+  box-shadow: none;
+}
+.protected-shell .primary-link:hover { background: var(--brand-blue-hover); box-shadow: none; }
+.protected-shell .saved-jobs-page .empty-state { background: var(--ui-surface); border-color: var(--ui-line); }
+.saved-jobs-page .job-card { display: flex; flex-direction: column; }
+.saved-jobs-page .job-card-footer { margin-top: auto; }
+.loading-state { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; min-height: 240px; padding: 2rem; color: var(--ui-muted, #596b85); }
+.loading-state p { margin: 0; font-size: .875rem; }
+.loader,
+.protected-shell .loader {
+  display: inline-block;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--ui-line, #d8e3ef);
+  border-top-color: var(--ui-accent, #0064d9);
+  border-radius: 50%;
+  background: transparent;
+  box-shadow: none;
+  animation: applylumo-spin .8s linear infinite;
+}
+@keyframes applylumo-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) {
+  .loader, .protected-shell .loader { animation: none; }
+}
+
+@media (max-width: 800px) {
+  .protected-shell .mobile-tabbar,
+  .protected-shell:has(.dashboard-page) .mobile-tabbar {
+    background: var(--brand-nav);
+    border-color: var(--brand-nav-line);
+    box-shadow: 0 4px 15px #09142618;
+  }
+  .protected-shell .mobile-tabbar :is(a, button),
+  .protected-shell:has(.dashboard-page) .mobile-tabbar :is(a, button) { color: var(--brand-nav-text); }
+  .protected-shell .mobile-tabbar :is(a, button).active,
+  .protected-shell:has(.dashboard-page) .mobile-tabbar :is(a, button).active { color: var(--brand-cyan); background: #163d61; }
+  .protected-shell .mobile-tabbar :is(a, button).active::before,
+  .protected-shell:has(.dashboard-page) .mobile-tabbar :is(a, button).active::before { background: var(--brand-cyan); }
+  .protected-shell:has(.dashboard-page),
+  .protected-shell .dashboard-page .metric-grid { background: var(--ui-bg); }
+}

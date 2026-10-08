@@ -70,7 +70,7 @@ export default function GmailSettingsPage() {
   }
 
   return <main className="profile-page career-profile-page gmail-settings-page">
-    <header className="profile-header"><p className="eyebrow">EMAIL SETTINGS</p><h1>Connect Gmail.</h1><p>RemoteReady requests permission to send only the applications you explicitly approve.</p></header>
+    <header className="profile-header"><p className="eyebrow">EMAIL SETTINGS</p><h1>Connect Gmail.</h1><p>ApplyLumo requests permission to send only the applications you explicitly approve.</p></header>
     <div className="resume-workspace">
       {status?.connected && (justConnected || params.get('gmail') === 'connected') && <p className="success-banner" role="status">Gmail connected successfully.</p>}
       {params.get('gmail') === 'denied' && <p className="error">Google authorization was cancelled.</p>}

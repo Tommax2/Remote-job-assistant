@@ -1,36 +1,17 @@
-.dashboard-page .next-move { grid-template-columns: minmax(0, 1fr) minmax(220px, .8fr); gap: 24px; }
-.opportunity-art { position: relative; display: grid; place-items: center; min-height: 240px; pointer-events: none; }
-.opportunity-orbit { position: absolute; width: 250px; height: 250px; border: 1px solid #b4c594; border-radius: 50%; }
-.opportunity-orbit::after { content: ''; position: absolute; inset: 22px; border: 1px dashed #b4c594; border-radius: 50%; }
-.opportunity-paper { position: relative; width: 180px; padding: 20px; border: 1px solid #d6dec3; border-radius: 14px; background: #fffef5; box-shadow: 10px 14px 0 #b2c48d55; transform: rotate(-8deg); }
-.opportunity-seal { display: grid; place-items: center; width: 40px; height: 40px; margin-bottom: 20px; border-radius: 12px; background: #294d39; color: #e1edae; font-size: 28px; }
-.opportunity-line { display: block; height: 7px; margin: 9px 0; border-radius: 10px; background: #d2dcc2; }
-.opportunity-line.short { width: 65%; }
-.opportunity-blocks { display: flex; gap: 7px; align-items: end; height: 52px; margin-top: 14px; }
-.opportunity-blocks i { flex: 1; height: 45%; border-radius: 5px 5px 0 0; background: #dce7be; }
-.opportunity-blocks i:nth-child(2) { height: 70%; background: #aec47f; }
-.opportunity-blocks i:nth-child(3) { height: 100%; background: #658444; }
-.opportunity-paper-footer { display: flex; justify-content: space-between; margin-top: 15px; font-size: 10px; color: #385432; }
-.opportunity-sticker { position: absolute; right: 0; bottom: 22px; padding: 12px 17px; border: 1px solid #c5d69a; border-radius: 999px; background: #eef5d6; color: #385432; font: italic 17px Georgia, serif; transform: rotate(7deg); }
-.opportunity-spark { position: absolute; top: 10px; right: 8px; font-size: 45px; color: #658444; }
+.dashboard-page .next-move { grid-template-columns: 1fr; }
 .dashboard-shortcuts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 22px; }
 .dashboard-shortcut { display: flex; flex-direction: column; align-items: flex-start; padding: 22px; border: 1px solid var(--ui-line); border-radius: 14px; background: var(--ui-surface); color: var(--ui-ink); text-decoration: none; transition: transform .2s, border-color .2s, box-shadow .2s; }
 .dashboard-shortcut:hover { transform: translateY(-3px); border-color: #8da46a; box-shadow: 0 8px 24px #203d320a; }
-.shortcut-icon { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px; background: var(--ui-bg); color: var(--ui-ink); }
-.shortcut-icon svg { width: 20px; height: 20px; }
-.dashboard-shortcut h2 { margin: 17px 0 8px; font: 700 15px/1.4 Manrope, sans-serif; color: var(--ui-ink); }
+.dashboard-shortcut h2 { margin: 0 0 8px; font: 700 15px/1.4 Manrope, sans-serif; color: var(--ui-ink); }
 .dashboard-shortcut p { margin: 0 0 20px; color: var(--ui-muted); font-size: 12px; line-height: 1.7; }
 .shortcut-label { display: flex; justify-content: space-between; align-items: center; gap: 12px; width: 100%; margin-top: auto; font-size: 11px; font-weight: 700; }
-.shortcut-label > span { font-size: 18px; }
 @media (max-width: 1100px) { .dashboard-shortcut { padding: 17px; } }
 @media (max-width: 600px) {
   .dashboard-page .next-move { grid-template-columns: 1fr; }
-  .opportunity-art { display: none; }
   .dashboard-shortcuts { grid-template-columns: 1fr; gap: 10px; }
-  .dashboard-shortcut { display: grid; grid-template-columns: 38px minmax(0, 1fr); column-gap: 14px; }
-  .shortcut-icon { grid-row: 1 / 4; }
+  .dashboard-shortcut { display: grid; grid-template-columns: minmax(0, 1fr); }
   .dashboard-shortcut h2 { margin: 0 0 4px; }
   .dashboard-shortcut p { margin-bottom: 10px; }
-  .shortcut-label { grid-column: 2; }
+  .shortcut-label { grid-column: 1; }
 }
 @media (prefers-reduced-motion: reduce) { .dashboard-shortcut { transition: none; } .dashboard-shortcut:hover { transform: none; } }

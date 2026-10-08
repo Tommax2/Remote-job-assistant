@@ -1,3 +1,4 @@
+import BrandLockup from '../components/BrandLockup'
 import { useState } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
@@ -39,7 +40,7 @@ export default function AuthPage({ mode }) {
   return (
     <main className="auth-shell">
       <section className="brand-panel">
-        <div className="auth-brand">RemoteReady<span className="brand-dot">.</span></div>
+        <div className="auth-brand"><BrandLockup /></div>
         <div className="brand-panel-copy">
           <p className="auth-kicker">A little ambition. A world of possibility.</p>
           <h1>Your next chapter.<br /><em>Anywhere.</em></h1>
